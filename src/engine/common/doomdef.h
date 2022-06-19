@@ -248,12 +248,11 @@ enum {
     GF_FASTMONSTERS     = (1 << 1),
     GF_RESPAWNMONSTERS  = (1 << 2),
     GF_RESPAWNPICKUPS   = (1 << 3),
-    GF_ALLOWJUMP        = (1 << 4),
-    GF_ALLOWAUTOAIM     = (1 << 5),
-    GF_LOCKMONSTERS     = (1 << 6),
-    GF_ALLOWCHEATS      = (1 << 7),
-    GF_FRIENDLYFIRE     = (1 << 8),
-    GF_KEEPITEMS        = (1 << 9),
+    GF_ALLOWAUTOAIM     = (1 << 4),
+    GF_LOCKMONSTERS     = (1 << 5),
+    GF_ALLOWCHEATS      = (1 << 6),
+    GF_FRIENDLYFIRE     = (1 << 7),
+    GF_KEEPITEMS        = (1 << 8),
 };
 
 // 20120209 villsa - compatibility flags

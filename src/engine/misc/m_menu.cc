@@ -919,7 +919,6 @@ void M_PlayerSetName(int choice);
 void M_DrawNetwork(void);
 
 extern StringProperty m_playername;
-extern BoolProperty p_allowjump;
 extern BoolProperty p_autoaim;
 extern BoolProperty sv_nomonsters;
 extern BoolProperty sv_fastmonsters;
@@ -936,7 +935,6 @@ enum {
     network_allowcheats,
     network_friendlyfire,
     network_keepitems,
-    network_allowjump,
     network_allowautoaim,
     network_header3,
     network_nomonsters,
@@ -955,7 +953,6 @@ menuitem_t NetworkMenu[]= {
     {2,"Allow Cheats:", M_NetworkChoice, 'c'},
     {2,"Friendly Fire:", M_NetworkChoice, 'f'},
     {2,"Keep Items:", M_NetworkChoice, 'k'},
-    {2,"Allow Jumping:", M_NetworkChoice, 'j'},
     {2,"Allow Auto Aiming:", M_NetworkChoice, 'a'},
     {-1,"Gameplay Rules",0 },
     {2,"No Monsters:", M_NetworkChoice, 'n'},
@@ -970,7 +967,6 @@ menudefault_t NetworkDefault[] = {
     { &sv_allowcheats, 0 },
     { &sv_friendlyfire, 0 },
     { &sv_keepitems, 0 },
-    { &p_allowjump, 0 },
     { &p_autoaim, 1 },
     { &sv_nomonsters, 0 },
     { &sv_fastmonsters, 0 },
@@ -986,14 +982,12 @@ const char* NetworkHints[network_end]= {
     "allow clients and host to use cheats",
     "allow players to damage other players",
     "players keep items when respawned from death",
-    "allow players to jump",
     "enable or disable auto aiming for all players",
     NULL,
     "no monsters will appear",
     "increased speed for monsters and projectiles",
     "monsters will respawn after death",
     "items will respawn after pickup",
-    NULL,
     NULL
 };
 
@@ -1036,9 +1030,6 @@ void M_NetworkChoice(int choice) {
         break;
     case network_keepitems:
         M_SetOptionValue(choice, sv_keepitems);
-        break;
-    case network_allowjump:
-        M_SetOptionValue(choice, p_allowjump);
         break;
     case network_allowautoaim:
         M_SetOptionValue(choice, p_autoaim);
@@ -1087,7 +1078,6 @@ void M_DrawNetwork(void) {
     DRAWNETWORKITEM(network_allowcheats, *sv_allowcheats, msgNames);
     DRAWNETWORKITEM(network_friendlyfire, *sv_friendlyfire, msgNames);
     DRAWNETWORKITEM(network_keepitems, *sv_keepitems, msgNames);
-    DRAWNETWORKITEM(network_allowjump, *p_allowjump, msgNames);
     DRAWNETWORKITEM(network_allowautoaim, *p_autoaim, msgNames);
     DRAWNETWORKITEM(network_nomonsters, *sv_nomonsters, msgNames);
     DRAWNETWORKITEM(network_fastmonsters, *sv_fastmonsters, msgNames);
@@ -1146,7 +1136,6 @@ enum {
     misc_empty2,
     misc_header2,
     misc_aim,
-    misc_jump,
     misc_context,
     misc_header3,
     misc_wipe,
@@ -1180,7 +1169,6 @@ menuitem_t MiscMenu[]= {
     {-1,"",0 },
     {-1,"Gameplay",0 },
     {2,"Auto Aim:",M_MiscChoice, 'a'},
-    {2,"Jumping:",M_MiscChoice, 'j'},
     {2,"Use Context:",M_MiscChoice, 'u'},
     {-1,"Rendering",0 },
     {2,"Screen Melt:",M_MiscChoice, 's' },
@@ -1213,7 +1201,6 @@ const char* MiscHints[misc_end]= {
     NULL,
     NULL,
     "toggle classic style auto-aiming",
-    "toggle the ability to jump",
     "if enabled interactive objects will highlight when near",
     NULL,
     "enable the melt effect when completing a level",
@@ -1233,7 +1220,6 @@ const char* MiscHints[misc_end]= {
     "limit max amount of lost souls spawned by pain elemental to 17",
     "emulate infinite height bug for all solid actors",
     "be able to grab high items by bumping into the sector it sits on",
-    NULL,
     NULL
 };
 
@@ -1242,7 +1228,6 @@ menudefault_t MiscDefault[] = {
     { &m_menumouse, 1 },
     { &m_cursorscale, 8 },
     { &p_autoaim, 1 },
-    { &p_allowjump, 0 },
     { &p_usecontext, 0 },
     { &r_wipe, 1 },
     { &r_texnonpowresize, 0 },
@@ -1336,10 +1321,6 @@ void M_MiscChoice(int choice) {
 
     case misc_aim:
         M_SetOptionValue(choice, p_autoaim);
-        break;
-
-    case misc_jump:
-        M_SetOptionValue(choice, p_allowjump);
         break;
 
     case misc_context:
@@ -1439,7 +1420,6 @@ void M_DrawMisc(void) {
 
     DRAWMISCITEM(misc_menumouse, *m_menumouse, msgNames);
     DRAWMISCITEM(misc_aim, *p_autoaim, msgNames);
-    DRAWMISCITEM(misc_jump, *p_allowjump, msgNames);
     DRAWMISCITEM(misc_context, *p_usecontext, mapdisplaytype);
     DRAWMISCITEM(misc_wipe, *r_wipe, msgNames);
     DRAWMISCITEM(misc_texresize, *r_texnonpowresize, texresizetype);
@@ -1473,18 +1453,9 @@ void M_DrawMisc(void) {
 //------------------------------------------------------------------------
 
 void M_ChangeSensitivity(int choice);
-void M_ChangeMouseAccel(int choice);
-void M_ChangeMouseLook(int choice);
-void M_ChangeMouseInvert(int choice);
-void M_ChangeYAxisMove(int choice);
 void M_DrawMouse(void);
 
 extern FloatProperty v_msensitivityx;
-extern FloatProperty v_msensitivityy;
-extern BoolProperty v_mlook;
-extern BoolProperty v_mlookinvert;
-extern BoolProperty v_yaxismove;
-extern FloatProperty v_macceleration;
 
 enum {
     mouse_sensx,
@@ -1495,7 +1466,6 @@ enum {
     mouse_empty3,
     mouse_look,
     mouse_invert,
-    mouse_yaxismove,
     mouse_default,
     mouse_return,
     mouse_end
@@ -1504,31 +1474,23 @@ enum {
 menuitem_t MouseMenu[]= {
     {3,"Mouse Sensitivity X",M_ChangeSensitivity, 'x'},
     {-1,"",0},
-    {3,"Mouse Sensitivity Y",M_ChangeSensitivity, 'y'},
     {-1,"",0},
-    {3, "Mouse Acceleration",M_ChangeMouseAccel, 'a'},
-    {-1, "",0},
-    {2,"Mouse Look:",M_ChangeMouseLook,'l'},
-    {2,"Invert Look:",M_ChangeMouseInvert, 'i'},
-    {2,"Y-Axis Move:",M_ChangeYAxisMove, 'y'},
+    {-1,"",0},
+    {-1,"",0},
+    {-1,"",0},
+    {-1,"",0},
+    {-1,"",0},
     {-2,"Default",M_DoDefaults,'d'},
     {1,"/r Return",M_Return, 0x20}
 };
 
 menudefault_t MouseDefault[] = {
     { &v_msensitivityx, 5 },
-    { &v_msensitivityy, 5 },
-    { &v_macceleration, 0 },
-    { &v_mlook, 0 },
-    { &v_mlookinvert, 0 },
-    { &v_yaxismove, 0 },
     { NULL, -1 }
 };
 
 menuthermobar_t MouseBars[] = {
     { mouse_empty1, 32, &v_msensitivityx },
-    { mouse_empty2, 32, &v_msensitivityy },
-    { mouse_empty3, 20, &v_macceleration },
     { -1, 0 }
 };
 
@@ -1552,16 +1514,6 @@ menu_t MouseDef = {
 
 void M_DrawMouse(void) {
     M_DrawThermo(MouseDef.x,MouseDef.y+LINEHEIGHT*(mouse_sensx+1),MAXSENSITIVITY, *v_msensitivityx);
-    M_DrawThermo(MouseDef.x,MouseDef.y+LINEHEIGHT*(mouse_sensy+1),MAXSENSITIVITY, *v_msensitivityy);
-
-    M_DrawThermo(MouseDef.x,MouseDef.y+LINEHEIGHT*(mouse_accel+1),20, *v_macceleration);
-
-    Draw_BigText(MouseDef.x + 144, MouseDef.y+LINEHEIGHT*mouse_look, MENUCOLORRED,
-                 msgNames[*v_mlook]);
-    Draw_BigText(MouseDef.x + 144, MouseDef.y+LINEHEIGHT*mouse_invert, MENUCOLORRED,
-                 msgNames[*v_mlookinvert]);
-    Draw_BigText(MouseDef.x + 144, MouseDef.y+LINEHEIGHT*mouse_yaxismove, MENUCOLORRED,
-                 msgNames[*v_yaxismove]);
 }
 
 void M_ChangeSensitivity(int choice) {
@@ -1577,14 +1529,6 @@ void M_ChangeSensitivity(int choice) {
                 v_msensitivityx = 0.0f;
             }
             break;
-        case mouse_sensy:
-            if(v_msensitivityy > 0.0f) {
-                M_SetCvar(v_msensitivityy, v_msensitivityy - slope);
-            }
-            else {
-                v_msensitivityy = 0.0f;
-            }
-            break;
         }
         break;
     case 1:
@@ -1597,51 +1541,9 @@ void M_ChangeSensitivity(int choice) {
                 v_msensitivityx = (float)MAXSENSITIVITY;
             }
             break;
-        case mouse_sensy:
-            if(v_msensitivityy < (float)MAXSENSITIVITY) {
-                M_SetCvar(v_msensitivityy, v_msensitivityy + slope);
-            }
-            else {
-                v_msensitivityy = (float)MAXSENSITIVITY;
-            }
-            break;
         }
         break;
     }
-}
-
-void M_ChangeMouseAccel(int choice) {
-    float slope = 20.0f / 100.0f;
-    switch(choice) {
-    case 0:
-        if(v_macceleration > 0.0f) {
-            M_SetCvar(v_macceleration, v_macceleration - slope);
-        }
-        else {
-            v_macceleration = 0;
-        }
-        break;
-    case 1:
-        if(v_macceleration < 20.0f) {
-            M_SetCvar(v_macceleration, v_macceleration + slope);
-        }
-        else {
-            v_macceleration = 20.0f;
-        }
-        break;
-    }
-}
-
-void M_ChangeMouseLook(int choice) {
-    M_SetOptionValue(choice, v_mlook);
-}
-
-void M_ChangeMouseInvert(int choice) {
-    M_SetOptionValue(choice, v_mlookinvert);
-}
-
-void M_ChangeYAxisMove(int choice) {
-    M_SetOptionValue(choice, v_yaxismove);
 }
 
 //------------------------------------------------------------------------
@@ -2724,8 +2626,6 @@ menuitem_t XGamePadMenu[]= {
     {-1,"",0},
     {3,"Turn Threshold",M_XGamePadChoice,'t'},
     {-1,"",0},
-    {2,"Y Axis Look:",M_ChangeMouseLook,'l'},
-    {2,"Invert Look:",M_ChangeMouseInvert, 'i'},
     {-2,"Default",M_DoDefaults,'d'},
     {1,"/r Return",M_Return, 0x20}
 };
@@ -2733,8 +2633,6 @@ menuitem_t XGamePadMenu[]= {
 menudefault_t XGamePadDefault[] = {
     { &i_rsticksensitivity, 0.0080f },
     { &i_rstickthreshold, 20 },
-    { &v_mlook, 0 },
-    { &v_mlookinvert, 0 },
     { NULL, -1 }
 };
 
@@ -2807,12 +2705,6 @@ void M_DrawXGamePad(void) {
 
     M_DrawThermo(XGamePadDef.x, XGamePadDef.y + LINEHEIGHT*(xgp_threshold+1),
                  50, i_rstickthreshold.value * 0.5f);
-
-    Draw_BigText(XGamePadDef.x + 128, XGamePadDef.y + LINEHEIGHT * xgp_look, MENUCOLORRED,
-                 msgNames[(int)v_mlook.value]);
-
-    Draw_BigText(XGamePadDef.x + 128, XGamePadDef.y + LINEHEIGHT * xgp_invert, MENUCOLORRED,
-                 msgNames[(int)v_mlookinvert.value]);
 }
 
 #endif  // XINPUT
@@ -2848,7 +2740,6 @@ static menuaction_t mPlayerActionsDef[NUM_CONTROL_ITEMS] = {
     {"Fire", "+fire"},
     {"Use", "+use"},
     {"Run", "+run"},
-    {"Jump", "+jump"},
     {"Autorun", "autorun"},
     {"Look Up", "+lookup"},
     {"Look Down", "+lookdown"},
