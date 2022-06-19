@@ -17,7 +17,9 @@ void native_ui::init()
 {
     handle_ = dlopen("./libDoom64EX-gtk3.so", RTLD_LAZY | RTLD_GLOBAL);
     if (!handle_) {
+#ifndef __APPLE__
         println("Gtk3: Could not load libDoom64EX-gtk3.so");
+#endif
         return;
     }
 
