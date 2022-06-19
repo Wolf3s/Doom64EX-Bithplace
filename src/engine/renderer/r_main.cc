@@ -99,7 +99,7 @@ IntProperty r_colorscale("r_colorscale", "", 0, 0,
                              GL_SetColorScale();
                          });
 
-BoolProperty r_filter("r_filter", "", false, 0,
+BoolProperty r_filter("r_filter", "", true, 1,
                       [](const BoolProperty&, bool, bool&)
                       {
                           GL_DumpTextures();

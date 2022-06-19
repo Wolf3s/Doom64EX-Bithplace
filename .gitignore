@@ -16,3 +16,5 @@
 # conan
 conanbuildinfo.cmake
 conaninfo.txt
+src/.DS_Store
+src/engine/.DS_Store
