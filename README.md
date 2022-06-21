@@ -95,7 +95,7 @@ need to create the `doom64ex.pk3` file manually.
 
 ## Compiling on Windows
 
-Only MSYS2 is supported on Windows.  Use cmake .. -G "MSYS2 Makefiles" and 'make' to compile.
+Only MSYS2 is supported on Windows.  Use cmake .. -G "MSYS Makefiles" and 'make' to compile.
 I'm going to assume you know what you're doing if you wish to attempt this.
 
 Next, generate the MSVC project files.
