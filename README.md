@@ -95,10 +95,8 @@ need to create the `doom64ex.pk3` file manually.
 
 ## Compiling on Windows
 
-Download and install [CMAKE](https://cmake.org/download/). Follow the instructions on
-the website and make sure to update the system. Clone the repository in a suitable place to build the program.
-
-Next, download the [Win32 Dependencies](https://github.com/svkaiser/Doom64EX/releases/download/win32dep-2018-04-11/Doom64EX-deps-win32-2018-04-11.zip). Extract the archive into the `extern` directory. Also remember to clone [fluidsynth-lite](https://github.com/dotfloat/fluidsynth-lite) and generate the `.lib` and `.dll` files. Place these in `extern\lib` and `extern\bin`, respectively.
+Only MSYS2 is supported on Windows.  Use cmake .. -G "MSYS2 Makefiles" and 'make' to compile.
+I'm going to assume you know what you're doing if you wish to attempt this.
 
 Next, generate the MSVC project files.
 
