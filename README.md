@@ -98,14 +98,6 @@ need to create the `doom64ex.pk3` file manually.
 Only MSYS2 is supported on Windows.  Use cmake .. -G "MSYS Makefiles" and 'make' to compile.
 I'm going to assume you know what you're doing if you wish to attempt this.
 
-Next, generate the MSVC project files.
-
-    $ mkdir build                           # Create a build directory within the git repo
-    $ cd build                              # Change into the new directory
-    $ cmake .. -G "Visual Studio 15 2017"   # Generate MSVC 2017 files
-    
-Visual Studio 2017 project files will now be sitting in the `build` directory. 
-
 ## Compiling on macOS
 
 Install [Xcode](https://developer.apple.com/xcode/) for its developer tools.
