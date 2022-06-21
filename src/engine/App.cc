@@ -6,6 +6,14 @@
 
 #include "SDL.h"
 
+#ifndef __APPLE__
+#ifdef main
+#undef main
+#else
+#define SDL_main main
+#endif
+#endif
+
 [[noreturn]]
 void D_DoomMain();
 
