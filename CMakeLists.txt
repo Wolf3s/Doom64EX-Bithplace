@@ -31,8 +31,6 @@ project(Doom64EX C CXX)
 
 option(ENABLE_TESTING "Compile unit tests" ON)
 option(ENABLE_SYSTEM_FLUIDSYNTH "Link with system-wide fluidsynth and not fluidsynth-lite" OFF)
-option(ENABLE_GTK3 "Display windows using GTK+3" OFF)
-option(VERSION_DEV "Add git commit hash to window title" ON)
 
 # If fluidsynth-lite wasn't cloned, fall back to using system fluidsynth.
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/fluidsynth/CMakeLists.txt" AND NOT ENABLE_SYSTEM_FLUIDSYNTH)
@@ -88,13 +86,9 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 set(VERSION_MAJOR 3)
-set(VERSION_MINOR 0)
-set(VERSION_PATCH 1)
+set(VERSION_MINOR 1)
+set(VERSION_PATCH 0)
 set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
-
-if(VERSION_DEV)
-  set(VERSION_FULL "${VERSION}-git+${VERSION_GIT}")
-endif()
 
 configure_file("${CMAKE_SOURCE_DIR}/src/config.hh.in" "${CMAKE_BINARY_DIR}/config/config.hh")
 
@@ -122,12 +116,6 @@ if (NOT USE_CONAN)
 
   # OpenGL
   find_package(OpenGL REQUIRED)
-
-  # GTK3
-  if(ENABLE_GTK3)
-    find_package(GTK3 REQUIRED)
-    find_package(Vala REQUIRED)
-  endif(ENABLE_GTK3)
 endif(NOT USE_CONAN)
 
 if(BUILD_TESTS)
@@ -143,10 +131,6 @@ if(NOT ENABLE_SYSTEM_FLUIDSYNTH)
 endif()
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/src/engine")
-
-if(ENABLE_GTK3)
-  add_subdirectory("${CMAKE_SOURCE_DIR}/src/gtk3")
-endif(ENABLE_GTK3)
 
 ##------------------------------------------------------------------------------
 ## doom64ex.pk3 target

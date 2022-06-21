@@ -35,8 +35,6 @@ endif ()
 if(WIN32)
 
   set(PLATFORM_SOURCES
-    native_ui/WinAPI.cc
-    native_ui/WinAPI-windows-is-dumb.c
     system/win32/doom64.rc
     system/i_cpu.cc)
 
@@ -72,7 +70,6 @@ else()
 
   set(PLATFORM_SOURCES
     ${WADGEN_SOURCES}
-    native_ui/Gtk3.cc
     system/i_cpu_posix.cc)
 
   set(PLATFORM_LIBRARIES
@@ -270,22 +267,13 @@ set(SOURCES
 ## Build target
 ##
 
-add_executable(doom64ex MACOSX_BUNDLE WIN32 ${SOURCES})
-target_include_directories(doom64ex PRIVATE ${INCLUDES})
-target_link_libraries(doom64ex ${LIBRARIES})
-set_property(TARGET doom64ex PROPERTY CXX_STANDARD 14)
+add_executable(doom64ex-plus MACOSX_BUNDLE WIN32 ${SOURCES})
+target_include_directories(doom64ex-plus PRIVATE ${INCLUDES})
+target_link_libraries(doom64ex-plus ${LIBRARIES})
+set_property(TARGET doom64ex-plus PROPERTY CXX_STANDARD 14)
 
 if(WIN32)
-  set_property(TARGET doom64ex PROPERTY COMPILE_FLAGS "-DFLUIDSYNTH_NOT_A_DLL")
-endif(WIN32)
-
-if(WIN32)
-  # Copy DLL files over
-  add_custom_command(TARGET doom64ex POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy "${CMAKE_SOURCE_DIR}/extern/bin/libpng16.dll" "${CMAKE_BINARY_DIR}/libpng16.dll"
-    COMMAND "${CMAKE_COMMAND}" -E copy "${CMAKE_SOURCE_DIR}/extern/bin/SDL2.dll" "${CMAKE_BINARY_DIR}/SDL2.dll"
-    COMMAND "${CMAKE_COMMAND}" -E copy "${CMAKE_SOURCE_DIR}/extern/bin/SDL2_net.dll" "${CMAKE_BINARY_DIR}/SDL2_net.dll"
-	)
+  set_property(TARGET doom64ex-plus PROPERTY COMPILE_FLAGS "-DFLUIDSYNTH_NOT_A_DLL")
 endif(WIN32)
 
 ##------------------------------------------------------------------------------
@@ -295,9 +283,9 @@ endif(WIN32)
 if (NOT WIN32)
   if (APPLE)
     install(CODE "include(BundleUtilities)"
-      "fixup_bundle(\"${CMAKE_CURRENT_BINARY_DIR}/doom64ex.app\" \"\" \"\")")
-    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doom64ex.app" DESTINATION /Applications USE_SOURCE_PERMISSIONS)
+      "fixup_bundle(\"${CMAKE_CURRENT_BINARY_DIR}/doom64ex-plus.app\" \"\" \"\")")
+    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doom64ex-plus.app" DESTINATION /Applications USE_SOURCE_PERMISSIONS)
   else ()
-    install(PROGRAMS ${CMAKE_BINARY_DIR}/doom64ex DESTINATION bin)
+    install(PROGRAMS ${CMAKE_BINARY_DIR}/doom64ex-plus DESTINATION bin)
   endif ()
 endif ()

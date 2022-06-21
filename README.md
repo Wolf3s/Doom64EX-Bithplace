@@ -4,11 +4,6 @@ possible with additional modding features.
 **NOTICE 2nd February 2017** The supplementary data file `kex.wad` has been
 renamed to `doom64ex.pk3`.
 
-# Installing
-
-At the moment there are no official binary builds. You can find older
-versions [here](https://doom64ex.wordpress.com/downloads/).
-
 # Compiling
 
 It's possible to compile Doom64EX yourself. Officially, only Linux, Windows and
@@ -117,7 +112,7 @@ Visual Studio 2017 project files will now be sitting in the `build` directory.
 
 Install [Xcode](https://developer.apple.com/xcode/) for its developer tools.
 Follow the instructions to install [Homebrew](http://brew.sh/). You can probably
-use other package managers, but Doom64EX has only been tested with Homebrew.
+use other package managers, but Doom64EX-Plus has only been tested with Homebrew.
 
 Open `Terminal.app` (or a terminal replacement).
 
@@ -127,16 +122,16 @@ Open `Terminal.app` (or a terminal replacement).
 Find a suitable place to build the program and navigate there using terminal.
 
     $ # Clone this repository (if you haven't done so already)
-    $ git clone https://github.com/svkaiser/Doom64EX --recursive
+    $ git clone https://github.com/atsb/Doom64EX-Plus
 
     $ # If you have previously cloned the repository, you'll need to also grab the fluidsynth-lite submodule
-    $ git submodule update --init --recursive
+    $ git submodule update --init
     
     $ mkdir build       # Create a build directory within the git repo
     $ cd build          # Change into the new directory
     $ cmake ..          # Generate Makefiles
     $ make              # Build everything
-    $ sudo make install # Install Doom64EX.app
+    $ sudo make install # Install Doom64EX-Plus.app
 
 You will now find Doom64EX in your Applications directory.
 
@@ -188,10 +183,4 @@ directories.
 
 # Community
 
-**[Official Blog](https://doom64ex.wordpress.com/)**
-
-**[Forum](http://z13.invisionfree.com/Doom64EX/index.php)** 
-
-**[Discord](https://discord.gg/AHd8t33)**
-
-You can join the official IRC channel `#doom64ex` on `irc.oftc.net` (OFTC).
+**[Official Blog](https://github.com/atsb/Doom64EX-Plus**

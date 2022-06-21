@@ -36,7 +36,6 @@
 #include "r_main.h"
 #include "i_system.h"
 #include "gl_texture.h"
-#include <imp/NativeUI>
 
 #define CONSOLE_PROMPTCHAR      '>'
 #define MAX_CONSOLE_LINES       256//must be power of 2
@@ -223,8 +222,6 @@ void CON_AddText(const char *text) {
 
         c = *(src++);
     }
-
-    native_ui::console_add_line(text);
 }
 
 //

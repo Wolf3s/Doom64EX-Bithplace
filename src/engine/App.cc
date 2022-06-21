@@ -79,8 +79,7 @@ namespace {
   };
 }
 
-[[noreturn]]
-void app::main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     using Arity = app::Param::Arity;
     myargc = argc;
@@ -146,6 +145,7 @@ void app::main(int argc, char **argv)
 #else
     D_DoomMain();
 #endif
+	return 0;
 }
 
 bool app::file_exists(StringView path)
@@ -216,5 +216,6 @@ app::Param::Param(StringView name, app::Param::Arity arity) :
 
 int SDL_main(int argc, char **argv)
 {
-    app::main(argc, argv);
+    main(argc, argv);
+	return 0;
 }
