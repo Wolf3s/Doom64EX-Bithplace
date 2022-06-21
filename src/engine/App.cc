@@ -6,12 +6,6 @@
 
 #include "SDL.h"
 
-#ifdef main
-#undef main
-#else
-#define SDL_main main
-#endif
-
 [[noreturn]]
 void D_DoomMain();
 
