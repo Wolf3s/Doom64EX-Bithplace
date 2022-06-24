@@ -533,6 +533,7 @@ typedef enum {
     OPENGL_VERSION_1_5,
     OPENGL_VERSION_2_0,
     OPENGL_VERSION_2_1,
+    OPENGL_VERSION_3_3,
 } glversion_t;
 
 static int GetVersionInt(const char* version) {
@@ -540,14 +541,14 @@ static int GetVersionInt(const char* version) {
     int MinorVersion;
     int versionvar;
 
-    versionvar = OPENGL_VERSION_1_0;
+    versionvar = OPENGL_VERSION_3_3;
 
-    if(sscanf(version, "%d.%d", &MajorVersion, &MinorVersion) == 2) {
+    if(sscanf(version, "%d.%d", &MajorVersion, &MinorVersion) == 3) {
         if(MajorVersion > 1) {
-            versionvar = OPENGL_VERSION_2_0;
+            versionvar = OPENGL_VERSION_3_3;
 
             if(MinorVersion > 0) {
-                versionvar = OPENGL_VERSION_2_1;
+                versionvar = OPENGL_VERSION_3_3;
             }
         }
         else {
@@ -634,7 +635,7 @@ void GL_Init(void) {
     dglEnableClientState(GL_TEXTURE_COORD_ARRAY);
     dglEnableClientState(GL_COLOR_ARRAY);
 
-    DGL_CLAMP = (GetVersionInt(gl_version) >= OPENGL_VERSION_1_2 ? GL_CLAMP_TO_EDGE : GL_CLAMP);
+    DGL_CLAMP = (GetVersionInt(gl_version) >= OPENGL_VERSION_3_3 ? GL_CLAMP_TO_EDGE : GL_CLAMP);
 
     glScaleFactor = 1.0f;
 
