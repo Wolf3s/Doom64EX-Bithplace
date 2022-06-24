@@ -1336,8 +1336,8 @@ static void find_coreGL(void) {
 	GLAD_GL_VERSION_1_2 = (major == 1 && minor >= 2) || major > 1;
 	GLAD_GL_VERSION_1_3 = (major == 1 && minor >= 3) || major > 1;
 	GLAD_GL_VERSION_1_4 = (major == 1 && minor >= 4) || major > 1;
-	GLAD_GL_VERSION_3_3 = (major == 3 && minor >= 3) || major > 1;
-	if (GLVersion.major > 1 || (GLVersion.major >= 1 && GLVersion.minor >= 4)) {
+	GLAD_GL_VERSION_3_3 = (major == 3 && minor >= 3) || major > 3;
+	if (GLVersion.major > 3 || (GLVersion.major >= 3 && GLVersion.minor >= 3)) {
 		max_loaded_major = 3;
 		max_loaded_minor = 3;
 	}
