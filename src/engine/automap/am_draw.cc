@@ -63,19 +63,19 @@ void AM_BeginDraw(angle_t view, fixed_t x, fixed_t y) {
         // increase the rgb scale so the automap can look good while transparent (overlay mode)
         //
         GL_SetTextureMode(GL_COMBINE);
-        dglTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE, 4);
+        glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE, 4);
     }
 
-    dglDepthRange(0.0f, 0.0f);
-    dglMatrixMode(GL_PROJECTION);
-    dglLoadIdentity();
+    glDepthRange(0.0f, 0.0f);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
     dglViewFrustum(video_width, video_height, 45.0f, 0.1f);
-    dglMatrixMode(GL_MODELVIEW);
-    dglLoadIdentity();
-    dglPushMatrix();
-    dglTranslatef(-F2D3D(automappanx), -F2D3D(automappany), 0);
-    dglRotatef(-(float)TRUEANGLES(am_viewangle), 0.0f, 0.0f, 1.0f);
-    dglTranslatef(-F2D3D(x), -F2D3D(y), 0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glPushMatrix();
+    glTranslatef(-F2D3D(automappanx), -F2D3D(automappany), 0);
+    glRotatef(-(float)TRUEANGLES(am_viewangle), 0.0f, 0.0f, 1.0f);
+    glTranslatef(-F2D3D(x), -F2D3D(y), 0);
 
     drawlist[DLT_AMAP].index = 0;
 
@@ -88,8 +88,8 @@ void AM_BeginDraw(angle_t view, fixed_t x, fixed_t y) {
 //
 
 void AM_EndDraw(void) {
-    dglPopMatrix();
-    dglDepthRange(0.0f, 1.0f);
+    glPopMatrix();
+    glDepthRange(0.0f, 1.0f);
 
     if(*r_texturecombiner && *am_overlay) {
         GL_SetState(GLSTATE_BLEND, 0);
@@ -288,14 +288,14 @@ void AM_DrawLine(int x1, int x2, int y1, int y2, float scale, rcolor c) {
 
     dglSetVertexColor(v, c, 2);
 
-    dglDisable(GL_TEXTURE_2D);
-    dglBegin(GL_LINES);
-    dglColor4ub(v[0].r, v[0].g, v[0].b, v[0].a);
-    dglVertex3f(v[0].x, v[0].z, -v[0].y);
-    dglColor4ub(v[1].r, v[1].g, v[1].b, v[1].a);
-    dglVertex3f(v[1].x, v[1].z, -v[1].y);
-    dglEnd();
-    dglEnable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
+    glBegin(GL_LINES);
+    glColor4ub(v[0].r, v[0].g, v[0].b, v[0].a);
+    glVertex3f(v[0].x, v[0].z, -v[0].y);
+    glColor4ub(v[1].r, v[1].g, v[1].b, v[1].a);
+    glVertex3f(v[1].x, v[1].z, -v[1].y);
+    glEnd();
+    glEnable(GL_TEXTURE_2D);
 }
 
 //
@@ -342,17 +342,17 @@ void AM_DrawTriangle(mobj_t* mobj, float scale, dboolean solid, byte r, byte g, 
     }
 
     if(r_fillmode) {
-        dglPolygonMode(GL_FRONT_AND_BACK, (solid == 1) ? GL_LINE : GL_FILL);
+        glPolygonMode(GL_FRONT_AND_BACK, (solid == 1) ? GL_LINE : GL_FILL);
     }
 
     dglSetVertex(tri);
     dglTriangle(0, 1, 2);
-    dglDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
     dglDrawGeometry(3, tri);
-    dglEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
 
     if(r_fillmode) {
-        dglPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 
     if(devparm) {
