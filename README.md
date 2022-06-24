@@ -6,6 +6,8 @@ renamed to `doom64ex.pk3`.
 
 **NOTICE June 23rd 2022** In light of the GOG release of DOOM64, I have decided that Doom64EX-Plus will henceforth only be developed for macOS and GNU/Linux computer systems.  Windows users are well supported with the Steam and GOG versions, while macOS and GNU/Linux users are left in the dust.
 
+**Clarification** Windows builds will be done for major releases, just minor releases may not have a Windows build.  I have 5 systems across 4 OS's and I just want to prioritise some systems that have 'zero' official releases, over those which the majority of users are currently enjoying.
+
 # Compiling
 
 It's possible to compile Doom64EX yourself. Officially, only Linux, Windows and
