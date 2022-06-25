@@ -194,15 +194,13 @@ dboolean P_CheckMeleeRange(mobj_t* actor) {
 
 dboolean P_CheckMissileRange(mobj_t* actor) {
     fixed_t    dist;
-    int        idist;
 
     if(!(actor->flags & MF_SEETARGET)) {
         return false;
     }
 
     if(actor->flags & MF_JUSTHIT) {
-        // the target just hit the enemy,
-        // so fight back!
+        /* the target just hit the enemy, so fight back! */
         actor->flags &= ~MF_JUSTHIT;
         return true;
     }
@@ -219,17 +217,17 @@ dboolean P_CheckMissileRange(mobj_t* actor) {
         dist -= 128*FRACUNIT;    // no melee attack, so fire more
     }
 
-    idist = F2INT(dist);
+    dist >>= 16;
 
     if(actor->type == MT_SKULL) {
-        idist >>= 1;
+        dist >>= 1;
     }
 
-    if(idist > 200) {
-        idist = 200;
+    if(dist > 200) {
+        dist = 200;
     }
 
-    if(P_Random(pr_missrange) < idist) {
+    if(P_Random(pr_missrange) < dist) {
         return false;
     }
 
@@ -375,8 +373,7 @@ fixed_t xspeed[8] = {FRACUNIT,47000,0,-47000,-FRACUNIT,-47000,0,47000};
 fixed_t yspeed[8] = {0,47000,FRACUNIT,47000,0,-47000,-FRACUNIT,-47000};
 
 dboolean P_Move(mobj_t* actor) {
-    fixed_t    tryx;
-    fixed_t    tryy;
+    fixed_t tryx, tryy;
     line_t*    ld;
     dboolean   try_ok;
     dboolean   good;
@@ -385,8 +382,10 @@ dboolean P_Move(mobj_t* actor) {
         return false;
     }
 
-    if(actor->flags & MF_GRAVITY) {
-        if(actor->floorz != actor->z) {
+    if((actor->flags & MF_GRAVITY) !=0)
+    {
+        if(actor->floorz != actor->z)
+        {
             return false;
         }
     }
@@ -449,7 +448,8 @@ dboolean P_Move(mobj_t* actor) {
 //
 
 dboolean P_TryWalk(mobj_t* actor) {
-    if(!P_Move(actor)) {
+    if(!P_Move(actor))
+    {
         return false;
     }
 
@@ -1199,16 +1199,18 @@ void A_CyberDeathEvent(mobj_t* actor) {
 
 void A_BruisAttack(mobj_t* actor) {
     int    damage;
-    int hitdice;
+    int    hitdice;
 
-    if(!actor->target) {
+    if(!actor->target)
+    {
         return;
     }
 
-    if(P_CheckMeleeRange(actor)) {
+    if(P_CheckMeleeRange(actor))
+    {
         S_StartSound(actor, sfx_scratch);
         hitdice = (P_Random(pr_bruisattack) & 7);
-        damage = ((hitdice << 2) - hitdice) + 11;
+        damage = ((hitdice * 11) + 11);
         P_DamageMobj(actor->target, actor, actor, damage);
         return;
     }
