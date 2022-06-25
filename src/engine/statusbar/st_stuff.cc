@@ -407,7 +407,7 @@ void ST_Ticker(void) {
         st_msgtic++;
 
         if(st_msgtic >= ST_MSGFADESTART) {
-            st_msgalpha = MAX((st_msgalpha - ST_MSGFADETIME), 0);
+            st_msgalpha = MAX((st_msgalpha -= ST_MSGFADETIME), 0);
         }
 
         if(st_msgtic >= ST_MSGTIMEOUT) {
@@ -694,7 +694,7 @@ void ST_DrawCrosshair(int x, int y, int slot, byte scalefactor, rcolor color) {
 static void ST_DrawJMessage(int pic) {
     int lump = st_jmessages[pic];
 
-    GL_BindGfxTexture(wad::find(lump)->lump_name().data(), true);
+    GL_BindGfxTexture(lumpinfo[lump].name, true);
     GL_SetState(GLSTATE_BLEND, 1);
 
     dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, DGL_CLAMP);
@@ -705,8 +705,8 @@ static void ST_DrawJMessage(int pic) {
     GL_SetupAndDraw2DQuad(
         20,
         20,
-        gfxwidth[lump],
-        gfxheight[lump],
+        gfxwidth[lump - g_start],
+        gfxheight[lump - g_start],
         0,
         1,
         0,
@@ -1047,6 +1047,7 @@ void ST_UpdateFlash(void) {
 
 void ST_Init(void) {
     int i = 0;
+    int lump;
 
     plyr = &players[consoleplayer];
 
@@ -1083,9 +1084,10 @@ void ST_Init(void) {
     // setup crosshairs
 
     st_crosshairs = 0;
+    lump = W_CheckNumForName("CRSHAIRS");
 
-    if(auto lump = wad::find("CRSHAIRS")) {
-        st_crosshairs = (gfxwidth[lump->section_index()] / ST_CROSSHAIRSIZE);
+    if(!(lump <= -1)) {
+        st_crosshairs = (gfxwidth[lump - g_start] / ST_CROSSHAIRSIZE);
     }
 
     dmgmarkers.next = dmgmarkers.prev = &dmgmarkers;
@@ -1096,9 +1098,7 @@ void ST_Init(void) {
         char name[9];
 
         sprintf(name, "JPMSG%02d", i + 1);
-        st_jmessages[i] = -1;
-        if (auto lump = wad::find(name))
-            st_jmessages[i] = lump->section_index();
+        st_jmessages[i] = W_CheckNumForName(name);
 
         if(st_jmessages[i] != -1) {
             st_hasjmsg = true;

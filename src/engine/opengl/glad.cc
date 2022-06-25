@@ -25,10 +25,6 @@
         http://glad.dav1d.de/#profile=compatibility&language=c&specification=gl&api=gl%3D1.4&extensions=GL_ARB_multitexture&extensions=GL_ARB_texture_env_combine&extensions=GL_ARB_texture_non_power_of_two&extensions=GL_ARB_vertex_buffer_object&extensions=GL_EXT_compiled_vertex_array&extensions=GL_EXT_fog_coord&extensions=GL_EXT_texture_env_combine&extensions=GL_EXT_texture_filter_anisotropic
 */
 
-#ifdef _WIN32
-#define APIENTRY __stdcall
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -44,6 +40,7 @@ static int max_loaded_major;
 static int max_loaded_minor;
 
 static const char *exts = NULL;
+static int num_exts_i = 0;
 static const char **exts_i = NULL;
 
 static int get_exts(void) {
@@ -126,73 +123,6 @@ int GLAD_GL_VERSION_1_1;
 int GLAD_GL_VERSION_1_2;
 int GLAD_GL_VERSION_1_3;
 int GLAD_GL_VERSION_1_4;
-int GLAD_GL_VERSION_3_3;
-int GLAD_GL_ARB_sampler_objects = 0;
-int GLAD_GL_ARB_blend_func_extended = 0;
-/* 3_3 Stuff */
-
-//SAMPLER OBJECTS
-PFNGLGENSAMPLERSPROC glad_glGenSamplers = NULL;
-PFNGLDELETESAMPLERSPROC glad_glDeleteSamplers = NULL;
-PFNGLISSAMPLERPROC glad_glIsSampler = NULL;
-PFNGLSAMPLERPARAMETERIUIVPROC glad_glSamplerParameterIuiv = NULL;
-PFNGLSAMPLERPARAMETERIIVPROC glad_glSamplerParameterIiv = NULL;
-PFNGLSAMPLERPARAMETERFPROC glad_glSamplerParameterf = NULL;
-PFNGLSAMPLERPARAMETERFVPROC glad_glSamplerParameterfv = NULL;
-PFNGLSAMPLERPARAMETERIVPROC glad_glSamplerParameteriv = NULL;
-PFNGLSAMPLERPARAMETERIPROC glad_glSamplerParameteri = NULL;
-PFNGLBINDSAMPLERPROC glad_glBindSampler = NULL;
-PFNGLGETSAMPLERPARAMETERIIVPROC glad_glGetSamplerParameterIiv = NULL;
-PFNGLGETSAMPLERPARAMETERIUIVPROC glad_glGetSamplerParameterIuiv = NULL;
-PFNGLGETSAMPLERPARAMETERFVPROC glad_glGetSamplerParameterfv = NULL;
-PFNGLGETSAMPLERPARAMETERIVPROC glad_glGetSamplerParameteriv = NULL;
-
-PFNGLBINDFRAGDATALOCATIONINDEXEDPROC glad_glBindFragDataLocationIndexed = NULL;
-PFNGLGETFRAGDATAINDEXPROC glad_glGetFragDataIndex = NULL;
-PFNGLSECONDARYCOLORP3UIPROC glad_glSecondaryColorP3ui = NULL;
-PFNGLSECONDARYCOLORP3UIVPROC glad_glSecondaryColorP3uiv = NULL;
-PFNGLCOLORP3UIPROC glad_glColorP3ui = NULL;
-PFNGLCOLORP3UIVPROC glad_glColorP3uiv = NULL;
-PFNGLCOLORP4UIPROC glad_glColorP4ui = NULL;
-PFNGLCOLORP4UIVPROC glad_glColorP4uiv = NULL;
-PFNGLNORMALP3UIPROC glad_glNormalP3ui = NULL;
-PFNGLNORMALP3UIVPROC glad_glNormalP3uiv = NULL;
-PFNGLMULTITEXCOORDP1UIPROC glad_glMultiTexCoordP1ui = NULL;
-PFNGLMULTITEXCOORDP1UIVPROC glad_glMultiTexCoordP1uiv = NULL;
-PFNGLMULTITEXCOORDP2UIPROC glad_glMultiTexCoordP2ui = NULL;
-PFNGLMULTITEXCOORDP2UIVPROC glad_glMultiTexCoordP2uiv = NULL;
-PFNGLMULTITEXCOORDP3UIPROC glad_glMultiTexCoordP3ui = NULL;
-PFNGLMULTITEXCOORDP3UIVPROC glad_glMultiTexCoordP3uiv = NULL;
-PFNGLMULTITEXCOORDP4UIPROC glad_glMultiTexCoordP4ui = NULL;
-PFNGLMULTITEXCOORDP4UIVPROC glad_glMultiTexCoordP4uiv = NULL;
-PFNGLTEXCOORDP1UIPROC glad_glTexCoordP1ui = NULL;
-PFNGLTEXCOORDP1UIVPROC glad_glTexCoordP1uiv = NULL;
-PFNGLTEXCOORDP2UIPROC glad_glTexCoordP2ui = NULL;
-PFNGLTEXCOORDP2UIVPROC glad_glTexCoordP2uiv = NULL;
-PFNGLTEXCOORDP3UIPROC glad_glTexCoordP3ui = NULL;
-PFNGLTEXCOORDP3UIVPROC glad_glTexCoordP3uiv = NULL;
-PFNGLTEXCOORDP4UIPROC glad_glTexCoordP4ui = NULL;
-PFNGLTEXCOORDP4UIVPROC glad_glTexCoordP4uiv = NULL;
-PFNGLVERTEXP2UIPROC glad_glVertexP2ui = NULL;
-PFNGLVERTEXP2UIVPROC glad_glVertexP2uiv = NULL;
-PFNGLVERTEXP3UIPROC glad_glVertexP3ui = NULL;
-PFNGLVERTEXP3UIVPROC glad_glVertexP3uiv = NULL;
-PFNGLVERTEXP4UIPROC glad_glVertexP4ui = NULL;
-PFNGLVERTEXP4UIVPROC glad_glVertexP4uiv = NULL;
-PFNGLVERTEXATTRIBP1UIPROC glad_glVertexAttribP1ui = NULL;
-PFNGLVERTEXATTRIBP1UIVPROC glad_glVertexAttribP1uiv = NULL;
-PFNGLVERTEXATTRIBP2UIPROC glad_glVertexAttribP2ui = NULL;
-PFNGLVERTEXATTRIBP2UIVPROC glad_glVertexAttribP2uiv = NULL;
-PFNGLVERTEXATTRIBP3UIPROC glad_glVertexAttribP3ui = NULL;
-PFNGLVERTEXATTRIBP3UIVPROC glad_glVertexAttribP3uiv = NULL;
-PFNGLVERTEXATTRIBP4UIPROC glad_glVertexAttribP4ui = NULL;
-PFNGLVERTEXATTRIBP4UIVPROC glad_glVertexAttribP4uiv = NULL;
-PFNGLVERTEXATTRIBDIVISORPROC glad_glVertexAttribDivisor = NULL;
-PFNGLGETQUERYOBJECTUI64VPROC glad_glGetQueryObjectui64v = NULL;
-PFNGLQUERYCOUNTERPROC glad_glQueryCounter = NULL;
-PFNGLGETQUERYOBJECTI64VPROC glad_glGetQueryObjecti64v = NULL;
-
-/* LEGACY 1.0-1.4 Stuff */
 PFNGLCOPYTEXIMAGE1DPROC glad_glCopyTexImage1D;
 PFNGLWINDOWPOS2SPROC glad_glWindowPos2s;
 PFNGLWINDOWPOS2IPROC glad_glWindowPos2i;
@@ -1134,72 +1064,6 @@ static void load_GL_VERSION_1_4(GLADloadproc load) {
 	glad_glBlendColor = (PFNGLBLENDCOLORPROC)load("glBlendColor");
 	glad_glBlendEquation = (PFNGLBLENDEQUATIONPROC)load("glBlendEquation");
 }
-static void load_GL_VERSION_3_3(GLADloadproc load) {
-	if(!GLAD_GL_VERSION_3_3) return;
-	glad_glBindFragDataLocationIndexed = (PFNGLBINDFRAGDATALOCATIONINDEXEDPROC)load("glBindFragDataLocationIndexed");
-	glad_glGetFragDataIndex = (PFNGLGETFRAGDATAINDEXPROC)load("glGetFragDataIndex");
-	glad_glGenSamplers = (PFNGLGENSAMPLERSPROC)load("glGenSamplers");
-	glad_glDeleteSamplers = (PFNGLDELETESAMPLERSPROC)load("glDeleteSamplers");
-	glad_glIsSampler = (PFNGLISSAMPLERPROC)load("glIsSampler");
-	glad_glBindSampler = (PFNGLBINDSAMPLERPROC)load("glBindSampler");
-	glad_glSamplerParameteri = (PFNGLSAMPLERPARAMETERIPROC)load("glSamplerParameteri");
-	glad_glSamplerParameteriv = (PFNGLSAMPLERPARAMETERIVPROC)load("glSamplerParameteriv");
-	glad_glSamplerParameterf = (PFNGLSAMPLERPARAMETERFPROC)load("glSamplerParameterf");
-	glad_glSamplerParameterfv = (PFNGLSAMPLERPARAMETERFVPROC)load("glSamplerParameterfv");
-	glad_glSamplerParameterIiv = (PFNGLSAMPLERPARAMETERIIVPROC)load("glSamplerParameterIiv");
-	glad_glSamplerParameterIuiv = (PFNGLSAMPLERPARAMETERIUIVPROC)load("glSamplerParameterIuiv");
-	glad_glGetSamplerParameteriv = (PFNGLGETSAMPLERPARAMETERIVPROC)load("glGetSamplerParameteriv");
-	glad_glGetSamplerParameterIiv = (PFNGLGETSAMPLERPARAMETERIIVPROC)load("glGetSamplerParameterIiv");
-	glad_glGetSamplerParameterfv = (PFNGLGETSAMPLERPARAMETERFVPROC)load("glGetSamplerParameterfv");
-	glad_glGetSamplerParameterIuiv = (PFNGLGETSAMPLERPARAMETERIUIVPROC)load("glGetSamplerParameterIuiv");
-	glad_glQueryCounter = (PFNGLQUERYCOUNTERPROC)load("glQueryCounter");
-	glad_glGetQueryObjecti64v = (PFNGLGETQUERYOBJECTI64VPROC)load("glGetQueryObjecti64v");
-	glad_glGetQueryObjectui64v = (PFNGLGETQUERYOBJECTUI64VPROC)load("glGetQueryObjectui64v");
-	glad_glVertexAttribDivisor = (PFNGLVERTEXATTRIBDIVISORPROC)load("glVertexAttribDivisor");
-	glad_glVertexAttribP1ui = (PFNGLVERTEXATTRIBP1UIPROC)load("glVertexAttribP1ui");
-	glad_glVertexAttribP1uiv = (PFNGLVERTEXATTRIBP1UIVPROC)load("glVertexAttribP1uiv");
-	glad_glVertexAttribP2ui = (PFNGLVERTEXATTRIBP2UIPROC)load("glVertexAttribP2ui");
-	glad_glVertexAttribP2uiv = (PFNGLVERTEXATTRIBP2UIVPROC)load("glVertexAttribP2uiv");
-	glad_glVertexAttribP3ui = (PFNGLVERTEXATTRIBP3UIPROC)load("glVertexAttribP3ui");
-	glad_glVertexAttribP3uiv = (PFNGLVERTEXATTRIBP3UIVPROC)load("glVertexAttribP3uiv");
-	glad_glVertexAttribP4ui = (PFNGLVERTEXATTRIBP4UIPROC)load("glVertexAttribP4ui");
-	glad_glVertexAttribP4uiv = (PFNGLVERTEXATTRIBP4UIVPROC)load("glVertexAttribP4uiv");
-	glad_glVertexP2ui = (PFNGLVERTEXP2UIPROC)load("glVertexP2ui");
-	glad_glVertexP2uiv = (PFNGLVERTEXP2UIVPROC)load("glVertexP2uiv");
-	glad_glVertexP3ui = (PFNGLVERTEXP3UIPROC)load("glVertexP3ui");
-	glad_glVertexP3uiv = (PFNGLVERTEXP3UIVPROC)load("glVertexP3uiv");
-	glad_glVertexP4ui = (PFNGLVERTEXP4UIPROC)load("glVertexP4ui");
-	glad_glVertexP4uiv = (PFNGLVERTEXP4UIVPROC)load("glVertexP4uiv");
-	glad_glTexCoordP1ui = (PFNGLTEXCOORDP1UIPROC)load("glTexCoordP1ui");
-	glad_glTexCoordP1uiv = (PFNGLTEXCOORDP1UIVPROC)load("glTexCoordP1uiv");
-	glad_glTexCoordP2ui = (PFNGLTEXCOORDP2UIPROC)load("glTexCoordP2ui");
-	glad_glTexCoordP2uiv = (PFNGLTEXCOORDP2UIVPROC)load("glTexCoordP2uiv");
-	glad_glTexCoordP3ui = (PFNGLTEXCOORDP3UIPROC)load("glTexCoordP3ui");
-	glad_glTexCoordP3uiv = (PFNGLTEXCOORDP3UIVPROC)load("glTexCoordP3uiv");
-	glad_glTexCoordP4ui = (PFNGLTEXCOORDP4UIPROC)load("glTexCoordP4ui");
-	glad_glTexCoordP4uiv = (PFNGLTEXCOORDP4UIVPROC)load("glTexCoordP4uiv");
-	glad_glMultiTexCoordP1ui = (PFNGLMULTITEXCOORDP1UIPROC)load("glMultiTexCoordP1ui");
-	glad_glMultiTexCoordP1uiv = (PFNGLMULTITEXCOORDP1UIVPROC)load("glMultiTexCoordP1uiv");
-	glad_glMultiTexCoordP2ui = (PFNGLMULTITEXCOORDP2UIPROC)load("glMultiTexCoordP2ui");
-	glad_glMultiTexCoordP2uiv = (PFNGLMULTITEXCOORDP2UIVPROC)load("glMultiTexCoordP2uiv");
-	glad_glMultiTexCoordP3ui = (PFNGLMULTITEXCOORDP3UIPROC)load("glMultiTexCoordP3ui");
-	glad_glMultiTexCoordP3uiv = (PFNGLMULTITEXCOORDP3UIVPROC)load("glMultiTexCoordP3uiv");
-	glad_glMultiTexCoordP4ui = (PFNGLMULTITEXCOORDP4UIPROC)load("glMultiTexCoordP4ui");
-	glad_glMultiTexCoordP4uiv = (PFNGLMULTITEXCOORDP4UIVPROC)load("glMultiTexCoordP4uiv");
-	glad_glNormalP3ui = (PFNGLNORMALP3UIPROC)load("glNormalP3ui");
-	glad_glNormalP3uiv = (PFNGLNORMALP3UIVPROC)load("glNormalP3uiv");
-	glad_glColorP3ui = (PFNGLCOLORP3UIPROC)load("glColorP3ui");
-	glad_glColorP3uiv = (PFNGLCOLORP3UIVPROC)load("glColorP3uiv");
-	glad_glColorP4ui = (PFNGLCOLORP4UIPROC)load("glColorP4ui");
-	glad_glColorP4uiv = (PFNGLCOLORP4UIVPROC)load("glColorP4uiv");
-	glad_glSecondaryColorP3ui = (PFNGLSECONDARYCOLORP3UIPROC)load("glSecondaryColorP3ui");
-	glad_glSecondaryColorP3uiv = (PFNGLSECONDARYCOLORP3UIVPROC)load("glSecondaryColorP3uiv");
-}
-static void load_GL_ARB_blend_func_extended(GLADloadproc load) {
-	if(!GLAD_GL_ARB_blend_func_extended) return;
-	glad_glBindFragDataLocationIndexed = (PFNGLBINDFRAGDATALOCATIONINDEXEDPROC)load("glBindFragDataLocationIndexed");
-	glad_glGetFragDataIndex = (PFNGLGETFRAGDATAINDEXPROC)load("glGetFragDataIndex");
-}
 static void load_GL_ARB_multitexture(GLADloadproc load) {
 	if(!GLAD_GL_ARB_multitexture) return;
 	glad_glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)load("glActiveTextureARB");
@@ -1236,23 +1100,6 @@ static void load_GL_ARB_multitexture(GLADloadproc load) {
 	glad_glMultiTexCoord4ivARB = (PFNGLMULTITEXCOORD4IVARBPROC)load("glMultiTexCoord4ivARB");
 	glad_glMultiTexCoord4sARB = (PFNGLMULTITEXCOORD4SARBPROC)load("glMultiTexCoord4sARB");
 	glad_glMultiTexCoord4svARB = (PFNGLMULTITEXCOORD4SVARBPROC)load("glMultiTexCoord4svARB");
-}
-static void load_GL_ARB_sampler_objects(GLADloadproc load) {
-	if(!GLAD_GL_ARB_sampler_objects) return;
-	glad_glGenSamplers = (PFNGLGENSAMPLERSPROC)load("glGenSamplers");
-	glad_glDeleteSamplers = (PFNGLDELETESAMPLERSPROC)load("glDeleteSamplers");
-	glad_glIsSampler = (PFNGLISSAMPLERPROC)load("glIsSampler");
-	glad_glBindSampler = (PFNGLBINDSAMPLERPROC)load("glBindSampler");
-	glad_glSamplerParameteri = (PFNGLSAMPLERPARAMETERIPROC)load("glSamplerParameteri");
-	glad_glSamplerParameteriv = (PFNGLSAMPLERPARAMETERIVPROC)load("glSamplerParameteriv");
-	glad_glSamplerParameterf = (PFNGLSAMPLERPARAMETERFPROC)load("glSamplerParameterf");
-	glad_glSamplerParameterfv = (PFNGLSAMPLERPARAMETERFVPROC)load("glSamplerParameterfv");
-	glad_glSamplerParameterIiv = (PFNGLSAMPLERPARAMETERIIVPROC)load("glSamplerParameterIiv");
-	glad_glSamplerParameterIuiv = (PFNGLSAMPLERPARAMETERIUIVPROC)load("glSamplerParameterIuiv");
-	glad_glGetSamplerParameteriv = (PFNGLGETSAMPLERPARAMETERIVPROC)load("glGetSamplerParameteriv");
-	glad_glGetSamplerParameterIiv = (PFNGLGETSAMPLERPARAMETERIIVPROC)load("glGetSamplerParameterIiv");
-	glad_glGetSamplerParameterfv = (PFNGLGETSAMPLERPARAMETERFVPROC)load("glGetSamplerParameterfv");
-	glad_glGetSamplerParameterIuiv = (PFNGLGETSAMPLERPARAMETERIUIVPROC)load("glGetSamplerParameterIuiv");
 }
 static void load_GL_ARB_vertex_buffer_object(GLADloadproc load) {
 	if(!GLAD_GL_ARB_vertex_buffer_object) return;
@@ -1336,10 +1183,9 @@ static void find_coreGL(void) {
 	GLAD_GL_VERSION_1_2 = (major == 1 && minor >= 2) || major > 1;
 	GLAD_GL_VERSION_1_3 = (major == 1 && minor >= 3) || major > 1;
 	GLAD_GL_VERSION_1_4 = (major == 1 && minor >= 4) || major > 1;
-	GLAD_GL_VERSION_3_3 = (major == 3 && minor >= 3) || major > 3;
-	if (GLVersion.major > 3 || (GLVersion.major >= 3 && GLVersion.minor >= 3)) {
-		max_loaded_major = 3;
-		max_loaded_minor = 3;
+	if (GLVersion.major > 1 || (GLVersion.major >= 1 && GLVersion.minor >= 4)) {
+		max_loaded_major = 1;
+		max_loaded_minor = 4;
 	}
 }
 
@@ -1354,11 +1200,8 @@ int gladLoadGLLoader(GLADloadproc load) {
 	load_GL_VERSION_1_2(load);
 	load_GL_VERSION_1_3(load);
 	load_GL_VERSION_1_4(load);
-	load_GL_VERSION_3_3(load);
 
 	if (!find_extensionsGL()) return 0;
-	load_GL_ARB_sampler_objects(load);
-	load_GL_ARB_blend_func_extended(load);
 	load_GL_ARB_multitexture(load);
 	load_GL_ARB_vertex_buffer_object(load);
 	load_GL_EXT_compiled_vertex_array(load);

@@ -1,7 +1,6 @@
 // Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
-// Copyright(C) 1993-1997 Id Software, Inc.
 // Copyright(C) 2005 Simon Howard
 // Copyright(C) 2007-2012 Samuel Villarreal
 //
@@ -22,41 +21,27 @@
 //
 //-----------------------------------------------------------------------------
 
+#ifndef W_MERGE_H
+#define W_MERGE_H
 
-#ifndef __I_VIDEO_H__
-#define __I_VIDEO_H__
+#define W_NWT_MERGE_SPRITES   0x1
+#define W_NWT_MERGE_FLATS     0x2
 
-#include "SDL.h"
-#include "d_event.h"
+// Add a new WAD and merge it into the main directory
 
-#define SDL_BPP        32
+void W_MergeFile(char *filename);
 
-////////////Video///////////////
+// NWT-style merging
 
-extern SDL_Surface *screen;
+void W_NWTMergeFile(char *filename, int flags);
 
-void I_InitVideo(void);
-void I_InitScreen(void);
-void I_ShutdownVideo(void);
-//
-// Called by D_DoomLoop,
-// called before processing each tic in a frame.
-// Quick syncronous operations are performed here.
-// Can call D_PostEvent.
-void I_StartTic(void);
-void I_FinishUpdate(void);
-int I_ShutdownWait(void);
-void I_CenterMouse(void);
+// Acts the same as NWT's "-merge" option.
 
-////////////Input//////////////
+void W_NWTDashMerge(char *filename);
 
-extern int UseMouse[2];
-extern int UseJoystick;
-extern int mouse_x;
-extern int mouse_y;
+// Debug function that prints the WAD directory.
 
-int I_MouseAccel(int val);
-void I_MouseAccelChange(void);
+void W_PrintDirectory(void);
 
+#endif /* #ifndef W_MERGE_H */
 
-#endif

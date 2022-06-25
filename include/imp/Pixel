@@ -37,7 +37,7 @@
 
 namespace imp {
   namespace gfx {
-    class Palette;
+    struct Palette;
 
     /**
      * \brief Exception class for pixel format errors.
@@ -55,121 +55,9 @@ namespace imp {
         rgba,
     };
 
-    namespace detail {
-      template <int, int LShift, typename std::enable_if<LShift <= 0>::type* = nullptr>
-      constexpr size_t resize_component_shift(size_t x)
-      {
-          return x >> -LShift;
-      }
-
-      template <int FromBits, int LShift, typename std::enable_if<(LShift > 0)>::type* = nullptr>
-      constexpr size_t resize_component_shift(size_t x)
-      {
-          return (x << LShift) + resize_component_shift<FromBits, LShift - FromBits>(x);
-      }
-
-      template <int FromDepth, int ToDepth>
-      constexpr size_t resize_component(size_t x)
-      {
-          return resize_component_shift<FromDepth, ToDepth - FromDepth>(x);
-      };
-    }
-
     struct Index8 {
         uint8 index;
     };
-
-#define DEFINE_COLOR_COMPONENT(ClassName, VarName)                    \
-    template <size_t Depth>                                           \
-    struct ClassName ## Component {                                   \
-        using VarName ## _type = size_t;                              \
-        static constexpr size_t VarName ## _depth = Depth;            \
-        static constexpr size_t VarName ## _min = 0;                  \
-        static constexpr size_t VarName ## _max = (1U << Depth) - 1U; \
-        size_t VarName : Depth;                                       \
-        constexpr ClassName ## Component() {}                         \
-        constexpr ClassName ## Component(size_t x):                   \
-                             VarName(x) {}                            \
-    };                                                                \
-    namespace detail {                                                \
-      template <class C, typename = void>                             \
-      struct ClassName ## Helper {                                    \
-          constexpr static bool have = false;                         \
-          constexpr static size_t depth = 0;                          \
-          constexpr static size_t get(const C&) { return 0; }         \
-          constexpr static void set(C&, size_t) {}                    \
-      };                                                              \
-      template <class C>                                              \
-      struct ClassName ## Helper<C, void_t<decltype(C::VarName)>> {   \
-          constexpr static bool have = true;                          \
-          constexpr static size_t depth = C::VarName ## _depth;       \
-          constexpr static size_t get(const C& c)                     \
-          { return c.VarName; }                                       \
-          constexpr static void set(C& c, size_t x)                   \
-          { c.VarName = x; }                                          \
-      };                                                              \
-      template <class From, class To>                                 \
-      constexpr void convert_ ## VarName(const From& from, To& to)    \
-      {                                                               \
-          using FromH = ClassName ## Helper<From>;                    \
-          using ToH = ClassName ## Helper<To>;                        \
-          auto val = FromH::get(from);                                \
-          val = resize_component<FromH::depth, ToH::depth>(val);      \
-          ToH::set(to, val);                                          \
-      }                                                               \
-    }
-
-    DEFINE_COLOR_COMPONENT(Red, red)
-    DEFINE_COLOR_COMPONENT(Green, green)
-    DEFINE_COLOR_COMPONENT(Blue, blue)
-    DEFINE_COLOR_COMPONENT(Alpha, alpha)
-
-    template <class... Components>
-    struct ColorComponents;
-
-    template <>
-    struct ColorComponents<> {
-        constexpr ColorComponents() = default;
-    };
-
-    template <class C, class... Cs>
-    struct ColorComponents<C, Cs...> : public C, public ColorComponents<Cs...> {
-        constexpr ColorComponents() = default;
-
-        template <class T, class... Ts>
-        constexpr ColorComponents(T&& x, Ts&&... xs):
-            C(std::forward<T>(x)),
-            ColorComponents<Cs...>(std::forward<Ts>(xs)...) {};
-    };
-
-    template <class... Components>
-    struct Color : ColorComponents<Components...> {
-        constexpr Color() = default;
-
-        constexpr Color(const Color&) = default;
-
-        constexpr Color(Color&&) = default;
-
-        template <class... Ts>
-        constexpr Color(Ts&&... xs):
-            ColorComponents<Components...>(std::forward<Ts>(xs)...) {}
-
-        template <class... Cs>
-        constexpr Color(const Color<Cs...>& other):
-            Color()
-        {
-            detail::convert_red(other, *this);
-            detail::convert_green(other, *this);
-            detail::convert_blue(other, *this);
-            detail::convert_alpha(other, *this);
-        }
-
-        constexpr Color& operator=(const Color&) = default;
-
-        constexpr Color& operator=(Color&&) = default;
-    };
-
-    using Red8 = Color<RedComponent<8>>;
 
     struct Rgb {
         uint8 red = 0;
@@ -228,8 +116,10 @@ namespace imp {
      * - `<tag_type> tag()`: Convenience function that returns an instance of `tag_type`
      */
     template <class T>
-	struct pixel_traits {
-		static constexpr bool valid = false;
+    struct pixel_traits;
+
+    template <>
+    struct pixel_traits<void> {
         static constexpr auto format = PixelFormat::none;
         static constexpr bool color = false;
         static constexpr size_t bytes = 0;
@@ -239,11 +129,10 @@ namespace imp {
 
         struct tag_type {};
         static constexpr auto tag() { return tag_type(); }
-	};
+    };
 
     template <>
     struct pixel_traits<Index8> {
-		static constexpr bool valid = true;
         static constexpr auto format = PixelFormat::index8;
         static constexpr bool color = false;
         static constexpr size_t bytes = 1;
@@ -257,7 +146,6 @@ namespace imp {
 
     template <>
     struct pixel_traits<Rgb> {
-		static constexpr bool valid = true;
         static constexpr auto format = PixelFormat::rgb;
         static constexpr bool color = true;
         static constexpr size_t bytes = 3;
@@ -271,7 +159,6 @@ namespace imp {
 
     template <>
     struct pixel_traits<Rgba> {
-		static constexpr bool valid = true;
         static constexpr auto format = PixelFormat::rgba;
         static constexpr bool color = true;
         static constexpr size_t bytes = 4;
@@ -288,21 +175,31 @@ namespace imp {
      * \tparam T Type to identify
      */
     template <class T>
-    constexpr bool is_pixel = pixel_traits<T>::valid;
+    constexpr bool is_pixel = imp::is_any_same<T, Index8, Rgb, Rgba>;
+
+    template <class T, class = void>
+    struct __h_is_color_pixel : std::false_type {};
+
+    /*
+     * We use `imp::void_t` to determine whether `pixel_traits<T>` has a field named `color`
+     * before we attempt to grab its value.
+     */
+    template <class T>
+    struct __h_is_color_pixel<T, void_t<decltype(pixel_traits<T>::color)>> : bool_type<pixel_traits<T>::color> {};
 
     /**
      * \brief Determine if a type is a colour pixel
      * \tparam T Type to identify
      */
-	template <class T>
-	constexpr bool is_color_pixel = pixel_traits<T>::color;
+    template <class T>
+    constexpr bool is_color_pixel = __h_is_color_pixel<T>::value;
 
     /**
      * \brief Determine if a type is an index pixel
      * \tparam T Type to identify
      */
-	template <class T>
-	constexpr bool is_index_pixel = is_pixel<T> && !pixel_traits<T>::color;
+    template <class T>
+    constexpr bool is_index_pixel = is_pixel<T> && !is_color_pixel<T>;
 
     /**
      * \brief A version of pixel_traits that's available at runtime

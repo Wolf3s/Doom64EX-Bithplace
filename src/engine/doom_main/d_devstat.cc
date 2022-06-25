@@ -224,6 +224,7 @@ void D_BoyISuck(void) {
 // Special debug actions when pressing the F## keys
 //
 
+static bool freelook = false;
 dboolean D_DevKeyResponder(event_t* ev) {
     if(ev->type == ev_keydown) {
         switch(ev->data1) {
@@ -250,6 +251,9 @@ dboolean D_DevKeyResponder(event_t* ev) {
                     players[consoleplayer].cheats |= CF_SPECTATOR;
                     players[consoleplayer].message = "Spectator Mode On";
 
+                    freelook = *v_mlook;
+                    v_mlook = true;
+
                     players[consoleplayer].mo->flags |= MF_FLOAT;
                     players[consoleplayer].mo->flags |= MF_NOCLIP;
                     players[consoleplayer].mo->flags &= ~MF_GRAVITY;
@@ -258,6 +262,9 @@ dboolean D_DevKeyResponder(event_t* ev) {
                     players[consoleplayer].cheats &= ~CF_SPECTATOR;
                     players[consoleplayer].message = "Spectator Mode Off";
 
+                    v_mlook = freelook;
+                    freelook = false;
+
                     players[consoleplayer].mo->flags &= ~MF_FLOAT;
                     players[consoleplayer].mo->flags &= ~MF_NOCLIP;
                     players[consoleplayer].mo->flags |= MF_GRAVITY;
@@ -265,8 +272,8 @@ dboolean D_DevKeyResponder(event_t* ev) {
                 return true;
 
             case KEY_F3:    // freeze all mobj thinkers
-                sv_lockmonsters = !*sv_lockmonsters;
-                players[consoleplayer].message = *sv_lockmonsters ? "Lock Monsters On" : "Lock Monsters Off";
+                sv_lockmonsters = !sv_lockmonsters;
+                players[consoleplayer].message = sv_lockmonsters ? "Lock Monsters On" : "Lock Monsters Off";
                 return true;
 
             case KEY_F4:    // kill everything

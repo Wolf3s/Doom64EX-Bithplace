@@ -76,6 +76,8 @@ void M_SaveDefaults(void);
 //
 // DEFAULTS
 //
+extern int        DualMouse;
+
 extern int      viewwidth;
 extern int      viewheight;
 

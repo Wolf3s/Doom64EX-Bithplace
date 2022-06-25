@@ -38,6 +38,7 @@
 #include "i_system.h"
 #include "z_zone.h"
 #include "m_random.h"
+#include "w_wad.h"
 #include "p_macros.h"
 #include "m_fixed.h"
 #include "tables.h"
@@ -78,12 +79,12 @@ int         numanimdef;
 animdef_t*  animdefs;
 
 static scdatatable_t animdatatable[] = {
-    { "RESTARTDELAY", offsetof(animdef_t, delay), 'i' },
-    { "FRAMES", offsetof(animdef_t, frames), 'i' },
-    { "CYCLEPALETTES", offsetof(animdef_t, palette), 'b' },
-    { "REWIND", offsetof(animdef_t, reverse), 'b' },
-    { "SPEED", offsetof(animdef_t, speed), 'i' },
-    { nullptr, 0, 0 }
+    {   "RESTARTDELAY", (int64)&((animdef_t*)0)->delay,   'i' },
+    {   "FRAMES", (int64)&((animdef_t*)0)->frames,  'i' },
+    {   "CYCLEPALETTES", (int64)&((animdef_t*)0)->palette, 'b' },
+    {   "REWIND", (int64)&((animdef_t*)0)->reverse, 'b' },
+    {   "SPEED", (int64)&((animdef_t*)0)->speed,   'i' },
+    {   NULL,               0,                              0   }
 };
 
 //
@@ -176,7 +177,7 @@ void P_InitPicAnims(void) {
         animinfo[i].delay = 0;
         animinfo[i].tic = 0;
         animinfo[i].isreverse = false;
-        animinfo[i].texnum = wad::find(animdefs[i].name)->section_index();
+        animinfo[i].texnum = W_GetNumForName(animdefs[i].name) - t_start;
         animinfo[i].frame = -1;
 
         // reallocate texture pointers if they contain multiple palettes
@@ -1932,17 +1933,17 @@ void P_UpdateSpecials(void) {
                 switch(buttonlist[i].where) {
                 case top:
                     sides[buttonlist[i].line->sidenum[0]].toptexture =
-                        swx_start + ((buttonlist[i].btexture - swx_start) ^ 1);
+                        buttonlist[i].btexture ^ 1;
                     break;
 
                 case middle:
                     sides[buttonlist[i].line->sidenum[0]].midtexture =
-                        swx_start + ((buttonlist[i].btexture - swx_start) ^ 1);
+                        buttonlist[i].btexture ^ 1;
                     break;
 
                 case bottom:
                     sides[buttonlist[i].line->sidenum[0]].bottomtexture =
-                        swx_start + ((buttonlist[i].btexture - swx_start) ^ 1);
+                        buttonlist[i].btexture ^ 1;
                     break;
                 }
 

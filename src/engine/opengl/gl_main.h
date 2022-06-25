@@ -23,11 +23,6 @@
 #ifndef __GL_MAIN_H__
 #define __GL_MAIN_H__
 
-// Define APIENTRY on Windows so that glad doesn't include windows.h
-#if _WIN32
-#define APIENTRY __stdcall
-#endif
-
 #include "glad.h"
 
 typedef GLuint        dtexture;
@@ -84,7 +79,6 @@ extern int DGL_CLAMP;
 
 extern dboolean usingGL;
 
-void GL_CalcViewSize();
 dboolean GL_CheckExtension(const char *ext);
 void* GL_RegisterProc(const char *address);
 void GL_Init(void);

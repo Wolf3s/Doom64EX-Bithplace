@@ -52,7 +52,7 @@ namespace {
       Header header;
       stream.read(reinterpret_cast<char*>(&header), sizeof header);
 
-	  auto columns = std::make_unique<int[]>(header.width);
+      int columns[header.width];
       for (int i = 0; i < header.width; i++)
           stream.read(reinterpret_cast<char*>(&columns[i]), sizeof(int));
 
@@ -62,11 +62,12 @@ namespace {
       for (int x = 0; x < header.width; x++)
       {
           uint8 rowStart = 0;
+          int _j = 0;
           stream.seekg(fstart + columns[x], std::ios::beg);
 
           while (rowStart != 0xff)
           {
-              uint8 pixelCount {};
+              uint8 pixelCount;
               char dummy;
 
               stream.read(reinterpret_cast<char*>(&rowStart), 1);

@@ -471,7 +471,7 @@ static void NET_SV_ParseSYN(net_packet_t *packet,
         return;
     }
 
-    if (strcmp(client_version, "Doom64EX") != 0)
+    if (strcmp(client_version, "Doom64EXPlus") != 0)
     {
         //!
         // @category net
@@ -486,7 +486,7 @@ static void NET_SV_ParseSYN(net_packet_t *packet,
         {
             NET_SV_SendReject(addr,
                               "Version mismatch: server version is: "
-                              "Doom64EX");
+                              "Doom64EXPlus");
             return;
         }
     }
@@ -1063,7 +1063,7 @@ void NET_SV_SendQueryResponse(net_addr_t *addr)
 
     // Version
 
-    querydata.version = "Doom64EX";
+    querydata.version = "Doom64EXPlus";
 
     // Server state
 

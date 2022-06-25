@@ -51,18 +51,6 @@ namespace imp {
           mInit(true),
           mValue(std::forward<Args>(args)...) {}
 
-      template <class U>
-      constexpr Optional(U&& other):
-          mInit(true),
-          mValue(std::forward<U>(other)) {}
-
-      ~Optional()
-      {
-          if (mInit) {
-              mValue.~T();
-          }
-      }
-
       constexpr Optional& operator=(const Optional& other)
       {
           if (!other.mInit) {
@@ -70,7 +58,7 @@ namespace imp {
           } else if (mInit) {
               mValue = *other;
           } else {
-              ::new (static_cast<void*>(&mValue)) T(other.mValue);
+              mValue.T(*other);
               mInit = true;
           }
           return *this;
@@ -82,9 +70,11 @@ namespace imp {
               *this = nullopt;
           } else if (mInit) {
               mValue = std::move(*other);
+              other.mInit = false;
           } else {
-              ::new (static_cast<void*>(&mValue)) T(std::move(other.mValue));
+              mValue.T(std::move(*other));
               mInit = true;
+              other.mInit = false;
           }
           return *this;
       }
@@ -104,10 +94,9 @@ namespace imp {
           if (mInit) {
               mValue = std::forward<U>(other);
           } else {
-              ::new (static_cast<void*>(&mValue)) T(std::forward<U>(other));
+              mValue.T(std::forward<U>(other));
               mInit = true;
           }
-          return *this;
       }
 
       template <class U>
@@ -118,7 +107,7 @@ namespace imp {
           } else if (mInit) {
               mValue = other.mValue;
           } else {
-              ::new (static_cast<void*>(&mValue)) T(other.mValue);
+              mValue.T(other.mValue);
               mInit = true;
           }
       }
@@ -132,7 +121,7 @@ namespace imp {
               mValue = std::move(other.mValue);
               other.mInit = false;
           } else {
-			  ::new (static_cast<void*>(&mValue)) T(std::move(other.mValue));
+              mValue.T(std::move(other.mValue));
               other.mInit = false;
               mInit = true;
           }
@@ -164,28 +153,28 @@ namespace imp {
 
       constexpr T& value() &
       {
-          if (!mInit)
+          if (mInit)
               throw bad_optional_access {};
           return mValue;
       }
 
       constexpr const T& value() const&
       {
-          if (!mInit)
+          if (mInit)
               throw bad_optional_access {};
           return mValue;
       }
 
       constexpr T&& value() &&
       {
-          if (!mInit)
+          if (mInit)
               throw bad_optional_access {};
           return std::move(mValue);
       }
 
       constexpr const T&& value() const&&
       {
-          if (!mInit)
+          if (mInit)
               throw bad_optional_access {};
           return std::move(mValue);
       }

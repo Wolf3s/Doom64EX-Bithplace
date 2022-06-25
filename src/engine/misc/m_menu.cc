@@ -48,6 +48,7 @@
 #include "d_main.h"
 #include "i_system.h"
 #include "z_zone.h"
+#include "w_wad.h"
 #include "st_stuff.h"
 #include "g_actions.h"
 #include "g_game.h"
@@ -66,8 +67,7 @@
 #include "p_setup.h"
 #include "gl_texture.h"
 #include "gl_draw.h"
-#include <imp/Wad>
-#include <imp/Video>
+
 //
 // definitions
 //
@@ -122,7 +122,9 @@ static dboolean MenuBindActive = false;
 static dboolean showfullitemvalue[3] = { false, false, false};
 static int      levelwarp = 0;
 static dboolean wireframeon = false;
+static dboolean lockmonstersmon = false;
 static int      thermowait = 0;
+static int      m_aspectRatio = 0;
 static int      m_ScreenSize = 1;
 
 //------------------------------------------------------------------------
@@ -206,6 +208,7 @@ void M_QuickSave(void);
 void M_QuickLoad(void);
 
 static int M_StringWidth(const char *string);
+static int M_StringHeight(const char *string);
 static int M_BigStringWidth(const char *string);
 
 static void M_DrawThermo(int x, int y, int thermWidth, float thermDot);
@@ -264,7 +267,7 @@ enum {
     loadgame,
     quitdoom,
     main_end
-};
+} main_e;
 
 menuitem_t MainMenu[]= {
     {1,"New Game",M_NewGame,'n'},
@@ -311,7 +314,7 @@ enum {
     pause_savegame,
     pause_quitdoom,
     pause_end
-};
+} pause_e;
 
 menuitem_t PauseMenu[]= {
     {1,"Options",M_Options,'o'},
@@ -354,7 +357,7 @@ enum {
     quityes = 0,
     quitno,
     quitend
-};
+} quitprompt_e;
 
 menuitem_t QuitGameMenu[]= {
     {1,"Yes",M_QuitGame,'y'},
@@ -404,7 +407,7 @@ enum {
     quit2yes = 0,
     quit2no,
     quit2end
-};
+} quit2prompt_e;
 
 menuitem_t QuitGameMenu2[]= {
     {1,"Yes",M_QuitGame2,'y'},
@@ -453,7 +456,7 @@ enum {
     PMainYes = 0,
     PMainNo,
     PMain_end
-};
+} prompt_e;
 
 menuitem_t PromptMain[]= {
     {1,"Yes",M_EndGame,'y'},
@@ -510,7 +513,7 @@ enum {
     RMainYes = 0,
     RMainNo,
     RMain_end
-};
+} rlprompt_e;
 
 menuitem_t RestartConfirmMain[]= {
     {1,"Yes",M_RestartLevel,'y'},
@@ -562,7 +565,7 @@ void M_NewGameNotifyResponse(int choice);
 enum {
     SNN_Ok = 0,
     SNN_End
-};
+} startnewnotify_e;
 
 menuitem_t StartNewNotify[]= {
     {1,"Ok",M_NewGameNotifyResponse,'o'}
@@ -610,7 +613,7 @@ enum {
     violence,
     nightmare,
     newg_end
-};
+} newgame_e;
 
 menuitem_t NewGameMenu[]= {
     {1,"Be Gentle!",M_ChooseSkill, 'b'},
@@ -683,7 +686,7 @@ enum {
     options_region,
     options_return,
     opt_end
-};
+} options_e;
 
 menuitem_t OptionsMenu[]= {
     {1,"Controls",M_Controls, 'c'},
@@ -760,7 +763,7 @@ enum {
     region_default,
     region_return,
     region_end
-};
+} region_e;
 
 menuitem_t RegionMenu[]= {
     {2,"Region Mode:", M_RegionChoice, 'r'},
@@ -919,6 +922,7 @@ void M_PlayerSetName(int choice);
 void M_DrawNetwork(void);
 
 extern StringProperty m_playername;
+extern BoolProperty p_allowjump;
 extern BoolProperty p_autoaim;
 extern BoolProperty sv_nomonsters;
 extern BoolProperty sv_fastmonsters;
@@ -935,6 +939,7 @@ enum {
     network_allowcheats,
     network_friendlyfire,
     network_keepitems,
+    network_allowjump,
     network_allowautoaim,
     network_header3,
     network_nomonsters,
@@ -944,7 +949,7 @@ enum {
     network_default,
     network_return,
     network_end
-};
+} network_e;
 
 menuitem_t NetworkMenu[]= {
     {-1,"Player Setup",0 },
@@ -953,6 +958,7 @@ menuitem_t NetworkMenu[]= {
     {2,"Allow Cheats:", M_NetworkChoice, 'c'},
     {2,"Friendly Fire:", M_NetworkChoice, 'f'},
     {2,"Keep Items:", M_NetworkChoice, 'k'},
+    {2,"Allow Jumping:", M_NetworkChoice, 'j'},
     {2,"Allow Auto Aiming:", M_NetworkChoice, 'a'},
     {-1,"Gameplay Rules",0 },
     {2,"No Monsters:", M_NetworkChoice, 'n'},
@@ -967,6 +973,7 @@ menudefault_t NetworkDefault[] = {
     { &sv_allowcheats, 0 },
     { &sv_friendlyfire, 0 },
     { &sv_keepitems, 0 },
+    { &p_allowjump, 0 },
     { &p_autoaim, 1 },
     { &sv_nomonsters, 0 },
     { &sv_fastmonsters, 0 },
@@ -982,12 +989,14 @@ const char* NetworkHints[network_end]= {
     "allow clients and host to use cheats",
     "allow players to damage other players",
     "players keep items when respawned from death",
+    "allow players to jump",
     "enable or disable auto aiming for all players",
     NULL,
     "no monsters will appear",
     "increased speed for monsters and projectiles",
     "monsters will respawn after death",
     "items will respawn after pickup",
+    NULL,
     NULL
 };
 
@@ -1031,6 +1040,9 @@ void M_NetworkChoice(int choice) {
     case network_keepitems:
         M_SetOptionValue(choice, sv_keepitems);
         break;
+    case network_allowjump:
+        M_SetOptionValue(choice, p_allowjump);
+        break;
     case network_allowautoaim:
         M_SetOptionValue(choice, p_autoaim);
         break;
@@ -1065,6 +1077,12 @@ void M_DrawNetwork(void) {
         "10 Minutes"
     };
 
+    static const char* networkscalestrings[3] = {
+        "x 1",
+        "x 2",
+        "x 3"
+    };
+
 #define DRAWNETWORKITEM(a, b, c) \
     if(currentMenu->menupageoffset <= a && \
         a - currentMenu->menupageoffset < currentMenu->numpageitems) \
@@ -1078,6 +1096,7 @@ void M_DrawNetwork(void) {
     DRAWNETWORKITEM(network_allowcheats, *sv_allowcheats, msgNames);
     DRAWNETWORKITEM(network_friendlyfire, *sv_friendlyfire, msgNames);
     DRAWNETWORKITEM(network_keepitems, *sv_keepitems, msgNames);
+    DRAWNETWORKITEM(network_allowjump, *p_allowjump, msgNames);
     DRAWNETWORKITEM(network_allowautoaim, *p_autoaim, msgNames);
     DRAWNETWORKITEM(network_nomonsters, *sv_nomonsters, msgNames);
     DRAWNETWORKITEM(network_fastmonsters, *sv_fastmonsters, msgNames);
@@ -1136,6 +1155,7 @@ enum {
     misc_empty2,
     misc_header2,
     misc_aim,
+    misc_jump,
     misc_context,
     misc_header3,
     misc_wipe,
@@ -1158,7 +1178,7 @@ enum {
     misc_default,
     misc_return,
     misc_end
-};
+} misc_e;
 
 menuitem_t MiscMenu[]= {
     {-1,"Menu Options",0 },
@@ -1169,6 +1189,7 @@ menuitem_t MiscMenu[]= {
     {-1,"",0 },
     {-1,"Gameplay",0 },
     {2,"Auto Aim:",M_MiscChoice, 'a'},
+    {2,"Jumping:",M_MiscChoice, 'j'},
     {2,"Use Context:",M_MiscChoice, 'u'},
     {-1,"Rendering",0 },
     {2,"Screen Melt:",M_MiscChoice, 's' },
@@ -1201,6 +1222,7 @@ const char* MiscHints[misc_end]= {
     NULL,
     NULL,
     "toggle classic style auto-aiming",
+    "toggle the ability to jump",
     "if enabled interactive objects will highlight when near",
     NULL,
     "enable the melt effect when completing a level",
@@ -1220,6 +1242,7 @@ const char* MiscHints[misc_end]= {
     "limit max amount of lost souls spawned by pain elemental to 17",
     "emulate infinite height bug for all solid actors",
     "be able to grab high items by bumping into the sector it sits on",
+    NULL,
     NULL
 };
 
@@ -1228,6 +1251,7 @@ menudefault_t MiscDefault[] = {
     { &m_menumouse, 1 },
     { &m_cursorscale, 8 },
     { &p_autoaim, 1 },
+    { &p_allowjump, 0 },
     { &p_usecontext, 0 },
     { &r_wipe, 1 },
     { &r_texnonpowresize, 0 },
@@ -1321,6 +1345,10 @@ void M_MiscChoice(int choice) {
 
     case misc_aim:
         M_SetOptionValue(choice, p_autoaim);
+        break;
+
+    case misc_jump:
+        M_SetOptionValue(choice, p_allowjump);
         break;
 
     case misc_context:
@@ -1420,6 +1448,7 @@ void M_DrawMisc(void) {
 
     DRAWMISCITEM(misc_menumouse, *m_menumouse, msgNames);
     DRAWMISCITEM(misc_aim, *p_autoaim, msgNames);
+    DRAWMISCITEM(misc_jump, *p_allowjump, msgNames);
     DRAWMISCITEM(misc_context, *p_usecontext, mapdisplaytype);
     DRAWMISCITEM(misc_wipe, *r_wipe, msgNames);
     DRAWMISCITEM(misc_texresize, *r_texnonpowresize, texresizetype);
@@ -1453,9 +1482,18 @@ void M_DrawMisc(void) {
 //------------------------------------------------------------------------
 
 void M_ChangeSensitivity(int choice);
+void M_ChangeMouseAccel(int choice);
+void M_ChangeMouseLook(int choice);
+void M_ChangeMouseInvert(int choice);
+void M_ChangeYAxisMove(int choice);
 void M_DrawMouse(void);
 
 extern FloatProperty v_msensitivityx;
+extern FloatProperty v_msensitivityy;
+extern BoolProperty v_mlook;
+extern BoolProperty v_mlookinvert;
+extern BoolProperty v_yaxismove;
+extern FloatProperty v_macceleration;
 
 enum {
     mouse_sensx,
@@ -1466,31 +1504,40 @@ enum {
     mouse_empty3,
     mouse_look,
     mouse_invert,
+    mouse_yaxismove,
     mouse_default,
     mouse_return,
     mouse_end
-};
+} mouse_e;
 
 menuitem_t MouseMenu[]= {
     {3,"Mouse Sensitivity X",M_ChangeSensitivity, 'x'},
     {-1,"",0},
+    {3,"Mouse Sensitivity Y",M_ChangeSensitivity, 'y'},
     {-1,"",0},
-    {-1,"",0},
-    {-1,"",0},
-    {-1,"",0},
-    {-1,"",0},
-    {-1,"",0},
+    {3, "Mouse Acceleration",M_ChangeMouseAccel, 'a'},
+    {-1, "",0},
+    {2,"Mouse Look:",M_ChangeMouseLook,'l'},
+    {2,"Invert Look:",M_ChangeMouseInvert, 'i'},
+    {2,"Y-Axis Move:",M_ChangeYAxisMove, 'y'},
     {-2,"Default",M_DoDefaults,'d'},
     {1,"/r Return",M_Return, 0x20}
 };
 
 menudefault_t MouseDefault[] = {
     { &v_msensitivityx, 5 },
+    { &v_msensitivityy, 5 },
+    { &v_macceleration, 0 },
+    { &v_mlook, 0 },
+    { &v_mlookinvert, 0 },
+    { &v_yaxismove, 0 },
     { NULL, -1 }
 };
 
 menuthermobar_t MouseBars[] = {
     { mouse_empty1, 32, &v_msensitivityx },
+    { mouse_empty2, 32, &v_msensitivityy },
+    { mouse_empty3, 20, &v_macceleration },
     { -1, 0 }
 };
 
@@ -1514,6 +1561,16 @@ menu_t MouseDef = {
 
 void M_DrawMouse(void) {
     M_DrawThermo(MouseDef.x,MouseDef.y+LINEHEIGHT*(mouse_sensx+1),MAXSENSITIVITY, *v_msensitivityx);
+    M_DrawThermo(MouseDef.x,MouseDef.y+LINEHEIGHT*(mouse_sensy+1),MAXSENSITIVITY, *v_msensitivityy);
+
+    M_DrawThermo(MouseDef.x,MouseDef.y+LINEHEIGHT*(mouse_accel+1),20, *v_macceleration);
+
+    Draw_BigText(MouseDef.x + 144, MouseDef.y+LINEHEIGHT*mouse_look, MENUCOLORRED,
+                 msgNames[*v_mlook]);
+    Draw_BigText(MouseDef.x + 144, MouseDef.y+LINEHEIGHT*mouse_invert, MENUCOLORRED,
+                 msgNames[*v_mlookinvert]);
+    Draw_BigText(MouseDef.x + 144, MouseDef.y+LINEHEIGHT*mouse_yaxismove, MENUCOLORRED,
+                 msgNames[*v_yaxismove]);
 }
 
 void M_ChangeSensitivity(int choice) {
@@ -1529,6 +1586,14 @@ void M_ChangeSensitivity(int choice) {
                 v_msensitivityx = 0.0f;
             }
             break;
+        case mouse_sensy:
+            if(v_msensitivityy > 0.0f) {
+                M_SetCvar(v_msensitivityy, v_msensitivityy - slope);
+            }
+            else {
+                v_msensitivityy = 0.0f;
+            }
+            break;
         }
         break;
     case 1:
@@ -1541,9 +1606,52 @@ void M_ChangeSensitivity(int choice) {
                 v_msensitivityx = (float)MAXSENSITIVITY;
             }
             break;
+        case mouse_sensy:
+            if(v_msensitivityy < (float)MAXSENSITIVITY) {
+                M_SetCvar(v_msensitivityy, v_msensitivityy + slope);
+            }
+            else {
+                v_msensitivityy = (float)MAXSENSITIVITY;
+            }
+            break;
         }
         break;
     }
+}
+
+void M_ChangeMouseAccel(int choice) {
+    float slope = 20.0f / 100.0f;
+    switch(choice) {
+    case 0:
+        if(v_macceleration > 0.0f) {
+            M_SetCvar(v_macceleration, v_macceleration - slope);
+        }
+        else {
+            v_macceleration = 0;
+        }
+        break;
+    case 1:
+        if(v_macceleration < 20.0f) {
+            M_SetCvar(v_macceleration, v_macceleration + slope);
+        }
+        else {
+            v_macceleration = 20.0f;
+        }
+        break;
+    }
+    I_MouseAccelChange();
+}
+
+void M_ChangeMouseLook(int choice) {
+    M_SetOptionValue(choice, v_mlook);
+}
+
+void M_ChangeMouseInvert(int choice) {
+    M_SetOptionValue(choice, v_mlookinvert);
+}
+
+void M_ChangeYAxisMove(int choice) {
+    M_SetOptionValue(choice, v_yaxismove);
 }
 
 //------------------------------------------------------------------------
@@ -1588,7 +1696,7 @@ enum {
     e_default,
     display_return,
     display_end
-};
+} display_e;
 
 menuitem_t DisplayMenu[]= {
     {3,"Brightness",M_ChangeBrightness, 'b'},
@@ -1797,7 +1905,7 @@ void M_DrawVideo(void);
 
 extern IntProperty v_width;
 extern IntProperty v_height;
-extern IntProperty v_windowed;
+extern BoolProperty v_windowed;
 extern BoolProperty v_vsync;
 extern IntProperty v_depthsize;
 extern IntProperty v_buffersize;
@@ -1815,11 +1923,12 @@ enum {
     vsync,
     depth,
     buffer,
+    ratio,
     resolution,
     v_default,
     video_return,
     video_end
-};
+} video_e;
 
 menuitem_t VideoMenu[]= {
     {3,"Gamma Correction",M_ChangeGammaLevel, 'g'},
@@ -1830,6 +1939,7 @@ menuitem_t VideoMenu[]= {
     {2,"Vsync:",M_ChangeVSync, 'v'},
     {2,"Depth Size:",M_ChangeDepthSize, 'd'},
     {2,"Buffer Size:",M_ChangeBufferSize, 'b'},
+    {2,"Aspect Ratio:",M_ChangeRatio, 'a'},
     {2,"Resolution:",M_ChangeResolution, 'r'},
     {-2,"Default",M_DoDefaults, 'e'},
     {1,"/r Return",M_Return, 0x20}
@@ -1870,6 +1980,52 @@ menu_t VideoDef = {
     VideoBars
 };
 
+#define MAX_RES4_3  9
+static const int Resolution4_3[MAX_RES4_3][2] = {
+    {   320,    240     },
+    {   640,    480     },
+    {   768,    576     },
+    {   800,    600     },
+    {   1024,   768     },
+    {   1152,   864     },
+    {   1280,   960     },
+    {   1400,   1050    },
+    {   1600,   1200    }
+};
+
+#define MAX_RES16_9  12
+static const int Resolution16_9[MAX_RES16_9][2] = {
+    {   640,    360     },
+    {   854,    480     },
+    {   1024,   576     },
+    {   1024,   600     },
+    {   1280,   720     },
+    {   1366,   768     },
+    {   1600,   900     },
+    {   1920,   1080    },
+    {   2048,   1152    },
+    {   2560,   1440    },
+    {   2880,   1620    },
+    {   3840,   2160    }
+};
+
+#define MAX_RES16_10  7
+static const int Resolution16_10[MAX_RES16_10][2] = {
+    {   320,    200     },
+    {   1024,   640     },
+    {   1280,   800     },
+    {   1440,   900     },
+    {   1680,   1050    },
+    {   1920,   1200    },
+    {   2560,   1600    }
+};
+
+static const float ratioVal[3] = {
+    4.0f / 3.0f,
+    16.0f / 9.0f,
+    16.0f / 10.0f
+};
+
 static char gammamsg[21][28] = {
     GAMMALVL0,
     GAMMALVL1,
@@ -1895,16 +2051,56 @@ static char gammamsg[21][28] = {
 };
 
 void M_Video(int choice) {
+    float checkratio;
     int i;
 
     M_SetupNextMenu(&VideoDef);
 
-    m_ScreenSize = -1;
+    checkratio = static_cast<float>(v_width) / static_cast<float>(v_height);
+
+    if(dfcmp(checkratio, ratioVal[2])) {
+        m_aspectRatio = 2;
+    }
+    else if(dfcmp(checkratio, ratioVal[1])) {
+        m_aspectRatio = 1;
+    }
+    else {
+        m_aspectRatio = 0;
+    }
+
+    switch(m_aspectRatio) {
+    case 0:
+        for(i = 0; i < MAX_RES4_3; i++) {
+            if(v_width == Resolution4_3[i][0]) {
+                m_ScreenSize = i;
+                return;
+            }
+        }
+        break;
+    case 1:
+        for(i = 0; i < MAX_RES16_9; i++) {
+            if(v_width == Resolution16_9[i][0]) {
+                m_ScreenSize = i;
+                return;
+            }
+        }
+        break;
+    case 2:
+        for(i = 0; i < MAX_RES16_10; i++) {
+            if(v_width == Resolution16_10[i][0]) {
+                m_ScreenSize = i;
+                return;
+            }
+        }
+        break;
+    }
+
+    m_ScreenSize = 1;
 }
 
 void M_DrawVideo(void) {
     static const char* filterType[2] = { "Linear", "Nearest" };
-    static const char* windowType[3] = { "Off", "On", "Noborder" };
+    static const char* ratioName[3] = { "4 : 3", "16 : 9", "16 : 10" };
     static char bitValue[8];
     char res[16];
     int y;
@@ -1927,14 +2123,10 @@ void M_DrawVideo(void) {
 
     DRAWVIDEOITEM2(filter, *r_filter, filterType);
     DRAWVIDEOITEM2(anisotropic, *r_anisotropic, msgNames);
-    DRAWVIDEOITEM2(windowed, *v_windowed, windowType);
+    DRAWVIDEOITEM2(windowed, *v_windowed, msgNames);
+    DRAWVIDEOITEM2(ratio, m_aspectRatio, ratioName);
 
-    if (m_ScreenSize < 0) {
-        sprintf(res, "%ix%i", (int) v_width, (int) v_height);
-    } else {
-        auto mode = Video->modes()[m_ScreenSize];
-        sprintf(res, "%ix%i", mode.width, mode.height);
-    }
+    sprintf(res, "%ix%i", (int)v_width, (int)v_height);
     DRAWVIDEOITEM(resolution, res);
 
     DRAWVIDEOITEM2(vsync, *v_vsync, msgNames);
@@ -1942,13 +2134,13 @@ void M_DrawVideo(void) {
     if(currentMenu->menupageoffset <= depth &&
             depth - currentMenu->menupageoffset < currentMenu->numpageitems) {
         if(v_depthsize == 8) {
-            dsnprintf(bitValue, 2, "8");
+            dsnprintf(bitValue, 1, "8");
         }
         else if(v_depthsize == 16) {
-            dsnprintf(bitValue, 3, "16");
+            dsnprintf(bitValue, 2, "16");
         }
         else if(v_depthsize == 24) {
-            dsnprintf(bitValue, 3, "24");
+            dsnprintf(bitValue, 2, "24");
         }
         else {
             dsnprintf(bitValue, 8, "Invalid");
@@ -1961,16 +2153,16 @@ void M_DrawVideo(void) {
     if(currentMenu->menupageoffset <= buffer &&
             buffer - currentMenu->menupageoffset < currentMenu->numpageitems) {
         if(v_buffersize == 8) {
-            dsnprintf(bitValue, 2, "8");
+            dsnprintf(bitValue, 1, "8");
         }
         else if(v_buffersize == 16) {
-            dsnprintf(bitValue, 3, "16");
+            dsnprintf(bitValue, 2, "16");
         }
         else if(v_buffersize == 24) {
-            dsnprintf(bitValue, 3, "24");
+            dsnprintf(bitValue, 2, "24");
         }
         else if(v_buffersize == 32) {
-            dsnprintf(bitValue, 3, "32");
+            dsnprintf(bitValue, 2, "32");
         }
         else {
             dsnprintf(bitValue, 8, "Invalid");
@@ -1984,35 +2176,9 @@ void M_DrawVideo(void) {
 #undef DRAWVIDEOITEM2
 
     Draw_Text(145, 308, MENUCOLORWHITE, VideoDef.scale, false,
-              "Changes will take effect\n when exiting this menu.");
+              "Changes will take effect\nafter restarting the game..");
 
     GL_SetOrthoScale(VideoDef.scale);
-}
-
-void M_VideoSetMode()
-{
-    VideoMode mode {};
-    mode.width = *v_width;
-    mode.height = *v_height;
-    mode.vsync = *v_vsync;
-    mode.buffer_size = *v_buffersize;
-    mode.depth_size = *v_depthsize;
-
-    switch (*v_windowed) {
-    case 0:
-        mode.fullscreen = Fullscreen::exclusive;
-        break;
-
-    case 2:
-        mode.fullscreen = Fullscreen::noborder;
-        break;
-
-    default:
-        mode.fullscreen = Fullscreen::none;
-        break;
-    }
-
-    Video->set_mode(mode);
 }
 
 void M_ChangeGammaLevel(int choice) {
@@ -2056,20 +2222,80 @@ void M_ChangeAnisotropic(int choice) {
 }
 
 void M_ChangeWindowed(int choice) {
-    M_SetOptionValue(choice, 0, 2, 1, v_windowed);
+    M_SetOptionValue(choice, v_windowed);
 }
 
 static void M_SetResolution(void) {
-    if (m_ScreenSize < 0)
-        return;
+    int width = SCREENWIDTH;
+    int height = SCREENHEIGHT;
 
-    auto mode = Video->modes()[m_ScreenSize];
-    M_SetCvar(v_width, mode.width);
-    M_SetCvar(v_height, mode.height);
+    switch(m_aspectRatio) {
+    case 0:
+        width = Resolution4_3[m_ScreenSize][0];
+        height = Resolution4_3[m_ScreenSize][1];
+        break;
+    case 1:
+        width = Resolution16_9[m_ScreenSize][0];
+        height = Resolution16_9[m_ScreenSize][1];
+        break;
+    case 2:
+        width = Resolution16_10[m_ScreenSize][0];
+        height = Resolution16_10[m_ScreenSize][1];
+        break;
+    }
+
+    M_SetCvar(v_width, width);
+    M_SetCvar(v_height, height);
+}
+
+void M_ChangeRatio(int choice) {
+    int max = 0;
+
+    if(choice) {
+        if(++m_aspectRatio > 2) {
+            if(choice == 2) {
+                m_aspectRatio = 0;
+            }
+            else {
+                m_aspectRatio = 2;
+            }
+        }
+    }
+    else {
+        m_aspectRatio = MAX(m_aspectRatio--, 0);
+    }
+
+    switch(m_aspectRatio) {
+    case 0:
+        max = MAX_RES4_3;
+        break;
+    case 1:
+        max = MAX_RES16_9;
+        break;
+    case 2:
+        max = MAX_RES16_10;
+        break;
+    }
+
+    m_ScreenSize = MIN(m_ScreenSize, max - 1);
+
+    M_SetResolution();
 }
 
 void M_ChangeResolution(int choice) {
-    int max = Video->modes().size();
+    int max = 0;
+
+    switch(m_aspectRatio) {
+    case 0:
+        max = MAX_RES4_3;
+        break;
+    case 1:
+        max = MAX_RES16_9;
+        break;
+    case 2:
+        max = MAX_RES16_10;
+        break;
+    }
 
     if(choice) {
         if(++m_ScreenSize > max - 1) {
@@ -2082,7 +2308,7 @@ void M_ChangeResolution(int choice) {
         }
     }
     else {
-        m_ScreenSize = MAX(m_ScreenSize - 1, 0);
+        m_ScreenSize = MAX(m_ScreenSize--, 0);
     }
 
     M_SetResolution();
@@ -2268,7 +2494,7 @@ enum {
     sound_default,
     sound_return,
     sound_end
-};
+} sound_e;
 
 menuitem_t SoundMenu[]= {
     {3,"Sound Volume",M_SfxVol,'s'},
@@ -2411,7 +2637,7 @@ enum {
     features_noclip,
     features_wireframe,
     features_end
-};
+} features_e;
 
 #define FEATURESWARPLEVEL    "Warp To Level:"
 #define FEATURESWARPFUN        "Warp To Fun:"
@@ -2626,6 +2852,8 @@ menuitem_t XGamePadMenu[]= {
     {-1,"",0},
     {3,"Turn Threshold",M_XGamePadChoice,'t'},
     {-1,"",0},
+    {2,"Y Axis Look:",M_ChangeMouseLook,'l'},
+    {2,"Invert Look:",M_ChangeMouseInvert, 'i'},
     {-2,"Default",M_DoDefaults,'d'},
     {1,"/r Return",M_Return, 0x20}
 };
@@ -2633,6 +2861,8 @@ menuitem_t XGamePadMenu[]= {
 menudefault_t XGamePadDefault[] = {
     { &i_rsticksensitivity, 0.0080f },
     { &i_rstickthreshold, 20 },
+    { &v_mlook, 0 },
+    { &v_mlookinvert, 0 },
     { NULL, -1 }
 };
 
@@ -2705,6 +2935,12 @@ void M_DrawXGamePad(void) {
 
     M_DrawThermo(XGamePadDef.x, XGamePadDef.y + LINEHEIGHT*(xgp_threshold+1),
                  50, i_rstickthreshold.value * 0.5f);
+
+    Draw_BigText(XGamePadDef.x + 128, XGamePadDef.y + LINEHEIGHT * xgp_look, MENUCOLORRED,
+                 msgNames[(int)v_mlook.value]);
+
+    Draw_BigText(XGamePadDef.x + 128, XGamePadDef.y + LINEHEIGHT * xgp_invert, MENUCOLORRED,
+                 msgNames[(int)v_mlookinvert.value]);
 }
 
 #endif  // XINPUT
@@ -2740,6 +2976,7 @@ static menuaction_t mPlayerActionsDef[NUM_CONTROL_ITEMS] = {
     {"Fire", "+fire"},
     {"Use", "+use"},
     {"Run", "+run"},
+    {"Jump", "+jump"},
     {"Autorun", "autorun"},
     {"Look Up", "+lookup"},
     {"Look Down", "+lookdown"},
@@ -2873,7 +3110,7 @@ enum {
 #endif
     controls_return,
     controls_end
-};
+} controls_e;
 
 menuitem_t ControlsMenu[]= {
     {1,"Bindings",M_ControlChoice, 'k'},
@@ -2947,7 +3184,7 @@ void M_DrawQuickSaveConfirm(void);
 enum {
     QS_Ok = 0,
     QS_End
-};
+} qsconfirm_e;
 
 menuitem_t QuickSaveConfirm[]= {
     {1,"Ok",M_ReturnToOptions,'o'}
@@ -2987,7 +3224,7 @@ void M_DrawNetLoadNotify(void);
 enum {
     NLN_Ok = 0,
     NLN_End
-};
+} netloadnotify_e;
 
 menuitem_t NetLoadNotify[]= {
     {1,"Ok",M_ReturnToOptions,'o'}
@@ -3027,7 +3264,7 @@ void M_DrawSaveDeadNotify(void);
 enum {
     SDN_Ok = 0,
     SDN_End
-};
+} savedeadnotify_e;
 
 menuitem_t SaveDeadNotify[]= {
     {1,"Ok",M_ReturnToOptions,'o'}
@@ -3076,7 +3313,7 @@ enum {
     load7,
     load8,
     load_end
-};
+} load_e;
 
 menuitem_t SaveMenu[]= {
     {1,"", M_SaveSelect,'1'},
@@ -3314,7 +3551,7 @@ enum {
     QSP_Yes = 0,
     QSP_No,
     QSP_End
-};
+} quicksaveprompt_e;
 
 menuitem_t QuickSavePrompt[]= {
     {1,"Yes",M_QuickSaveResponse,'y'},
@@ -3355,7 +3592,7 @@ enum {
     QLP_Yes = 0,
     QLP_No,
     QLP_End
-};
+} quickloadprompt_e;
 
 menuitem_t QuickLoadPrompt[]= {
     {1,"Yes",M_QuickLoadResponse,'y'},
@@ -3488,9 +3725,6 @@ void M_ReturnToOptions(int choice) {
 //
 
 static void M_Return(int choice) {
-    if (currentMenu == &VideoDef)
-        M_VideoSetMode();
-
     currentMenu->lastOn = itemOn;
     if(currentMenu->prevMenu) {
         menufadefunc = M_MenuFadeOut;
@@ -3504,9 +3738,6 @@ static void M_Return(int choice) {
 //
 
 static void M_ReturnInstant(void) {
-    if (currentMenu == &VideoDef)
-        M_VideoSetMode();
-
     if(currentMenu->prevMenu) {
         currentMenu = currentMenu->prevMenu;
         itemOn = currentMenu->lastOn;
@@ -3569,6 +3800,29 @@ static int M_StringWidth(const char* string) {
     }
 
     return w;
+}
+
+
+
+//
+// M_StringHeight
+// Find string height from hu_font chars
+//
+
+static int M_StringHeight(const char* string) {
+    int i;
+    int h;
+    int height = ST_FONTWHSIZE;
+
+    h = height;
+
+    for(i = 0; i < dstrlen(string); i++) {
+        if(string[i] == '\n') {
+            h += height;
+        }
+    }
+
+    return h;
 }
 
 //
@@ -3685,6 +3939,7 @@ static void M_CheckDragThermoBar(event_t* ev, menu_t* menu) {
     float width;
     float scalex;
     float scaley;
+    float value;
     float lineheight;
 
     // must be a mouse held event and menu must have thermobar settings
@@ -3731,7 +3986,7 @@ static void M_CheckDragThermoBar(event_t* ev, menu_t* menu) {
 
                 // convert mouse x coordinate into thermo bar position
                 // set cvar as well
-//                value = (mx / scalex) - x;
+                value = (mx / scalex) - x;
 //                CON_CvarSetValue(bar[i].mitem->name,
 //                                 value * (bar[i].width / 100.0f));
 
@@ -5252,17 +5507,18 @@ void M_Init(void) {
 
     // setup region menu
 
-    if(wad::have_lump("BLUDA0")) {
+    if(W_CheckNumForName("BLUDA0") != -1) {
         m_regionblood = 0;
         RegionMenu[region_blood].status = 1;
     }
 
-    if(!wad::have_lump("JPMSG01")) {
+    if(W_CheckNumForName("JPMSG01") == -1) {
         st_regionmsg = false;
         RegionMenu[region_lang].status = 1;
     }
 
-    if(!wad::have_lump("PLLEGAL") && !wad::have_lump("JPLEGAL")) {
+    if(W_CheckNumForName("PLLEGAL") == -1 &&
+            W_CheckNumForName("JPLEGAL") == -1) {
         p_regionmode = 0;
         RegionMenu[region_mode].status = 1;
     }

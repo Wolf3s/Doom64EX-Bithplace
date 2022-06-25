@@ -24,6 +24,13 @@
 #ifndef __DOOMDEF__
 #define __DOOMDEF__
 
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <wtypes.h>//only for GUID type
+
+#endif // _WIN32
+
 #include <stdio.h>
 
 #include "doomtype.h"
@@ -32,6 +39,12 @@
 
 // build version
 extern const char version_date[];
+
+#ifdef _MSC_VER
+#pragma warning(disable:4761)   // integral size mismatch in argument; conversion supplied
+#pragma warning(error:4701)        // local variable *may* be used without init
+#pragma warning(error:4189)        // initialized but unused variable
+#endif
 
 void        _dprintf(const char *s, ...);
 void        *dmemcpy(void *s1, const void *s2, size_t n);
@@ -248,11 +261,12 @@ enum {
     GF_FASTMONSTERS     = (1 << 1),
     GF_RESPAWNMONSTERS  = (1 << 2),
     GF_RESPAWNPICKUPS   = (1 << 3),
-    GF_ALLOWAUTOAIM     = (1 << 4),
-    GF_LOCKMONSTERS     = (1 << 5),
-    GF_ALLOWCHEATS      = (1 << 6),
-    GF_FRIENDLYFIRE     = (1 << 7),
-    GF_KEEPITEMS        = (1 << 8),
+    GF_ALLOWJUMP        = (1 << 4),
+    GF_ALLOWAUTOAIM     = (1 << 5),
+    GF_LOCKMONSTERS     = (1 << 6),
+    GF_ALLOWCHEATS      = (1 << 7),
+    GF_FRIENDLYFIRE     = (1 << 8),
+    GF_KEEPITEMS        = (1 << 9),
 };
 
 // 20120209 villsa - compatibility flags
@@ -309,7 +323,6 @@ extern dboolean windowpause;
 #define KEY_RALT                (0x80+0x38)
 
 #define KEY_CAPS                0xba
-#define KEY_GRAVE               0xbb // Console button
 
 #define KEY_INSERT              0xd2
 #define KEY_HOME                0xc7

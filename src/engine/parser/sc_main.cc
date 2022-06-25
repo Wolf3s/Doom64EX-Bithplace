@@ -34,10 +34,10 @@
 #include "doomdef.h"
 #include "doomtype.h"
 #include "z_zone.h"
+#include "w_wad.h"
 #include "m_misc.h"
 #include "sc_main.h"
 #include "con_console.h"
-#include <imp/Wad>
 
 scparser_t sc_parser;
 
@@ -46,10 +46,13 @@ scparser_t sc_parser;
 //
 
 static void SC_Open(const char* name) {
+    int lump;
+
     CON_DPrintf("--------SC_Open: Reading %s--------\n", name);
 
-    auto lump = wad::find(name);
-    if (!lump) {
+    lump = W_CheckNumForName(name);
+
+    if(lump <= -1) {
         sc_parser.buffsize   = M_ReadFile(name, &sc_parser.buffer);
 
         if(sc_parser.buffsize == -1) {
@@ -57,11 +60,8 @@ static void SC_Open(const char* name) {
         }
     }
     else {
-        auto bytes = lump->as_bytes();
-        auto memory = new char[bytes.size()];
-        std::copy(bytes.begin(), bytes.end(), memory);
-        sc_parser.buffer = reinterpret_cast<byte*>(memory);
-        sc_parser.buffsize = bytes.size();
+        sc_parser.buffer     = (byte*) W_CacheLumpNum(lump, PU_STATIC);
+        sc_parser.buffsize   = W_LumpLength(lump);
     }
 
     CON_DPrintf("%s size: %ikb\n", name, sc_parser.buffsize >> 10);
@@ -78,6 +78,8 @@ static void SC_Open(const char* name) {
 //
 
 static void SC_Close(void) {
+    Z_Free(sc_parser.buffer);
+
     sc_parser.buffer         = NULL;
     sc_parser.buffsize       = 0;
     sc_parser.pointer_start  = NULL;
@@ -141,7 +143,7 @@ static int SC_SetData(void *_data, void *_table) {
 
     for(i = 0; table[i].token; i++) {
         if(!dstricmp(table[i].token, sc_parser.token)) {
-            byte* pointer = (data + table[i].ptroffset);
+            byte* pointer = ((byte*)data + table[i].ptroffset);
             char* name;
             byte rgb[3];
 
@@ -161,7 +163,7 @@ static int SC_SetData(void *_data, void *_table) {
                 *(int*)pointer = sc_parser.getint();
                 break;
             case 'b':
-                *(bool*)pointer = true;
+                *(int*)pointer = true;
                 break;
             case 'c':
                 sc_parser.compare("="); // expect a '='

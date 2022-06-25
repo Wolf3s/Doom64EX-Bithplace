@@ -3,16 +3,11 @@
 #include <imp/Property>
 
 namespace {
-  struct PropertyLess {
-      bool operator()(StringView a, StringView b) const
-      { return a.icompare(b) < 0; }
-  };
-
   auto& _global()
   {
       static struct {
           // TODO: Write a radix tree for this
-          std::map<StringView, Property*, PropertyLess> properties;
+          std::map<StringView, Property*> properties;
           std::vector<Property*> new_properties;
       } global {};
       return global;
@@ -26,7 +21,7 @@ Property::Property(StringView name, StringView description, int flags):
 {
     if (_global().properties.count(name)) {
         // TODO: Replace with an exception
-        println("Property with the name {} already exists!", name);
+        fatal("Property with the name {} already exists!", name);
     }
 
     _global().properties.emplace(name, this);
@@ -38,11 +33,15 @@ Property::~Property()
     _global().properties.erase(mName);
 }
 
+/* Gibbon - this is an funny one,
+   why print out annoying messages?
+   just stub it and move on.
+*/
 void Property::update()
 {
-    if (is_network()) {
-        STUB("Update networked property");
-    }
+//    if (is_network()) {
+//        STUB("Update networked property");
+//    }
 }
 
 std::vector<Property *> Property::all()

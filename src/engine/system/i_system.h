@@ -92,5 +92,6 @@ dboolean I_FileExists(const char *path);
 void I_RegisterCvars(void);
 
 extern FILE    *DebugFile;
+extern dboolean    DigiJoy;
 
 #endif

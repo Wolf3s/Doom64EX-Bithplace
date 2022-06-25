@@ -50,6 +50,9 @@
 #include "g_local.h"
 #include "p_saveg.h"
 
+int        myargc;
+char**    myargv;
+
 //
 // M_CheckParm
 // Checks for the given parameter
@@ -286,6 +289,7 @@ void M_ScreenShot(void) {
     char    name[13];
     int     shotnum=0;
     byte    *buff;
+    int     size;
     std::ofstream file;
 
     while(shotnum < 1000) {
@@ -302,6 +306,7 @@ void M_ScreenShot(void) {
     }
 
     buff = GL_GetScreenBuffer(0, 0, video_width, video_height);
+    size = 0;
 
     // Get PNG image
 

@@ -28,6 +28,7 @@
 #include "r_lights.h"
 #include "i_system.h"
 #include "tables.h"
+#include "w_wad.h"
 #include "doomstat.h"
 #include "z_zone.h"
 #include "r_things.h"
@@ -38,7 +39,6 @@
 #include "r_clipper.h"
 #include "m_misc.h"
 #include "con_console.h"
-#include <imp/Wad>
 
 #include <stdlib.h>
 
@@ -88,7 +88,7 @@ void R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation, dboolean f
 
         sprtemp[frame].rotate = 0;
         for(r = 0; r < 8; r++) {
-            sprtemp[frame].lump[r] = lump;
+            sprtemp[frame].lump[r] = lump - s_start;
             sprtemp[frame].flip[r] = (byte)flipped;
         }
         return;
@@ -107,7 +107,7 @@ void R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation, dboolean f
         I_Error("R_InitSprites: Sprite %s : %c : %c has two lumps mapped to it",
                 spritename, 'A'+frame, '1'+rotation);
 
-    sprtemp[frame].lump[rotation] = lump;
+    sprtemp[frame].lump[rotation] = lump - s_start;
     sprtemp[frame].flip[rotation] = (byte)flipped;
 }
 
@@ -131,9 +131,12 @@ void R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation, dboolean f
 void R_InitSprites(const char** namelist) {
     const char**  check;
     int     i;
+    int     l;
     int     intname;
     int     frame;
     int     rotation;
+    int     start;
+    int     end;
     int     patched;
 
     // count the number of sprite names
@@ -150,6 +153,9 @@ void R_InitSprites(const char** namelist) {
 
     spriteinfo = (spritedef_t*) Z_Malloc(numsprites * sizeof(*spriteinfo), PU_STATIC, NULL);
 
+    start = s_start - 1;
+    end = s_end + 1;
+
     // scan all the lump names for each of the names,
     //  noting the highest frame letter.
     // Just compare 4 characters as ints
@@ -164,22 +170,19 @@ void R_InitSprites(const char** namelist) {
         // scan the lumps,
         //  filling in the frames for whatever is found
 
-        auto section = wad::section(wad::Section::sprites);
-        for(; section; ++section) {
-            auto& l = *section;
-            auto name = l.lump_name();
-            if(*(const int *)name.data() == intname) {
-                frame = name[4] - 'A';
-                rotation = name[5] - '0';
+        for(l = start + 1; l < end; l++) {
+            if(*(int *)lumpinfo[l].name == intname) {
+                frame = lumpinfo[l].name[4] - 'A';
+                rotation = lumpinfo[l].name[5] - '0';
 
-                patched = l.section_index();
+                patched = l;
 
                 R_InstallSpriteLump(patched, frame, rotation, false);
 
-                if(name[6]) {
-                    frame = name[6] - 'A';
-                    rotation = name[7] - '0';
-                    R_InstallSpriteLump(patched, frame, rotation, true);
+                if(lumpinfo[l].name[6]) {
+                    frame = lumpinfo[l].name[6] - 'A';
+                    rotation = lumpinfo[l].name[7] - '0';
+                    R_InstallSpriteLump(l, frame, rotation, true);
                 }
             }
         }
@@ -224,7 +227,7 @@ void R_InitSprites(const char** namelist) {
     // [kex] set regional blood if needed
     //
 
-    if(!wad::have_lump("BLUDA0")) {
+    if(W_CheckNumForName("BLUDA0") <= -1) {
         int lump = (int)m_regionblood;
 
         if(lump > 1) {
@@ -296,7 +299,7 @@ static void R_AddVisSprite(visspritelist_t* vissprite) {
     }
 
     if(thing->flags & MF_RENDERLASER) {
-        spritenum = wad::find("BOLTA0")->section_index();
+        spritenum = W_GetNumForName("BOLTA0") - s_start;
     }
     else {
         sprdef = &spriteinfo[thing->sprite];
@@ -484,7 +487,7 @@ static dboolean R_GenerateLaserPlane(void *data, vtx_t* vertex) {
 
     laser = (laser_t*)thing->extradata;
 
-    spritenum = wad::find("BOLTA0")->section_index();
+    spritenum = W_GetNumForName("BOLTA0") - s_start;
 
     dglSetVertexColor(vertex, D_RGBA(255, 0, 0, thing->alpha), 4);
 

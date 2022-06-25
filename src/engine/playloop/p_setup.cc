@@ -35,6 +35,7 @@
 #include "m_fixed.h"
 #include "g_game.h"
 #include "i_system.h"
+#include "w_wad.h"
 #include "p_local.h"
 #include "s_sound.h"
 #include "doomstat.h"
@@ -50,11 +51,8 @@
 #include "m_random.h"
 #include "z_zone.h"
 #include "sc_main.h"
-#include <map>
-#include <imp/Wad>
-#include "Map.hh"
 
-mobj_t* P_SpawnMapThing(mapthing_t *mthing);
+void P_SpawnMapThing(mapthing_t *mthing);
 
 //
 // MAP related Lookup tables.
@@ -149,12 +147,18 @@ mapthing_t          playerstarts[MAXPLAYERS];
 // P_InitTextureHashTable
 //
 
-static std::map<wad::LumpHash, int> texturehashlist;
+static word*        texturehashlist[2];
 
 static void P_InitTextureHashTable(void) {
-    auto section = wad::section(wad::Section::textures);
-    for(int i = 0; section; ++section, ++i) {
-        texturehashlist.emplace(wad::LumpHash { section->lump_name() }, i);
+    int i;
+    int t = W_GetNumForName("T_START") + 1;
+
+    texturehashlist[0]  = (word*) Z_Alloca(numtextures * sizeof(word));
+    texturehashlist[1]  = (word*) Z_Alloca(numtextures * sizeof(word));
+
+    for(i = 0; i < numtextures; i++) {
+        texturehashlist[0][i] = W_HashLumpName(lumpinfo[t + i].name) % 65536;
+        texturehashlist[1][i] = i;
     }
 }
 
@@ -163,9 +167,17 @@ static void P_InitTextureHashTable(void) {
 //
 
 static word P_GetTextureHashKey(int hash) {
-    auto it = texturehashlist.find(hash);
-    return it != texturehashlist.end() ? it->second : 0;
+    int i;
+
+    for(i = 0; i < numtextures; i++) {
+        if(texturehashlist[0][i] == hash) {
+            return texturehashlist[1][i];
+        }
+    }
+
+    return 0;
 }
+
 
 //
 // P_LoadVertexes
@@ -310,7 +322,7 @@ void P_LoadSectors(int lump) {
         ss->frame_z2[1] = ss->ceilingheight;
 
         for(j = 0; j < numskydef; j++) {
-            if(ss->ceilingpic == wad::find(skydefs[j].flat)->section_index()) {
+            if(ss->ceilingpic == (W_GetNumForName(skydefs[j].flat) - t_start)) {
                 skyflatnum = j;
                 break;
             }
@@ -966,14 +978,14 @@ void P_SetupSky(void) {
 
     skyindex    = skyflatnum;
     sky         = &skydefs[skyindex];
-    skyflatnum  = wad::find(sky->flat)->section_index();
+    skyflatnum  = (W_GetNumForName(sky->flat) - t_start);
 
     if(sky->pic[0]) {
-        skypicnum = wad::find(sky->pic)->lump_index();
+        skypicnum = W_GetNumForName(sky->pic);
     }
 
     if(sky->backdrop[0]) {
-        skybackdropnum = wad::find(sky->backdrop)->lump_index();
+        skybackdropnum = W_GetNumForName(sky->backdrop);
     }
 
     if(sky->flags & SKF_FIRE) {
@@ -1104,28 +1116,25 @@ void P_SetupLevel(int map, int playermask, skill_t skill) {
 //
 
 static scdatatable_t mapdatatable[] = {
-    { "CLASSTYPE", offsetof(mapdef_t, type), 'i' },
-    { "LEVELNUM", offsetof(mapdef_t, mapid), 'i' },
-    { "CLUSTER", offsetof(mapdef_t, cluster), 'i' },
-    { "EXITDELAY", offsetof(mapdef_t, exitdelay), 'i' },
-    { "NOINTERMISSION", offsetof(mapdef_t, nointermission), 'b' },
-    { "CLEARCHEATS", offsetof(mapdef_t, clearchts), 'b' },
-    { "CONTINUEMUSICONEXIT", offsetof(mapdef_t, contmusexit), 'b' },
-    { "FORCEGODMODE", offsetof(mapdef_t, forcegodmode), 'b' },
-    { nullptr, 0, 0 }
+    {   "CLASSTYPE", (int64)&((mapdef_t*)0)->type,                 'i' },
+    {   "LEVELNUM", (int64)&((mapdef_t*)0)->mapid,                'i' },
+    {   "CLUSTER", (int64)&((mapdef_t*)0)->cluster,              'i' },
+    {   "EXITDELAY", (int64)&((mapdef_t*)0)->exitdelay,            'i' },
+    {   "NOINTERMISSION", (int64)&((mapdef_t*)0)->nointermission,       'b' },
+    {   "CLEARCHEATS", (int64)&((mapdef_t*)0)->clearchts,            'b' },
+    {   "CONTINUEMUSICONEXIT", (int64)&((mapdef_t*)0)->contmusexit,          'b' },
+    {   "FORCEGODMODE", (int64)&((mapdef_t*)0)->forcegodmode,         'b' },
+    {   NULL,                   0,                                          0   }
 };
 
 static scdatatable_t clusterdatatable[] = {
-    { "PIC", offsetof(clusterdef_t, pic), 'S' },
-    { "NOINTERMISSION", offsetof(clusterdef_t, nointermission), 'b' },
-    { "SCROLLTEXTEND", offsetof(clusterdef_t, scrolltextend), 'b' },
-    { "PIC_X", offsetof(clusterdef_t, pic_x), 'i' },
-    { "PIC_Y", offsetof(clusterdef_t, pic_y), 'i' },
-    { nullptr, 0, 0 }
+    {   "PIC", (int64)&((clusterdef_t*)0)->pic,              'S' },
+    {   "NOINTERMISSION", (int64)&((clusterdef_t*)0)->nointermission,   'b' },
+    {   "SCROLLTEXTEND", (int64)&((clusterdef_t*)0)->scrolltextend,    'b' },
+    {   "PIC_X", (int64)&((clusterdef_t*)0)->pic_x,            'i' },
+    {   "PIC_Y", (int64)&((clusterdef_t*)0)->pic_y,            'i' },
+    {   NULL,                   0,                                          0   }
 };
-
-// from audio.cc
-size_t Seq_SoundLookup(StringView name);
 
 static void P_InitMapInfo(void) {
     mapdef_t mapdef;
@@ -1180,18 +1189,24 @@ static void P_InitMapInfo(void) {
                     //
                     if(!dstricmp(sc_parser.token, "MUSIC")) {
                         char* text;
+                        int ds_start;
+                        int ds_end;
+                        int lump;
 
                         ok = true;
 
                         text = sc_parser.getstring();
+                        ds_start = W_GetNumForName("DS_START") + 1;
+                        ds_end = W_GetNumForName("DS_END") - 1;
 
-                        auto lump = wad::find(text);
-                        if(!lump || lump->section() != wad::Section::sounds) {
+                        lump = W_GetNumForName(text);
+
+                        if(lump > ds_end && lump < ds_start) {
                             CON_Warnf("P_InitMapInfo: Invalid music name: %s\n", text);
                             mapdef.music = -1;
                         }
                         else {
-                            mapdef.music = Seq_SoundLookup(lump->lump_name());
+                            mapdef.music = (lump - ds_start);
                         }
                     }
                     else if(!dstricmp(sc_parser.token, "COMPAT_COLLISION")) {
@@ -1200,6 +1215,26 @@ static void P_InitMapInfo(void) {
                         }
                         else if(datoi(sc_parser.getstring()) == 0) {
                             mapdef.oldcollision = 2;
+                        }
+
+                        ok = true;
+                    }
+                    else if(!dstricmp(sc_parser.token, "ALLOWJUMP")) {
+                        if(datoi(sc_parser.getstring()) == 1) {
+                            mapdef.allowjump = 1;
+                        }
+                        else if(datoi(sc_parser.getstring()) == 0) {
+                            mapdef.allowjump = 2;
+                        }
+
+                        ok = true;
+                    }
+                    else if(!dstricmp(sc_parser.token, "ALLOWFREELOOK")) {
+                        if(datoi(sc_parser.getstring()) == 1) {
+                            mapdef.allowfreelook = 1;
+                        }
+                        else if(datoi(sc_parser.getstring()) == 0) {
+                            mapdef.allowfreelook = 2;
                         }
 
                         ok = true;
@@ -1244,14 +1279,22 @@ static void P_InitMapInfo(void) {
                     // get music track ID
                     //
                     if(!dstricmp(sc_parser.token, "MUSIC")) {
-                        text = sc_parser.getstring();
+                        int ds_start;
+                        int ds_end;
+                        int lump;
 
-                        auto lump = wad::find(text);
-                        if(!lump || lump->section() != wad::Section::sounds) {
+                        text = sc_parser.getstring();
+                        ds_start = W_GetNumForName("DS_START") + 1;
+                        ds_end = W_GetNumForName("DS_END") - 1;
+
+                        lump = W_GetNumForName(text);
+
+                        if(lump > ds_end && lump < ds_start) {
                             CON_Warnf("P_InitMapInfo: Invalid music name: %s\n", text);
                             cluster.music = -1;
-                        } else {
-                            cluster.music = Seq_SoundLookup(lump->lump_name());
+                        }
+                        else {
+                            cluster.music = (lump - ds_start);
                         }
                     }
                     //
@@ -1331,13 +1374,13 @@ clusterdef_t* P_GetCluster(int map) {
 //
 
 static scdatatable_t skydatatable[] = {
-    {   "PIC", (ptrdiff_t)&((skydef_t*)0)->pic,          'S' },
-    {   "BACKPIC", (ptrdiff_t)&((skydef_t*)0)->backdrop,     'S' },
-    {   "FOGFACTOR", (ptrdiff_t)&((skydef_t*)0)->fognear,      'i' },
-    {   "FOGCOLOR", (ptrdiff_t)&((skydef_t*)0)->fogcolor,     'c' },
-    {   "BASECOLOR", (ptrdiff_t)&((skydef_t*)0)->skycolor[2],  'c' },
-    {   "HIGHCOLOR", (ptrdiff_t)&((skydef_t*)0)->skycolor[0],  'c' },
-    {   "LOWCOLOR", (ptrdiff_t)&((skydef_t*)0)->skycolor[1],  'c' },
+    {   "PIC", (int64)&((skydef_t*)0)->pic,          'S' },
+    {   "BACKPIC", (int64)&((skydef_t*)0)->backdrop,     'S' },
+    {   "FOGFACTOR", (int64)&((skydef_t*)0)->fognear,      'i' },
+    {   "FOGCOLOR", (int64)&((skydef_t*)0)->fogcolor,     'c' },
+    {   "BASECOLOR", (int64)&((skydef_t*)0)->skycolor[2],  'c' },
+    {   "HIGHCOLOR", (int64)&((skydef_t*)0)->skycolor[0],  'c' },
+    {   "LOWCOLOR", (int64)&((skydef_t*)0)->skycolor[1],  'c' },
     {   NULL,           0,                                  0   }
 };
 

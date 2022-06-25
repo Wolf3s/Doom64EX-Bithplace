@@ -41,7 +41,7 @@
 #include "net_structrw.h"
 
 #include "st_stuff.h"
-#include <imp/Wad>
+#include "w_wad.h"
 
 extern BoolProperty sv_nomonsters;
 extern BoolProperty sv_fastmonsters;
@@ -1142,7 +1142,7 @@ static void NET_CL_SendSYN(void)
     packet = NET_NewPacket(10);
     NET_WriteInt16(packet, NET_PACKET_TYPE_SYN);
     NET_WriteInt32(packet, NET_MAGIC_NUMBER);
-    NET_WriteString(packet, "Doom64EX");
+    NET_WriteString(packet, "Doom64EXPlus");
     NET_WriteInt8(packet, drone);
     NET_WriteMD5Sum(packet, net_local_wad_md5sum);
     NET_WriteString(packet, net_player_name);
@@ -1182,7 +1182,7 @@ dboolean NET_CL_Connect(net_addr_t *addr)
 
     // Read checksums of our WAD directory and dehacked information
 
-    // W_Checksum(net_local_wad_md5sum);
+    W_Checksum(net_local_wad_md5sum);
 
     // create a new network I/O context and add just the
     // necessary module
@@ -1316,15 +1316,12 @@ void NET_CL_Init(void)
     // Try to set from the USER and USERNAME environment variables
     // Otherwise, fallback to "Player"
 
-    if (net_player_name.empty()) {
-        if (getenv("USER")) {
-            net_player_name = getenv("USER");
-        } else if (getenv("USERNAME")) {
-            net_player_name = getenv("USERNAME");
-        } else {
-            net_player_name = "Player";
-        }
-    }
+    if (net_player_name.empty())
+        net_player_name = getenv("USER");
+    if (net_player_name.empty())
+        net_player_name = getenv("USERNAME");
+    if (net_player_name.empty())
+        net_player_name = "Player";
 }
 
 void NET_Init(void)

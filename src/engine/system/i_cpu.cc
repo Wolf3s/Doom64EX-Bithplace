@@ -37,10 +37,11 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-// #include "doomtype.h"
+#include "doomtype.h"
+#include "con_cvar.h"
 
 // cannot include DOOM headers here; required externs:
-extern void     I_Printf(const char* string, ...);
+extern void     I_Printf(char* string, ...);
 extern int      M_CheckParm(const char *);
 extern int      datoi(const char *str);
 extern int      myargc;

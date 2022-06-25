@@ -29,7 +29,15 @@
 
 
 #include <stdlib.h>
-#include <algorithm>
+#include <stdio.h>
+
+#ifndef _WIN32
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <imp/Property>
+
+#endif
 
 #include "SDL.h"
 #include "fluidsynth.h"
@@ -38,11 +46,10 @@
 #include "doomdef.h"
 #include "i_system.h"
 #include "i_audio.h"
+#include "w_wad.h"
 #include "z_zone.h"
 #include "i_swap.h"
 #include "con_console.h"    // for cvars
-#include <imp/Wad>
-#include <imp/App>
 
 #include "SDL.h"
 
@@ -1005,50 +1012,36 @@ static dboolean Song_RegisterTracks(song_t* song) {
 // Allocate data for all midi songs
 //
 
-// Doom64EX expects audio to be loaded in this order since the sound indices are hardcoded in info.cc
-static const std::array<StringView, 117> audio_lumps_ {{
-    "NOSOUND", "SNDPUNCH", "SNDSPAWN", "SNDEXPLD", "SNDIMPCT", "SNDPSTOL", "SNDSHTGN", "SNDPLSMA", "SNDBFG",
-    "SNDSAWUP", "SNDSWIDL", "SNDSAW1", "SNDSAW2", "SNDMISLE", "SNDBFGXP", "SNDPSTRT", "SNDPSTOP", "SNDDORUP",
-    "SNDDORDN", "SNDSCMOV", "SNDSWCH1", "SNDSWCH2", "SNDITEM", "SNDSGCK", "SNDOOF1", "SNDTELPT", "SNDOOF2",
-    "SNDSHT2F", "SNDLOAD1", "SNDLOAD2", "SNDPPAIN", "SNDPLDIE", "SNDSLOP", "SNDZSIT1", "SNDZSIT2", "SNDZSIT3",
-    "SNDZDIE1", "SNDZDIE2", "SNDZDIE3", "SNDZACT", "SNDPAIN1", "SNDPAIN2", "SNDDBACT", "SNDSCRCH", "SNDISIT1",
-    "SNDISIT2", "SNDIDIE1", "SNDIDIE2", "SNDIACT", "SNDSGSIT", "SNDSGATK", "SNDSGDIE", "SNDB1SIT", "SNDB1DIE",
-    "SNDHDSIT", "SNDHDDIE", "SNDSKATK", "SNDB2SIT", "SNDB2DIE", "SNDPESIT", "SNDPEPN", "SNDPEDIE", "SNDBSSIT",
-    "SNDBSDIE", "SNDBSLFT", "SNDBSSMP", "SNDFTATK", "SNDFTSIT", "SNDFTHIT", "SNDFTDIE", "SNDBDMSL", "SNDRVACT",
-    "SNDTRACR", "SNDDART", "SNDRVHIT", "SNDCYSIT", "SNDCYDTH", "SNDCYHOF", "SNDMETAL", "SNDDOR2U", "SNDDOR2D",
-    "SNDPWRUP", "SNDLASER", "SNDBUZZ", "SNDTHNDR", "SNDLNING", "SNDQUAKE", "SNDDRTHT", "SNDRCACT", "SNDRCATK",
-    "SNDRCDIE", "SNDRCPN", "SNDRCSIT", "MUSAMB01", "MUSAMB02", "MUSAMB03", "MUSAMB04", "MUSAMB05", "MUSAMB06",
-    "MUSAMB07", "MUSAMB08", "MUSAMB09", "MUSAMB10", "MUSAMB11", "MUSAMB12", "MUSAMB13", "MUSAMB14", "MUSAMB15",
-    "MUSAMB16", "MUSAMB17", "MUSAMB18", "MUSAMB19", "MUSAMB20", "MUSFINAL", "MUSDONE", "MUSINTRO", "MUSTITLE" }};
+static dboolean Seq_RegisterSongs(doomseq_t* seq) {
+    int i;
+    int start;
+    int end;
+    int fail;
 
-size_t Seq_SoundLookup(StringView name) {
-    return std::distance(audio_lumps_.begin(), std::find(audio_lumps_.begin(), audio_lumps_.end(), name));
-}
+    seq->nsongs = 0;
+    i = 0;
 
-static bool Seq_RegisterSongs(doomseq_t* seq) {
-    seq->nsongs = audio_lumps_.size();
+    start = W_GetNumForName("DS_START") + 1;
+    end = W_GetNumForName("DS_END") - 1;
+
+    seq->nsongs = (end - start) + 1;
+
+    //
+    // no midi songs found in iwad?
+    //
+    if(seq->nsongs <= 0) {
+        return false;
+    }
 
     seq->songs = (song_t*)Z_Calloc(seq->nsongs * sizeof(song_t), PU_STATIC, 0);
 
-    size_t fail {};
-    size_t i {};
-    for(auto name : audio_lumps_) {
-        auto opt = wad::find(name);
-
-        if (!opt || opt->section() != wad::Section::sounds) {
-            fail++;
-            continue;
-        }
-
-        auto& lump = *opt;
+    fail = 0;
+    for(i = 0; i < seq->nsongs; i++) {
         song_t* song;
 
-        auto bytes = lump.as_bytes();
-        auto memory = new char[bytes.size()];
-        std::copy(bytes.begin(), bytes.end(), memory);
-        song = &seq->songs[i++];
-        song->data = (byte*) memory;
-        song->length = bytes.size();
+        song = &seq->songs[i];
+        song->data = (byte*) W_CacheLumpNum(start + i, PU_STATIC);
+        song->length = W_LumpLength(start + i);
 
         if(!song->length) {
             continue;
@@ -1169,7 +1162,7 @@ static int SDLCALL Thread_PlayerHandler(void *param) {
 
 void I_InitSequencer(void) {
     dboolean sffound;
-    Optional<String> sfpath;
+    char *sfpath;
 
     CON_DPrintf("--------Initializing Software Synthesizer--------\n");
 
@@ -1228,7 +1221,7 @@ void I_InitSequencer(void) {
 
     sffound = false;
     if (!s_soundfont->empty()) {
-        if (app::file_exists(*s_soundfont)) {
+        if (I_FileExists(s_soundfont->c_str())) {
             I_Printf("Found SoundFont %s\n", s_soundfont->c_str());
             doomseq.sfont_id = fluid_synth_sfload(doomseq.synth, s_soundfont->c_str(), 1);
 
@@ -1236,16 +1229,17 @@ void I_InitSequencer(void) {
 
             sffound = true;
         } else {
-            CON_Warnf("CVar s_soundfont doesn't point to a file.");
+            CON_Warnf("CVar s_soundfont doesn't point to a file.\n");
         }
     }
 
-    if (!sffound && (sfpath = app::find_data_file("doomsnd.sf2"))) {
-        I_Printf("Found SoundFont %s\n", sfpath->c_str());
-        doomseq.sfont_id = fluid_synth_sfload(doomseq.synth, sfpath->c_str(), 1);
+    if (!sffound && (sfpath = I_FindDataFile("doomsnd.sf2"))) {
+        I_Printf("Found SoundFont %s\n", sfpath);
+        doomseq.sfont_id = fluid_synth_sfload(doomseq.synth, sfpath, 1);
 
-        CON_DPrintf("Loading %s\n", sfpath->c_str());
+        CON_DPrintf("Loading %s\n", sfpath);
 
+        free(sfpath);
         sffound = true;
     }
 

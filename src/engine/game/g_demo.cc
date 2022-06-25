@@ -34,9 +34,8 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "con_console.h"
-#include <imp/Wad>
 
-#ifdef _MSC_VER
+#ifdef _MSVC_VER
 #include "i_opndir.h"
 #else
 #include <unistd.h>
@@ -242,13 +241,13 @@ void G_PlayDemo(const char* name) {
         demo_p = demobuffer;
     }
     else {
-        if (!wad::have_lump(name)) {
+        if(W_CheckNumForName(name) == -1) {
             gameaction = ga_exitdemo;
             return;
         }
 
         CON_DPrintf("--------Playing demo %s--------\n", name);
-        demobuffer = demo_p = (byte*) wad::find(name)->bytes_ptr();
+        demobuffer = demo_p = (byte*) W_CacheLumpName(name, PU_STATIC);
     }
     
     if(strncmp((char*)demo_p, "DM64", 4)) {

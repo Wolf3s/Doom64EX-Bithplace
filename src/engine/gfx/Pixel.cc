@@ -31,11 +31,11 @@ namespace {
   {
       using Traits = pixel_traits<T>;
       return PixelInfo {
-          Traits::format,
-          Traits::color,
-          Traits::bytes,
-          Traits::alpha,
-          Traits::pal_size
+          .format = Traits::format,
+          .color = Traits::color,
+          .bytes = Traits::bytes,
+          .alpha = Traits::alpha,
+          .pal_size = Traits::pal_size
       };
   }
 
@@ -49,12 +49,14 @@ namespace {
   class CopyTransform : public DefaultPixelTransform<void> {
       const Palette *mSrcPal;
       const byte *mSrc;
+      const Palette *mDstPal;
       byte *mDst;
 
   public:
-      CopyTransform(const Palette *srcPal, const byte *src, const Palette *, byte *dst):
+      CopyTransform(const Palette *srcPal, const byte *src, const Palette *dstPal, byte *dst):
           mSrcPal(srcPal),
           mSrc(src),
+          mDstPal(dstPal),
           mDst(dst) {}
 
 

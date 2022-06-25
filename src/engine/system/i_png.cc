@@ -27,6 +27,7 @@
 
 #include <algorithm>
 #include <math.h>
+#include <w_wad.h>
 
 #include "doomdef.h"
 #include "i_swap.h"
@@ -36,13 +37,26 @@
 #include <imp/Image>
 #include <sstream>
 #include <imp/Property>
-#include <imp/Wad>
 
 FloatProperty i_gamma("i_gamma", "", 0.0f, 0,
                       [](const FloatProperty&, float, float&)
                       {
                           GL_DumpTextures();
                       });
+
+//
+// I_PNGRowSize
+//
+
+// FIXME: What is this for?
+static inline size_t I_PNGRowSize(int width, byte bits) {
+    if(bits >= 8) {
+        return ((width * bits) >> 3);
+    }
+    else {
+        return (((width * bits) + 7) >> 3);
+    }
+}
 
 //
 // I_GetRGBGamma
@@ -58,38 +72,52 @@ d_inline static byte I_GetRGBGamma(int c) {
 //
 
 static void I_TranslatePalette(gfx::Palette &dest) {
+    int i = 0;
+
     if (i_gamma == 0)
         return;
 
     auto color_count = dest.count();
     auto color_size = dest.traits().bytes;
 
-    for(size_t i = 0; i < color_count; i += color_size) {
-        dest.data_ptr()[i + 0] = I_GetRGBGamma(dest.data_ptr()[i + 0]);
-        dest.data_ptr()[i + 1] = I_GetRGBGamma(dest.data_ptr()[i + 1]);
-        dest.data_ptr()[i + 2] = I_GetRGBGamma(dest.data_ptr()[i + 2]);
+    for(i = 0; i < color_count; i += color_size) {
+        dest.data_ptr()[i * color_size + 0] = I_GetRGBGamma(dest.data_ptr()[i * color_size + 0]);
+        dest.data_ptr()[i * color_size + 1] = I_GetRGBGamma(dest.data_ptr()[i * color_size + 1]);
+        dest.data_ptr()[i * color_size + 2] = I_GetRGBGamma(dest.data_ptr()[i * color_size + 2]);
     }
 }
 
 gfx::Image I_ReadImage(int lump, dboolean palette, dboolean nopack, double alpha, int palindex)
 {
-    // get lump data
-    auto l = wad::find(lump);
+    char *lcache;
+    int lsize;
+    int i;
 
-    auto image = l->as_image();
+    // get lump data
+    lcache = reinterpret_cast<char*>(W_CacheLumpNum(lump, PU_STATIC));
+    lsize = W_LumpLength(lump);
+
+    std::istringstream ss(std::string(lcache, lsize));
+    gfx::Image image {ss}; //= Image_New_FromMemory(lcache, lsize);
 
     if (palindex && image.is_indexed())
     {
+        int pal_bytes;
+        size_t pal_count;
+        const byte *oldpal;
+
         auto pal = image.palette();
+        oldpal = pal->data_ptr();
+        pal_bytes = pal->traits().alpha ? 4 : 3;
+        pal_count = pal->count();
 
         char palname[9];
-        snprintf(palname, sizeof(palname), "PAL%4.4s%d", l->lump_name().data(), palindex);
+        snprintf(palname, sizeof(palname), "PAL%4.4s%d", lumpinfo[lump].name, palindex);
 
         gfx::Palette newpal;
-        if (auto pl = wad::find(palname))
+        if (W_CheckNumForName(palname) != -1)
         {
-            auto bytes = pl->as_bytes();
-            gfx::Rgb *pallump = reinterpret_cast<gfx::Rgb *>(&bytes[0]);
+            gfx::Rgb *pallump = reinterpret_cast<gfx::Rgb *>(W_CacheLumpName(palname, PU_STATIC));
             newpal = *pal;
 
             // swap out current palette with the new one
@@ -99,6 +127,7 @@ gfx::Image I_ReadImage(int lump, dboolean palette, dboolean nopack, double alpha
             }
         } else {
             newpal = gfx::Palette { pal->format(), 16, pal->data_ptr() + (16 * palindex) * pal->traits().bytes };
+            pal_count = 16;
         }
 
         I_TranslatePalette(newpal);

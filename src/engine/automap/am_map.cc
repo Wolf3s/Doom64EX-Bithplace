@@ -33,6 +33,7 @@
 #include "doomdef.h"
 #include "st_stuff.h"
 #include "p_local.h"
+#include "w_wad.h"
 #include "t_bsp.h"
 #include "m_cheat.h"
 #include "m_fixed.h"
@@ -47,7 +48,10 @@
 #include "gl_draw.h"
 #include "g_actions.h"
 #include "g_controls.h"
-#include <imp/Wad>
+
+#ifdef _WIN32
+#include "g_controls.h"
+#endif
 
 // automap flags
 
@@ -491,8 +495,8 @@ void AM_Ticker(void) {
             int panscalex = (int)(*v_msensitivityx / (1500.0f / scale));
             int panscaley = (int)(*v_msensitivityy / (1500.0f / scale));
 
-            automappanx += ((mpanx*panscalex)/128) << 16;
-            automappany += ((mpany*panscaley)/128) << 16;
+            automappanx += ((I_MouseAccel(mpanx)*panscalex)/128) << 16;
+            automappany += ((I_MouseAccel(mpany)*panscaley)/128) << 16;
             mpanx = mpany = 0;
         }
         else {
@@ -766,7 +770,7 @@ void AM_DrawWalls(void) {
             continue;
         }
 
-        if((l->flags & ML_MAPPED) || *am_fulldraw || plr->powers[pw_allmap] || amCheating) {
+        if((l->flags & ML_MAPPED) || am_fulldraw || plr->powers[pw_allmap] || amCheating) {
             rcolor color = D_RGBA(0x8A, 0x5C, 0x30, 0xFF);  // default color
 
             //
@@ -1017,7 +1021,7 @@ void AM_Drawer(void) {
 
     AM_drawPlayers();
 
-    if(amCheating == 2 || *am_showkeymarkers) {
+    if(amCheating == 2 || am_showkeymarkers) {
         AM_drawThings();
     }
 

@@ -180,6 +180,10 @@ void WGen_Process(char *path)
 int M_CheckParm(const char *);
 void WGen_WadgenMain(void)
 {
+	char *p;
+	char *start;
+	char **arg;
+
 	int parm = M_CheckParm("-wadgen");
 
 	if (myargc < parm + 1) {

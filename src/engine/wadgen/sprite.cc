@@ -77,6 +77,13 @@ static const romLumpSpecial_t HudSprNames[] = {
 	{"JPMSG44", "PJ"}, {"JPMSG45", "PJ"}, {NULL, NULL}
 };
 
+static const romLumpSpecial_t BloodSprites[] = {
+	{"RBLDA0", "P"}, {"RBLDB0", "P"}, {"RBLDC0", "P"}, {"RBLDD0", "P"},
+	{"GBLDA0", "J"}, {"GBLDB0", "J"}, {"GBLDC0", "J"}, {"GBLDD0", "J"},
+	{"BLUDA0", "EX"}, {"BLUDB0", "EX",}, {"BLUDC0", "EX"}, {"BLUDD0", "EX"},
+	{NULL, NULL}
+};
+
 //**************************************************************
 //**************************************************************
 //      Sprite_Convert
@@ -118,6 +125,7 @@ void Sprite_Convert(int lump)
 	int w = 0;
 	int h = 0;
 	int pos = 0;
+	int oldw = 0;
 	int inv = 0;
 	int id = 0;
 	int i = 0;
@@ -152,7 +160,7 @@ void Sprite_Convert(int lump)
 	readBuf =
 	    (byte *) (romWadFile.lumpcache[lump] + sizeof(d64RawSprite_t));
 
-	rs->width = _SWAP16(rs->width);
+	oldw = rs->width = _SWAP16(rs->width);
 	rs->height = _SWAP16(rs->height);
 	rs->xoffs = _SWAP16(rs->xoffs);
 	rs->yoffs = _SWAP16(rs->yoffs);
@@ -163,7 +171,7 @@ void Sprite_Convert(int lump)
 
 	// Here's where things gets confusing. If the sprite is compressed
 	// then its width is padded by 16, while the uncompressed sprite has the width
-	// padded by 8. On the N64, its a lot easier (and faster) to render a sprite in dimensions
+	// padded by 8. On the N64, its a lot easier (and faster) to render a sprite in dimentions
 	// of 8 or 16. Tile height pieces are always in multiples of 4
 	rs->compressed == -1 ? (_PAD8(rs->width)) : (_PAD16(rs->width));
 

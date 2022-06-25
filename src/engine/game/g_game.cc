@@ -45,6 +45,7 @@
 #include "wi_stuff.h"
 #include "st_stuff.h"
 #include "am_map.h"
+#include "w_wad.h"
 #include "p_local.h"
 #include "s_sound.h"
 #include "d_englsh.h"
@@ -58,7 +59,6 @@
 #include "m_password.h"
 #include "i_video.h"
 #include "g_demo.h"
-#include <imp/Wad>
 
 #define DCLICK_TIME     20
 
@@ -129,6 +129,8 @@ mobj_t*     bodyque[BODYQUESIZE];
 int         bodyqueslot;
 
 byte forcecollision = 0;
+byte forcejump = 0;
+byte forcefreelook = 0;
 
 BoolProperty sv_nomonsters("sv_nomonsters", "Disable monsters", false, Property::network);
 BoolProperty sv_fastmonsters("sv_fastmonsters", "Fast monsters", false, Property::network);
@@ -136,22 +138,16 @@ BoolProperty sv_respawnitems("sv_respawnitems", "Allow items to respawn", false,
 BoolProperty sv_respawn("sv_respawn", "", false, Property::network);
 IntProperty sv_skill("sv_skill", "Skill level (0 - Easy, 4 - Nightmare)", 2, Property::network);
 
-static void G_SetGameFlags();
-
-static void G_SetGameFlagsCvarCallback(const BoolProperty&, bool, bool&)
-{
-    G_SetGameFlags();
-}
-
-BoolProperty sv_lockmonsters("sv_lockmonsters", "", false, Property::network, G_SetGameFlagsCvarCallback);
-BoolProperty sv_allowcheats("sv_allowcheats", "Allow cheats on the server", false, Property::network, G_SetGameFlagsCvarCallback);
-BoolProperty sv_friendlyfire("sv_friendlyfire", "", false, Property::network, G_SetGameFlagsCvarCallback);
-BoolProperty sv_keepitems("sv_keepitems", "", false, Property::network, G_SetGameFlagsCvarCallback);
-BoolProperty p_autoaim("p_autoaim", "", true, Property::network, G_SetGameFlagsCvarCallback);
-BoolProperty compat_collision("compat_collision", "", true, Property::network, G_SetGameFlagsCvarCallback);
-BoolProperty compat_mobjpass("compat_mobjpass", "", true, Property::network, G_SetGameFlagsCvarCallback);
-BoolProperty compat_limitpain("compat_limitpain", "", true, Property::network, G_SetGameFlagsCvarCallback);
-BoolProperty compat_grabitems("compat_grabitems", "", true, Property::network, G_SetGameFlagsCvarCallback);
+BoolProperty sv_lockmonsters("sv_lockmonsters", "", false, Property::network);
+BoolProperty sv_allowcheats("sv_allowcheats", "Allow cheats on the server", false, Property::network);
+BoolProperty sv_friendlyfire("sv_friendlyfire", "", false, Property::network);
+BoolProperty sv_keepitems("sv_keepitems", "", false, Property::network);
+BoolProperty p_allowjump("p_allowjump", "", false, Property::network);
+BoolProperty p_autoaim("p_autoaim", "", true, Property::network);
+BoolProperty compat_collision("compat_collision", "", true, Property::network);
+BoolProperty compat_mobjpass("compat_mobjpass", "", true, Property::network);
+BoolProperty compat_limitpain("compat_limitpain", "", true, Property::network);
+BoolProperty compat_grabitems("compat_grabitems", "", true, Property::network);
 
 extern BoolProperty v_mlook;
 extern BoolProperty v_mlookinvert;
@@ -263,9 +259,7 @@ static CMD(Seta) {
     }
 
     if (auto p = Property::find(param[0])) {
-        if (!p->is_from_param()) {
-            p->set_string(param[1]);
-        }
+        p->set_string(param[1]);
     } else {
         I_Printf("Couldn't find property (cvar) %s\n", param[0]);
     }
@@ -643,6 +637,12 @@ void G_BuildTiccmd(ticcmd_t* cmd) {
         }
 
         cmd->angleturn -= pc->mousex * 0x8;
+
+        if(forcefreelook != 2) {
+            if(v_mlook || forcefreelook) {
+                cmd->pitch -= v_mlookinvert ? pc->mousey * 0x8 : -(pc->mousey * 0x8);
+            }
+        }
     }
 
     if(v_yaxismove) {
@@ -690,6 +690,14 @@ void G_BuildTiccmd(ticcmd_t* cmd) {
         cmd->buttons |= BT_USE;
         // clear double clicks if hit use button
         pc->flags &= ~(PCF_FDCLICK2|PCF_SDCLICK2);
+    }
+
+    if(forcejump != 2) {
+        if(gameflags & GF_ALLOWJUMP || forcejump) {
+            if(pc->key[PCKEY_JUMP]) {
+                cmd->buttons2 |= BT2_JUMP;
+            }
+        }
     }
 
     if(pc->flags & PCF_NEXTWEAPON) {
@@ -805,8 +813,8 @@ void G_DoCmdMouseMove(int x, int y) {
     playercontrols_t *pc;
 
     pc = &Controls;
-    pc->mousex += static_cast<int>((x * *v_msensitivityx) / 128);
-    pc->mousey += static_cast<int>((y * *v_msensitivityy) / 128);
+    pc->mousex += ((I_MouseAccel(x) * *v_msensitivityx) / 128);
+    pc->mousey += ((I_MouseAccel(y) * *v_msensitivityy) / 128);
 }
 
 
@@ -845,6 +853,9 @@ static void G_SetGameFlags(void) {
 
     if (sv_keepitems)
         gameflags |= GF_KEEPITEMS;
+
+    if (p_allowjump)
+         gameflags |= GF_ALLOWJUMP;
 
     if (p_autoaim)
          gameflags |= GF_ALLOWAUTOAIM;
@@ -898,6 +909,8 @@ void G_DoLoadLevel(void) {
     }
 
     forcecollision  = map->oldcollision;
+    forcejump       = map->allowjump;
+    forcefreelook   = map->allowfreelook;
 
     // This was quite messy with SPECIAL and commented parts.
     // Supposedly hacks to make the latest edition work.

@@ -500,10 +500,10 @@ dboolean GL_GetBool(int x) {
 }
 
 //
-// GL_CalcViewSize
+// CalcViewSize
 //
 
-void GL_CalcViewSize(void) {
+static void CalcViewSize(void) {
     ViewWidth = video_width;
     ViewHeight = video_height;
 
@@ -533,7 +533,6 @@ typedef enum {
     OPENGL_VERSION_1_5,
     OPENGL_VERSION_2_0,
     OPENGL_VERSION_2_1,
-    OPENGL_VERSION_3_3,
 } glversion_t;
 
 static int GetVersionInt(const char* version) {
@@ -541,14 +540,14 @@ static int GetVersionInt(const char* version) {
     int MinorVersion;
     int versionvar;
 
-    versionvar = OPENGL_VERSION_3_3;
+    versionvar = OPENGL_VERSION_1_0;
 
-    if(sscanf(version, "%d.%d", &MajorVersion, &MinorVersion) == 3) {
+    if(sscanf(version, "%d.%d", &MajorVersion, &MinorVersion) == 2) {
         if(MajorVersion > 1) {
-            versionvar = OPENGL_VERSION_3_3;
+            versionvar = OPENGL_VERSION_2_0;
 
             if(MinorVersion > 0) {
-                versionvar = OPENGL_VERSION_3_3;
+                versionvar = OPENGL_VERSION_2_1;
             }
         }
         else {
@@ -597,7 +596,7 @@ void GL_Init(void) {
         CON_Warnf("Not enough texture units supported...\n");
     }
 
-    GL_CalcViewSize();
+    CalcViewSize();
 
     dglViewport(0, 0, video_width, video_height);
     dglClearDepth(1.0f);
@@ -635,7 +634,7 @@ void GL_Init(void) {
     dglEnableClientState(GL_TEXTURE_COORD_ARRAY);
     dglEnableClientState(GL_COLOR_ARRAY);
 
-    DGL_CLAMP = (GetVersionInt(gl_version) >= OPENGL_VERSION_3_3 ? GL_CLAMP_TO_EDGE : GL_CLAMP);
+    DGL_CLAMP = (GetVersionInt(gl_version) >= OPENGL_VERSION_1_2 ? GL_CLAMP_TO_EDGE : GL_CLAMP);
 
     glScaleFactor = 1.0f;
 

@@ -24,14 +24,12 @@ namespace imp {
   public:
       /*! Don't save the property in config.cfg */
       static constexpr int noconfig  = 0x1;
-      /*!  */
-      static constexpr int from_param = 0x2;
       /*! Readonly if sv_cheats == 0 */
-      static constexpr int cheat   = 0x4;
+      static constexpr int cheat   = 0x2;
       /*! Don't display in console */
-      static constexpr int hidden  = 0x8;
+      static constexpr int hidden  = 0x4;
       /*! Synchronise the value with the server */
-      static constexpr int network = 0x16;
+      static constexpr int network = 0x8;
 
       static std::vector<Property *> all();
 
@@ -79,17 +77,11 @@ namespace imp {
           return mDescription;
       }
 
-      void set_flag(int flag)
-      { mFlags |= flag; }
-
       int flags() const
       { return mFlags; }
 
       bool is_noconfig() const
       { return (mFlags & noconfig) != 0; }
-
-      bool is_from_param() const
-      { return (mFlags & from_param) != 0; }
 
       bool is_cheat() const
       { return (mFlags & cheat) != 0; }
@@ -113,10 +105,8 @@ namespace imp {
 
   template <class T>
   class TypedProperty : public Property {
-  public:
       using setter_func = void (*)(const TypedProperty &property, T oldValue, T& value);
 
-  protected:
       setter_func mSetter {};
 
       const T mDefault;
@@ -144,11 +134,9 @@ namespace imp {
       const T& value() const
       { return mValue; }
 
-      operator T&()
-      { return mValue; }
-
-      operator const T&() const
-      { return mValue; }
+      template <class U>
+      explicit operator U() const
+      { return static_cast<U>(mValue); }
 
       template <class U>
       TypedProperty& operator=(U value)

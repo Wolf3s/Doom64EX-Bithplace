@@ -44,6 +44,7 @@
 #include "sounds.h"
 #include "m_shift.h"
 #include "z_zone.h"
+#include "w_wad.h"
 #include "s_sound.h"
 #include "f_finale.h"
 #include "m_misc.h"
@@ -65,7 +66,6 @@
 #include "gl_draw.h"
 
 #include "net_client.h"
-#include <imp/Wad>
 
 //
 // D_DoomLoop()
@@ -139,7 +139,7 @@ int                eventtail=0;
 
 void D_PostEvent(event_t* ev) {
     events[eventhead] = *ev;
-    eventhead = (eventhead + 1) & (MAXEVENTS - 1);
+    eventhead = (++eventhead)&(MAXEVENTS-1);
 }
 
 
@@ -151,7 +151,7 @@ void D_PostEvent(event_t* ev) {
 void D_ProcessEvents(void) {
     event_t* ev;
 
-    for(; eventtail != eventhead; eventtail = (eventtail + 1) & (MAXEVENTS - 1)) {
+    for(; eventtail != eventhead; eventtail = (++eventtail)&(MAXEVENTS-1)) {
         ev = &events[eventtail];
 
         // 20120404 villsa - don't do console inputs for demo playbacks
@@ -529,28 +529,31 @@ static int legal_x = 32;
 static int legal_y = 72;
 
 static void Legal_Start(void) {
-    bool pllump = wad::have_lump("PLLEGAL");
-    bool jllump = wad::have_lump("JPLEGAL");
+    int pllump;
+    int jllump;
 
-    if(!pllump && !jllump) {
+    pllump = W_CheckNumForName("PLLEGAL");
+    jllump = W_CheckNumForName("JPLEGAL");
+
+    if(pllump == -1 && jllump == -1) {
         return;
     }
 
-    if(p_regionmode >= 2 && jllump) {
+    if(p_regionmode >= 2 && jllump >= 0) {
         legalpic = "JPLEGAL";
         legal_x = 35;
         legal_y = 45;
     }
-    else if(p_regionmode >= 2 && !jllump) {
+    else if(p_regionmode >= 2 && jllump == -1) {
         p_regionmode = 1;
     }
 
-    if(p_regionmode == 1 && pllump) {
+    if(p_regionmode == 1 && pllump >= 0) {
         legalpic = "PLLEGAL";
         legal_x = 35;
         legal_y = 50;
     }
-    else if(p_regionmode == 1 && !pllump) {
+    else if(p_regionmode == 1 && pllump == -1) {
         p_regionmode = 0;
     }
 }
@@ -874,9 +877,7 @@ static void D_Init(void) {
             value = myargv[p++];
 
             if (auto property = Property::find(name)) {
-                if (!property->is_from_param()) {
-                    property->set_string(value);
-                }
+                property->set_string(value);
             } else {
                 I_Printf("Error: Couldn't find property (cvar) \"%s\"\n", name);
             }
@@ -996,7 +997,7 @@ void D_DoomMain(void) {
     D_Init();
 
     I_Printf("W_Init: Init WADfiles.\n");
-    wad::init();
+    W_Init();
 
     I_Printf("M_Init: Init miscellaneous info.\n");
     M_Init();
@@ -1021,6 +1022,10 @@ void D_DoomMain(void) {
 
     I_Printf("GL_Init: Init OpenGL\n");
     GL_Init();
+
+#ifdef USESYSCONSOLE
+    I_ShowSysConsole(false);
+#endif
 
     // garbage collection
     Z_FreeAlloca();

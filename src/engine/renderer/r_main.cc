@@ -26,7 +26,6 @@
 //-----------------------------------------------------------------------------
 
 #include <math.h>
-#include <t_bsp.h>
 
 #include "doomdef.h"
 #include "doomstat.h"
@@ -49,6 +48,7 @@
 #include "gl_draw.h"
 #include "g_actions.h"
 
+lumpinfo_t      *lumpinfo;
 int             skytexture;
 
 fixed_t         viewx=0;
@@ -99,7 +99,7 @@ IntProperty r_colorscale("r_colorscale", "", 0, 0,
                              GL_SetColorScale();
                          });
 
-BoolProperty r_filter("r_filter", "", true, 1,
+BoolProperty r_filter("r_filter", "", false, 0,
                       [](const BoolProperty&, bool, bool&)
                       {
                           GL_DumpTextures();
@@ -400,8 +400,7 @@ void R_PrecacheLevel(void) {
             num++;
 
             for(p = 0; p < numanimdef; p++) {
-                auto l = wad::find(animdefs[p].name);
-                int lump = l->section_index();
+                int lump = W_GetNumForName(animdefs[p].name) - t_start;
 
                 if(lump != i) {
                     continue;
