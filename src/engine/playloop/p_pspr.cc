@@ -75,6 +75,74 @@ extern "C" {
 
 void A_FadeAlpha(mobj_t *mobj);
 
+//
+// P_RecursiveSound
+//
+// Called by P_NoiseAlert.
+// Recursively traverse adjacent sectors,
+// sound blocking lines cut off traversal.
+//
+
+mobj_t* soundtarget;
+
+void P_RecursiveSound(sector_t* sec, int soundblocks) {
+    int        i;
+    line_t*    check;
+    sector_t*    other;
+
+    // wake up all monsters in this sector
+    if(sec->validcount == validcount && sec->soundtraversed <= soundblocks+1) {
+        return;    // already flooded
+    }
+
+    sec->validcount     = validcount;
+    sec->soundtraversed = soundblocks+1;
+
+    P_SetTarget(&sec->soundtarget, soundtarget);
+
+    for(i = 0; i < sec->linecount; i++) {
+        check = sec->lines[i];
+        if(!(check->flags & ML_TWOSIDED)) {
+            continue;
+        }
+
+        P_LineOpening(check);
+
+        if(openrange <= 0) {
+            continue;    // closed door
+        }
+
+        if(sides[check->sidenum[0] ].sector == sec) {
+            other = sides[check->sidenum[1]].sector;
+        }
+        else {
+            other = sides[check->sidenum[0]].sector;
+        }
+
+        if(check->flags & ML_SOUNDBLOCK) {
+            if(!soundblocks) {
+                P_RecursiveSound(other, 1);
+            }
+        }
+        else {
+            P_RecursiveSound(other, soundblocks);
+        }
+    }
+}
+
+
+
+//
+// P_NoiseAlert
+// If a monster yells at a player,
+// it will alert other monsters to the player.
+//
+
+void P_NoiseAlert(mobj_t* target, mobj_t* emmiter) {
+    soundtarget = target;
+    D_IncValidCount();
+    P_RecursiveSound(emmiter->subsector->sector, 0);
+}
 
 //
 // P_SetPsprite
@@ -119,6 +187,7 @@ static void P_SetPsprite(player_t *player, int position, statenum_t stnum) {
 static dboolean pls_buzzing = false;    // [kex] for keeping track when the buzzing is playing
 
 void P_BringUpWeapon(void *data) {
+
     player_t* player = (player_t*) data;
     statenum_t    newstate;
 
@@ -134,21 +203,11 @@ void P_BringUpWeapon(void *data) {
         S_StartSound(player->mo, sfx_electric);
     }
 
-    //
-    // [kex] hack for making sure the buzzing sound is stopped
-    // when plasma rifle is not equipped
-    //
-    if(pls_buzzing && player->pendingweapon != wp_plasma) {
-        pls_buzzing = false;
-        S_StopSound(NULL, sfx_electric);
-    }
-
     newstate = weaponinfo[player->pendingweapon].upstate;
 
     player->pendingweapon = wp_nochange;
     player->psprites[ps_weapon].sx = FRACUNIT;
     player->psprites[ps_weapon].sy = WEAPONBOTTOM;
-
     player->psprites[ps_weapon].alpha = 0xff;
     player->psprites[ps_flash].alpha = 0xff;
 
@@ -257,23 +316,21 @@ dboolean P_CheckAmmo(void *data) {
 void P_FireWeapon(void *data) {
     player_t* player = (player_t*) data;
     statenum_t    newstate;
-    pspdef_t*    psp;
 
     if(!P_CheckAmmo(player)) {
         return;
     }
 
-    psp = &player->psprites[ps_weapon];
+    P_SetMobjState(player->mo, S_006/*S_PLAY_ATK1*/);
 
-    P_SetMobjState(player->mo, S_006);
+    player->psprites[ps_weapon].sx = FRACUNIT;
+    player->psprites[ps_weapon].sy = WEAPONTOP;
     newstate = weaponinfo[player->readyweapon].atkstate;
     if(player->refire && player->readyweapon == wp_pistol) {
         newstate++;
     }
     P_SetPsprite(player, ps_weapon, newstate);
     P_NoiseAlert(player->mo, player->mo);
-    psp->sx = FRACUNIT;        //villsa
-    psp->sy = WEAPONTOP;
 }
 
 //
@@ -287,12 +344,6 @@ void P_FireWeapon(void *data) {
 void A_WeaponReady(player_t* player, pspdef_t* psp) {
     statenum_t    newstate;
     int         angle;
-
-    // get out of attack state
-    if(player->mo->state == &states[S_006]
-            || player->mo->state == &states[S_007]) {
-        P_SetMobjState(player->mo, S_001);
-    }
 
     // check for change
     //    if player is dead, put the weapon away
@@ -320,7 +371,7 @@ void A_WeaponReady(player_t* player, pspdef_t* psp) {
     }
 
     // bob the weapon based on movement speed
-    angle = (128*leveltime)&FINEMASK;
+    angle = (128*leveltime)&FINEANGLES-1;
     psp->sx = FRACUNIT + FixedMul(player->bob, finecosine[angle]);
     angle &= FINEANGLES/2-1;
     psp->sy = WEAPONTOP + FixedMul(player->bob, finesine[angle]);
@@ -371,20 +422,25 @@ void A_Lower(player_t* player, pspdef_t* psp) {
         return;
     }
 
-    // Player is dead.
-    if(player->playerstate == PST_DEAD) {
-        psp->sy = WEAPONBOTTOM;
-
-        // don't bring weapon back up
-        return;
-    }
-
     //
     // [d64] stop plasma buzz
     //
     if(player->readyweapon == wp_plasma) {
         pls_buzzing = false;
         S_StopSound(NULL, sfx_electric);
+    }
+
+    /* */
+    /* [d64] clear flash graphic drawer */
+    /* */
+    P_SetPsprite(player, ps_flash, S_000);
+
+    // Player is dead.
+    if(player->playerstate == PST_DEAD) {
+        psp->sy = WEAPONBOTTOM;
+
+        // don't bring weapon back up
+        return;
     }
 
     // The old weapon has been lowered off the screen,
@@ -395,9 +451,8 @@ void A_Lower(player_t* player, pspdef_t* psp) {
         return;
     }
 
-    P_SetPsprite(player, ps_flash, S_000);  //villsa
-
     player->readyweapon = player->pendingweapon;
+
     P_BringUpWeapon(player);
 }
 
@@ -409,6 +464,7 @@ void A_Raise(player_t* player, pspdef_t* psp) {
     statenum_t    newstate;
 
     psp->sy -= RAISESPEED;
+
     if(psp->sy > WEAPONTOP) {
         return;
     }
@@ -418,6 +474,7 @@ void A_Raise(player_t* player, pspdef_t* psp) {
     // The weapon has been raised all the way,
     //    so change to the ready state.
     newstate = weaponinfo[player->readyweapon].readystate;
+
     P_SetPsprite(player, ps_weapon, newstate);
 }
 
@@ -430,7 +487,7 @@ void A_GunFlash(player_t* player, pspdef_t* psp) {
     P_SetMobjState(player->mo, S_007);
 
     // [d64] set alpha on flash frame
-    if(player->readyweapon != wp_bfg) {
+    if(player->readyweapon == wp_missile) {
         player->psprites[ps_flash].alpha = 100;
     }
 
@@ -620,7 +677,7 @@ void P_GunShot(mobj_t* mo, dboolean accurate) {
     angle_t     angle;
     int         damage;
 
-    damage = ((P_Random(pr_gunshot)&3)<<2)+4;
+    damage = ((P_Random(pr_gunshot)&3)*4)+4;
     angle = mo->angle;
 
     if(!accurate) {
@@ -969,9 +1026,9 @@ void T_LaserThinker(void *data) {
     }
     else {
         // update laser's location
-        laser->x1 += laser->slopex;
-        laser->y1 += laser->slopey;
-        laser->z1 += laser->slopez;
+        laser->x1 += laser->slopex * 32;
+        laser->y1 += laser->slopey * 32;
+        laser->z1 += laser->slopez * 32;
     }
 }
 
@@ -1049,25 +1106,8 @@ void A_FireLaser(player_t *player, pspdef_t *psp) {
 
         player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-        //
-        // [kex] 1/2/12 the old code is just plain bad. the original behavior was
-        // to simply call P_AimLineAttack and use the intercept fraction to
-        // determine where the tail end of the laser will land. this is
-        // optimal for consoles but leads to a lot of issues when working with
-        // plane hit detection and auto aiming. P_LineAttack will be called normally
-        // and instead of spawning puffs or blood, the xyz values are stored so the
-        // tail end of the laser can be setup properly here
-        //
-
-        // (unused) adjust aim fraction which will be used to determine
-        // the endpoint of the laser
-        /*if(aimfrac)
-            laserfrac = (aimfrac << (FRACBITS - 4)) - (4 << FRACBITS);
-        else
-            laserfrac = 0x800;*/
-
         hitdice = (P_Random(pr_laser) & 7);
-        damage = (((hitdice << 2) + hitdice) << 1) + 10;
+        damage = ((hitdice * 10) + 10);
 
         P_LineAttack(mobj, angleoffs, LASERRANGE, slope, damage);
 
@@ -1080,11 +1120,7 @@ void A_FireLaser(player_t *player, pspdef_t *psp) {
         laser[i]->z1 = (mobj->z + LASERAIMHEIGHT);
 
         // setup laser tail point
-        /*
-        laser[i]->x2 = (FixedMul(dcos(angleoffs), laserfrac) + mobj->x);
-        laser[i]->y2 = (FixedMul(dsin(angleoffs), laserfrac) + mobj->y);
-        laser[i]->z2 = (FixedMul(slope, laserfrac) + (mobj->z + LASERAIMHEIGHT));
-        */
+
         laser[i]->x2 = laserhit_x;
         laser[i]->y2 = laserhit_y;
         laser[i]->z2 = laserhit_z;
@@ -1119,18 +1155,6 @@ void A_FireLaser(player_t *player, pspdef_t *psp) {
         laserthinker[i]->thinker.function.acp1 = (actionf_p1)T_LaserThinker;
         laserthinker[i]->dest = P_SpawnMobj(x, y, z, MT_PROJ_LASER);
         laserthinker[i]->laser = laser[i];
-
-        /*if(linetarget)
-        {
-            int    hitdice = 0;
-            int    damage = 0;
-
-            hitdice = (P_Random(pr_laser) & 7);
-            damage = (((hitdice << 2) + hitdice) << 1) + 10;
-            P_DamageMobj(linetarget, mobj, mobj, damage);
-        }
-        else
-            angleoffs += spread;*/
 
         if(!linetarget) {
             angleoffs += spread;
