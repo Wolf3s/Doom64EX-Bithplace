@@ -1993,6 +1993,11 @@ static const int Resolution4_3[MAX_RES4_3][2] = {
     {   1600,   1200    }
 };
 
+#define MAX_RES5_4  1
+static const int Resolution5_4[MAX_RES5_4][2] = {
+    {   1280,   1024     }
+};
+
 #define MAX_RES16_9  12
 static const int Resolution16_9[MAX_RES16_9][2] = {
     {   640,    360     },
@@ -2064,6 +2069,9 @@ void M_Video(int choice) {
     else if(dfcmp(checkratio, ratioVal[1])) {
         m_aspectRatio = 1;
     }
+    else if(dfcmp(checkratio, ratioVal[3])) {
+        m_aspectRatio = 3;
+    }
     else {
         m_aspectRatio = 0;
     }
@@ -2093,6 +2101,14 @@ void M_Video(int choice) {
             }
         }
         break;
+    case 3:
+        for(i = 0; i < MAX_RES5_4; i++) {
+            if(v_width == Resolution5_4[i][0]) {
+                m_ScreenSize = i;
+                return;
+            }
+        }
+        break;
     }
 
     m_ScreenSize = 1;
@@ -2100,7 +2116,7 @@ void M_Video(int choice) {
 
 void M_DrawVideo(void) {
     static const char* filterType[2] = { "Linear", "Nearest" };
-    static const char* ratioName[3] = { "4 : 3", "16 : 9", "16 : 10" };
+    static const char* ratioName[4] = { "4 : 3", "16 : 9", "16 : 10", "5 : 4" };
     static char bitValue[8];
     char res[16];
     int y;
@@ -2242,6 +2258,10 @@ static void M_SetResolution(void) {
         width = Resolution16_10[m_ScreenSize][0];
         height = Resolution16_10[m_ScreenSize][1];
         break;
+    case 3:
+        width = Resolution5_4[m_ScreenSize][0];
+        height = Resolution5_4[m_ScreenSize][1];
+        break;
     }
 
     M_SetCvar(v_width, width);
@@ -2252,12 +2272,12 @@ void M_ChangeRatio(int choice) {
     int max = 0;
 
     if(choice) {
-        if(++m_aspectRatio > 2) {
-            if(choice == 2) {
+        if(++m_aspectRatio > 3) {
+            if(choice == 3) {
                 m_aspectRatio = 0;
             }
             else {
-                m_aspectRatio = 2;
+                m_aspectRatio = 3;
             }
         }
     }
@@ -2274,6 +2294,9 @@ void M_ChangeRatio(int choice) {
         break;
     case 2:
         max = MAX_RES16_10;
+        break;
+    case 3:
+        max = MAX_RES5_4;
         break;
     }
 
@@ -2294,6 +2317,9 @@ void M_ChangeResolution(int choice) {
         break;
     case 2:
         max = MAX_RES16_10;
+        break;
+    case 3:
+        max = MAX_RES5_4;
         break;
     }
 
