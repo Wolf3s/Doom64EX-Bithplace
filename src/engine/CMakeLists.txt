@@ -24,10 +24,6 @@
 
 set(SOURCE_ROOT_DIR "${CMAKE_SOURCE_DIR}/src/engine")
 
-if (CMAKE_VERSION VERSION_LESS 3.1.3)
-  add_definitions(-std=c++14)
-endif ()
-
 ##------------------------------------------------------------------------------
 ## Set up external dependencies
 ##
@@ -71,8 +67,8 @@ endif(NOT USE_CONAN)
 ## Configure "version.h"
 ##
 
-set(VERSION_MAJOR 2)
-set(VERSION_MINOR 6)
+set(VERSION_MAJOR 3)
+set(VERSION_MINOR 2)
 set(VERSION_PATCH 0)
 set(VERSION_GIT true)
 
