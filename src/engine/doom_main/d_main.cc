@@ -957,7 +957,7 @@ static int D_CheckDemo(void) {
 
     p = M_CheckParm("-playdemo");
     if(p && p < myargc-1) {
-        //singledemo = true;              // quit after one demo
+        singledemo = true;              // quit after one demo
         G_PlayDemo(myargv[p+1]);
         return 1;
     }
