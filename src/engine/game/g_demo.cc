@@ -163,12 +163,6 @@ void G_RecordDemo(const char* name) {
 
     G_InitNew(startskill, startmap);
     
-    *dm_p++ = 'D';
-    *dm_p++ = 'M';
-    *dm_p++ = '6';
-    *dm_p++ = '4';
-    *dm_p++ = '\0';
-    
     *dm_p++ = gameskill;
     *dm_p++ = gamemap;
     *dm_p++ = deathmatch;
@@ -249,19 +243,8 @@ void G_PlayDemo(const char* name) {
         CON_DPrintf("--------Playing demo %s--------\n", name);
         demobuffer = demo_p = (byte*) W_CacheLumpName(name, PU_STATIC);
     }
-    
-    if(strncmp((char*)demo_p, "DM64", 4)) {
-        I_Error("G_PlayDemo: Mismatched demo header");
-        return;
-    }
 
     G_SaveDefaults();
-
-    demo_p++;
-    demo_p++;
-    demo_p++;
-    demo_p++;
-    demo_p++;
 
     startskill      = *demo_p++;
     startmap        = *demo_p++;
