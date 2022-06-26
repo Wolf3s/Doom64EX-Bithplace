@@ -172,11 +172,6 @@ void G_RecordDemo(const char* name) {
     *dm_p++ = nomonsters;
     *dm_p++ = consoleplayer;
     
-    *dm_p++ = (byte)((rngseed >> 24) & 0xff);
-    *dm_p++ = (byte)((rngseed >> 16) & 0xff);
-    *dm_p++ = (byte)((rngseed >>  8) & 0xff);
-    *dm_p++ = (byte)( rngseed        & 0xff);
-    
     *dm_p++ = (byte)((gameflags >> 24) & 0xff);
     *dm_p++ = (byte)((gameflags >> 16) & 0xff);
     *dm_p++ = (byte)((gameflags >>  8) & 0xff);
@@ -254,14 +249,6 @@ void G_PlayDemo(const char* name) {
     fastparm        = *demo_p++;
     nomonsters      = *demo_p++;
     consoleplayer   = *demo_p++;
-    
-    rngseed  = *demo_p++ & 0xff;
-    rngseed <<= 8;
-    rngseed += *demo_p++ & 0xff;
-    rngseed <<= 8;
-    rngseed += *demo_p++ & 0xff;
-    rngseed <<= 8;
-    rngseed += *demo_p++ & 0xff;
     
     gameflags  = *demo_p++ & 0xff;
     gameflags <<= 8;

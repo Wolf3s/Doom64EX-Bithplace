@@ -132,8 +132,7 @@ void P_ExplodeMissile(mobj_t* mo) {
 
     mo->momx = mo->momy = mo->momz = 0;
 
-    mo->tics -= P_Random(pr_explode) & 3;
-
+    mo->tics -= P_Random() & 1;
     if(mo->tics < 1) {
         mo->tics = 1;
     }
@@ -158,7 +157,7 @@ void P_MissileHit(mobj_t* mo) {
     damage = 0;
 
     if(missilething) {
-        damage = ((P_Random(pr_damage) & 7) + 1) * mo->info->damage;
+        damage = ((P_Random() & 7) + 1) * mo->info->damage;
         P_DamageMobj(missilething, mo, mo->target, damage);
 
         if(mo->type == MT_PROJ_RECTFIRE) {
@@ -194,7 +193,7 @@ void P_SkullBash(mobj_t* mo) {
     skullthing = (mobj_t*)mo->extradata;
 
     if(skullthing) {
-        damage = ((P_Random(pr_skullfly) & 7) + 1) * mo->info->damage;
+        damage = ((P_Random() & 7) + 1) * mo->info->damage;
         P_DamageMobj(skullthing, mo, mo, damage);
     }
 
@@ -408,7 +407,7 @@ void P_NightmareRespawn(mobj_t* mobj) {
         return;
     }
 
-    if(P_Random(pr_respawn) > 4) {
+    if(P_Random() > 4) {
         return;
     }
 
@@ -1091,7 +1090,7 @@ mobj_t* P_SpawnMapThing(mapthing_t* mthing) {
     }
 
     if(mobj->tics > 0) {
-        mobj->tics = 1 + (P_Random(pr_spawnthing) % mobj->tics);
+        mobj->tics = 1 + (P_Random() % mobj->tics);
     }
 
     mobj->angle = ANG45 * (mthing->angle/45);
@@ -1145,12 +1144,15 @@ extern fixed_t attackrange;
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z) {
     mobj_t* th;
+    int rnd1, rnd2;
 
-    z += P_RandomShift(pr_spawnpuff, 10);
+    rnd1 = P_Random();
+    rnd2 = P_Random();
 
+    z += ((rnd2-rnd1)<<10);
     th = P_SpawnMobj(x, y, z, MT_SMOKE_SMALL);
     th->momz = FRACUNIT;
-    th->tics -= P_Random(pr_spawnpuff) & 3;
+    th->tics -= P_Random() & 1;
 
     if(th->tics < 1) {
         th->tics = 1;
@@ -1170,19 +1172,19 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, int damage) {
     int i = 0;
 
     for(i = 0; i < 3; i++) {
-        z += P_RandomShift(pr_spawnblood, 11);
-        x += P_RandomShift(pr_spawnblood, 12);
-        y += P_RandomShift(pr_spawnblood, 12);
+        x += ((P_Random()-P_Random())<<12);
+        y += ((P_Random()-P_Random())<<12);
+        z += ((P_Random()-P_Random())<<11);
 
         th = P_SpawnMobj(x, y, z, MT_BLOOD);
         th->momz = FRACUNIT*2;
-        th->tics -= (P_Random(pr_spawnblood) & 1);
+        th->tics -= (P_Random() & 1);
 
         if(th->tics < 1) {
             th->tics = 1;
         }
 
-        if(damage < 9 && !(damage < 13)) {
+        if(damage <= 12 && (damage >= 9)) {
             P_SetMobjState(th, S_495);
         }
         else if(damage < 9) {
@@ -1291,6 +1293,7 @@ mobj_t* P_SpawnMissile(mobj_t* source, mobj_t* dest, mobjtype_t type,
     fixed_t x;
     fixed_t y;
     fixed_t z;
+    int rnd1, rnd2;
 
     x = source->x + xoffs;
     y = source->y + yoffs;
@@ -1310,20 +1313,14 @@ mobj_t* P_SpawnMissile(mobj_t* source, mobj_t* dest, mobjtype_t type,
         an = source->angle;
     }
 
-    // fuzzy player
-    if(dest) {
-        if(dest->flags & MF_SHADOW) {
-            an += P_RandomShift(pr_shadow, 20);
-        }
+    if (dest && (dest->flags & MF_SHADOW))
+    {
+        rnd1 = P_Random();
+        rnd2 = P_Random();
+        an += ((rnd2 - rnd1) << 20);
     }
 
     speed = th->info->speed;
-
-    // [kex] nightmare missiles move faster
-    if(source && source->flags & MF_NIGHTMARE) {
-        th->flags |= MF_NIGHTMARE;
-        speed *= 2;
-    }
 
     th->angle = an;
     th->momx = FixedMul(speed, dcos(th->angle));

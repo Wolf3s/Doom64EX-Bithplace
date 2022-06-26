@@ -548,7 +548,7 @@ void G_SaveDefaults(void) {
 //
 
 void G_ReloadDefaults(void) {
-    rngseed += I_GetRandomTimeSeed() + gametic;
+    I_GetRandomTimeSeed() + gametic;
     gameflags = savegameflags;
     compatflags = savecompatflags;
 }
@@ -1293,7 +1293,7 @@ void G_DeathMatchSpawnPlayer(int playernum) {
     }
 
     for(j = 0; j < 20; j++) {
-        i = P_Random(pr_dmspawn) % selections;
+        i = P_Random() % selections;
         if(G_CheckSpot(playernum, &deathmatchstarts[i])) {
             deathmatchstarts[i].type = playernum+1;
             P_SpawnPlayer(&deathmatchstarts[i]);
@@ -1436,8 +1436,6 @@ void G_RunTitleMap(void) {
     usergame = false;
     demoplayback = true;
     iwadDemo = true;
-
-    rngseed = 0;
 
     G_DoLoadLevel();
     D_MiniLoop(P_Start, P_Stop, P_Drawer, P_Ticker);
