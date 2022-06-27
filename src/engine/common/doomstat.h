@@ -85,7 +85,7 @@ extern int          deathmatch;
 extern int          video_width;
 extern int          video_height;
 extern float        video_ratio;
-extern bool         window_focused;
+extern int          window_focused;
 
 
 // -------------------------

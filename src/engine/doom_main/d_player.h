@@ -45,20 +45,18 @@
 //
 // Player states.
 //
-typedef int playerstate_t;
-enum {
+typedef enum {
     PST_LIVE,   // Playing or camping.
     PST_DEAD,   // Dead on the ground, view follows killer.
     PST_REBORN  // Ready to restart/respawn???
 
-};
+} playerstate_t;
 
 
 //
 // Player internal flags, for cheats and debug.
 //
-typedef int cheat_t;
-enum {
+typedef enum {
     CF_NOCLIP       = 1,    // No clipping, walk through barriers.
     CF_GODMODE      = 2,    // No damage, no health loss.
     CF_UNDYING      = 4,    // Take damage but not die
@@ -66,14 +64,15 @@ enum {
     CF_CHASECAM     = 16,   // Chase cam mode
     CF_FLOATCAM     = 32,   // Floating camera
     CF_LOCKCAM      = 64    // view camera is locked by an line action
-};
 
-typedef int artifacts_t;
-enum {
+} cheat_t;
+
+typedef enum {
     ART_FAST    = 0,
     ART_DOUBLE,
     ART_TRIPLE
-};
+
+} artifacts_t;
 
 
 //
@@ -148,7 +147,7 @@ typedef struct player_s {
     int             secretcount;
 
     // Hint messages.
-    const char*     message;
+    char*           message;
 
     // [d64] tic for how long message should stay on hud...not used in d64ex
     // int          messagetic;

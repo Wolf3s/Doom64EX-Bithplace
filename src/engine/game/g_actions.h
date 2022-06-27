@@ -32,14 +32,14 @@ typedef void (*actionproc_t)(int64 data, char **param);
 
 void        G_InitActions(void);
 dboolean    G_ActionResponder(event_t *ev);
-void        G_AddCommand(const char *name, actionproc_t proc, int64 data);
+void        G_AddCommand(char *name, actionproc_t proc, int64 data);
 void        G_ActionTicker(void);
 void        G_ExecuteCommand(char *action);
 void        G_BindActionByName(char *key, char *action);
 dboolean    G_BindActionByEvent(event_t *ev, char *action);
 void        G_ShowBinding(char *key);
-void        G_GetActionBindings(char *buff, const char *action);
-void        G_UnbindAction(const char *action);
+void        G_GetActionBindings(char *buff, char *action);
+void        G_UnbindAction(char *action);
 int         G_ListCommands(void);
 void        G_OutputBindings(FILE *fh);
 void        G_DoCmdMouseMove(int x, int y);

@@ -24,12 +24,11 @@
 #ifndef D3DR_MAIN_H
 #define D3DR_MAIN_H
 
-#include <imp/Property>
-
 #include "t_bsp.h"
 #include "d_player.h"
 #include "w_wad.h"
 #include "gl_main.h"
+#include "con_cvar.h"
 
 extern fixed_t      viewx;
 extern fixed_t      viewy;
@@ -59,10 +58,10 @@ extern unsigned int glBindCalls;
 
 extern dboolean     bRenderSky;
 
-extern FloatProperty r_fov;
-extern BoolProperty r_fillmode;
-extern BoolProperty r_uniformtime;
-extern BoolProperty r_drawtrace;
+CVAR_EXTERNAL(r_fov);
+CVAR_EXTERNAL(r_fillmode);
+CVAR_EXTERNAL(r_uniformtime);
+CVAR_EXTERNAL(r_drawtrace);
 
 void R_Init(void);
 void R_RenderPlayerView(player_t *player);
@@ -77,6 +76,7 @@ void R_SetupLevel(void);
 void R_SetViewAngleOffset(angle_t angle);
 void R_SetViewOffset(int offset);
 void R_DrawWireframe(dboolean enable);    //villsa
+void R_RegisterCvars(void);
 void R_SetViewMatrix(void);
 void R_RenderWorld(void);
 void R_RenderBSPNode(int bspnum);

@@ -47,8 +47,8 @@ void ST_Start(void);
 
 // Called by startup code.
 void ST_Init(void);
-void ST_AddChatMsg(const char *msg, int player);
-void ST_Notification(const char *msg);
+void ST_AddChatMsg(char *msg, int player);
+void ST_Notification(char *msg);
 void ST_Drawer(void);
 void ST_FlashingScreen(byte r, byte g, byte b, byte a);
 char ST_DequeueChatChar(void);
@@ -56,6 +56,7 @@ void ST_DrawCrosshair(int x, int y, int slot, byte scalefactor, rcolor color);
 void ST_UpdateFlash(void);
 void ST_AddDamageMarker(mobj_t* target, mobj_t* source);
 void ST_ClearDamageMarkers(void);
+void ST_RegisterCvars(void);
 void ST_DisplayPendingWeapon(void);
 
 extern char player_names[MAXPLAYERS][MAXPLAYERNAME];

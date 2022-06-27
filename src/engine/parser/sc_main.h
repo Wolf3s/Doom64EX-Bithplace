@@ -26,16 +26,16 @@
 
 typedef struct {
     char    token[512];
-    byte*   buffer;
+    char*   buffer;
     char*   pointer_start;
     char*   pointer_end;
     int     linepos;
     int     rowpos;
     int     buffpos;
     int     buffsize;
-    void (*open)(const char*);
+    void (*open)(void*);
     void (*close)(void);
-    void (*compare)(const char*);
+    void (*compare)(void*);
     int (*find)(dboolean);
     char(*fgetchar)(void);
     void (*rewind)(void);
@@ -43,13 +43,13 @@ typedef struct {
     int (*getint)(void);
     int (*setdata)(void*, void*);
     int (*readtokens)(void);
-    void (*error)(const char*);
+    void (*error)(void*);
 } scparser_t;
 
 extern scparser_t sc_parser;
 
 typedef struct {
-    const char*   token;
+    char*   token;
     int64   ptroffset;
     char    type;
 } scdatatable_t;

@@ -25,48 +25,17 @@
 cmake_minimum_required(VERSION 3.12.0)
 project(doom64ex-plus C CXX)
 
-##------------------------------------------------------------------------------
-## Build Options
-##
-
-option(GENERATE_DOOM64WAD "Generate doom64ex-plus.wad" ON)
-option(FORCE_INCLUDE_OPENGL "Include OpenGL without using find_package" OFF)
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
-set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}" "${CMAKE_SOURCE_DIR}/extern")
-set(CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}" "${CMAKE_FIND_ROOT_PATH}")
+set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/extern/build")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 set(DATA_DIR "${CMAKE_SOURCE_DIR}/data")
 
-if(EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
-  set(USE_CONAN ON)
-  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  conan_basic_setup()
-else()
-  set(USE_CONAN OFF)
-endif()
+set(CMAKE_CXX_FLAGS -std=c++14)
 
 ##------------------------------------------------------------------------------
-## Compiler Options
+## Options
 ##
 
-if(NOT MSVC AND CMAKE_BUILD_TYPE MATCHES Debug)
-  message(STATUS "Debug mode: Enabling stricter warnings")
-  set(FLAGS "-Wall -Wno-unknown-pragmas -Wno-undefined-var-template -fno-strict-aliasing")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${FLAGS}")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS}")
-
-  if(NOT MINGW)
-    message(STATUS "Debug mode: Enabling AddressSanitizer")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
-  endif()
-endif()
-if(MINGW)
-  add_definitions(-DFMT_USE_WINDOWS_H=0)
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows -static")
-endif(MINGW)
+option(GENERATE_DOOM64WAD "Generate doom64ex-plus.wad" ON)
 
 ##------------------------------------------------------------------------------
 ## CMake functions
@@ -102,4 +71,5 @@ endfunction()
 ##
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/src/wadtool")
+add_subdirectory("${CMAKE_SOURCE_DIR}/src/kexlib")
 add_subdirectory("${CMAKE_SOURCE_DIR}/src/engine")

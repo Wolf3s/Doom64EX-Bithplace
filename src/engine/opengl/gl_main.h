@@ -23,7 +23,7 @@
 #ifndef __GL_MAIN_H__
 #define __GL_MAIN_H__
 
-#include "glad.h"
+#include "SDL_opengl.h"
 
 typedef GLuint        dtexture;
 typedef GLfloat        rfloat;

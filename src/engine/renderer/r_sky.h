@@ -39,6 +39,8 @@ extern dboolean     skyfadeback;
 // Used for rendering, as well as tracking projectiles etc.
 extern int          skyflatnum;
 
+extern byte*        fireBuffer;
+extern dPalette_t   firePal16[256];
 extern int          fireLump;
 
 void R_SkyTicker(void);

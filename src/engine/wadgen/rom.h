@@ -33,13 +33,13 @@ typedef struct {
 } rom_t;
 
 typedef struct {
-	const char *name;
-	const char *countryID;	// E = US, J = Japan, P = PAL/Europe, X = US (v1.1)
+	char *name;
+	char *countryID;	// E = US, J = Japan, P = PAL/Europe, X = US (v1.1)
 } romLumpSpecial_t;
 
 extern rom_t RomFile;
 
-void Rom_Open(char *path);
+void Rom_Open(void);
 void Rom_Close(void);
 bool Rom_VerifyRomCode(const romLumpSpecial_t * l);
 

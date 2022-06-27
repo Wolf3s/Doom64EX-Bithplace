@@ -1,6 +1,6 @@
 ##------------------------------------------------------------------------------
 ##
-## Doom64EX CMake configuration
+## Doom64EX-Plus CMake configuration
 ##
 ## LICENSE:
 ##
@@ -37,9 +37,9 @@ set(SOURCES
 add_executable(wadtool ${SOURCES})
 
 # Generate doom64ex-plus.wad
-add_custom_target(doom64ex-plus-wad ALL
+add_custom_target(doom64expluswad
   DEPENDS wadtool
-  COMMAND wadtool "${CMAKE_SOURCE_DIR}/distrib/kex" "${CMAKE_BINARY_DIR}/doom64ex-plus.wad"
+  COMMAND wadtool "${CMAKE_SOURCE_DIR}/data/kex" "${CMAKE_BINARY_DIR}/doom64ex-plus.wad"
   )
 
 ##------------------------------------------------------------------------------
@@ -48,9 +48,5 @@ add_custom_target(doom64ex-plus-wad ALL
 
 # Install doom64ex-plus.wad
 if (NOT WIN32)
-  if (APPLE)
-    install(FILES ${CMAKE_BINARY_DIR}/doom64ex-plus.wad DESTINATION "$ENV{HOME}/Library/Application Support/doom64ex")
-  else ()
-    install(FILES ${CMAKE_BINARY_DIR}/doom64ex-plus.wad DESTINATION share/games/doom64ex)
-  endif ()
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/doom64ex-plus.wad DESTINATION share/games/doom64ex-plus)
 endif ()

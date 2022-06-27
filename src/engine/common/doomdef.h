@@ -143,12 +143,11 @@ extern float D_fabs(float x);
 // The current state of the game: whether we are
 // playing, gazing at the intermission screen,
 // the game final animation, or a demo.
-typedef int gamestate_t;
-enum {
+typedef enum {
     GS_NONE,
     GS_LEVEL,
     GS_SKIPPABLE
-};
+} gamestate_t;
 
 //
 // Difficulty/skill settings/filters.
@@ -169,20 +168,21 @@ enum {
 #define MTF_NONETGAME       2048   // Don't spawn in standard netgame mode
 #define MTF_NIGHTMARE       4096   // [kex] Nightmare thing
 
-typedef int skill_t;
-enum {
+typedef enum {
     sk_baby,
     sk_easy,
     sk_medium,
     sk_hard,
     sk_nightmare
-};
+} skill_t;
+
+
+
 
 //
 // Key cards.
 //
-typedef int card_t;
-enum {
+typedef enum {
     it_bluecard,
     it_yellowcard,
     it_redcard,
@@ -191,15 +191,15 @@ enum {
     it_redskull,
 
     NUMCARDS
-};
+
+} card_t;
 
 
 
 // The defined weapons,
 //  including a marker indicating
 //  user has not changed weapon.
-typedef int weapontype_t;
-enum {
+typedef enum {
     wp_chainsaw,
     wp_fist,
     wp_pistol,
@@ -214,23 +214,24 @@ enum {
 
     // No pending weapon change.
     wp_nochange
-};
+
+} weapontype_t;
+
 
 // Ammunition types defined.
-typedef int ammotype_t;
-enum {
+typedef enum {
     am_clip,    // Pistol / chaingun ammo.
     am_shell,   // Shotgun / double barreled shotgun.
     am_cell,    // Plasma rifle, BFG.
     am_misl,    // Missile launcher.
     NUMAMMO,
     am_noammo    // Unlimited for chainsaw / fist.
-};
+
+} ammotype_t;
 
 
 // Power up artifacts.
-typedef int powertype_t;
-enum {
+typedef enum {
     pw_invulnerability,
     pw_strength,
     pw_invisibility,
@@ -238,7 +239,8 @@ enum {
     pw_allmap,
     pw_infrared,
     NUMPOWERS
-};
+
+} powertype_t;
 
 #define BONUSADD    4
 
@@ -246,14 +248,14 @@ enum {
 // Power up durations,
 //  how many seconds till expiration,
 //
-typedef int powerduration_t;
-enum {
+typedef enum {
     INVULNTICS  = (30*TICRATE),
     INVISTICS   = (60*TICRATE),
     INFRATICS   = (120*TICRATE),
     IRONTICS    = (60*TICRATE),
     STRTICS     = (3*TICRATE)
-};
+
+} powerduration_t;
 
 // 20120209 villsa - game flags
 enum {

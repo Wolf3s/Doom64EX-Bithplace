@@ -39,24 +39,19 @@ typedef void(*actionf_v)(void);
 typedef void(*actionf_p1)(void*);
 typedef void(*actionf_p2)(void*, void*);
 
-union actionf_t {
+typedef union {
     actionf_p1  acp1;
     actionf_v   acv;
     actionf_p2  acp2;
 
-    actionf_t();
+} actionf_t;
 
-    actionf_t(decltype(nullptr));
 
-    actionf_t(actionf_p1 f);
 
-    actionf_t(actionf_v f);
 
-    actionf_t(actionf_p2 f);
-};
 
 // Historically, "think_t" is yet another
-//  function pointaer to a routine to handle
+//  function pointer to a routine to handle
 //  an actor.
 typedef actionf_t  think_t;
 

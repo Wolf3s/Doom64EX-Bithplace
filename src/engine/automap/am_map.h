@@ -24,9 +24,7 @@
 #ifndef __AMMAP_H__
 #define __AMMAP_H__
 
-#include <imp/Property>
-
-extern BoolProperty am_overlay;
+CVAR_EXTERNAL(am_overlay);
 
 // Called by main loop.
 dboolean AM_Responder(event_t* ev);
@@ -45,6 +43,6 @@ void AM_Stop(void);
 // Called on P_Start; resets automap variables
 void AM_Reset(void);
 
-void AM_RegisterCommands(void);
+void AM_RegisterCvars(void);
 
 #endif

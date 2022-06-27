@@ -37,6 +37,8 @@
 #define S_IEXEC S_IXUSR
 #endif
 
+#include "mem.h"
+
 #ifdef PLATFORM_PC
 
 #define USE_PNG
@@ -50,11 +52,15 @@
 
 typedef unsigned char byte;
 typedef unsigned short word;
+typedef unsigned int uint;
 typedef int32_t int32;
 typedef uint32_t uint32;
-typedef uint32_t uint;
+typedef int bool;
 typedef byte *cache;
 typedef char path[MAX_PATH];
+
+#define false	0
+#define true	1
 
 typedef struct {
 	byte r;
@@ -80,9 +86,9 @@ uint WGen_Swap32(unsigned int x);
 #define _PAD16(x)	x += (16 - ((uint) x & 15)) & 15
 
 void WGen_WadgenMain();
-void WGen_Printf(const char *s, ...);
-void WGen_Complain(const char *fmt, ...);
-void WGen_UpdateProgress(const char *fmt, ...);
+void WGen_Printf(char *s, ...);
+void WGen_Complain(char *fmt, ...);
+void WGen_UpdateProgress(char *fmt, ...);
 void WGen_ConvertN64Pal(dPalette_t * palette, word * data, int indexes);
 void WGen_AddDigest(char *name, int lump, int size);
 
