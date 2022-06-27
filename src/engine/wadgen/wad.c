@@ -29,6 +29,10 @@
 static const char rcsid[] = "$Id: wad.c 1150 2012-06-11 00:18:31Z svkaiser $";
 #endif
 
+#ifdef __APPLE__
+#include <string.h>
+#endif
+
 #include "wadgen.h"
 #include "rom.h"
 #include "wad.h"

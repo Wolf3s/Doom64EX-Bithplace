@@ -28,6 +28,10 @@
 static const char rcsid[] = "$Id: Rom.c 1100 2012-04-08 19:17:31Z svkaiser $";
 #endif
 
+#ifdef __APPLE__
+#include <string.h>
+#endif
+
 #include "wadgen.h"
 #include "files.h"
 #include "rom.h"

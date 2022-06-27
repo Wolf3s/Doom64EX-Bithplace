@@ -28,6 +28,10 @@
 static const char rcsid[] = "$Id: Png.c 922 2011-08-13 00:49:06Z svkaiser $";
 #endif
 
+#ifdef __APPLE__
+#include <string.h>
+#endif
+
 #include "wadgen.h"
 #include "wad.h"
 #include "sprite.h"

@@ -30,6 +30,10 @@
 #include <dirent.h>
 #endif
 
+#ifdef __APPLE__
+#include <ctype.h> // toupper
+#endif
+
 #include "doomdef.h"
 #include "doomtype.h"
 #include "z_zone.h"

@@ -31,6 +31,10 @@ static const char rcsid[] =
     "$Id: SndFont.c 1096 2012-03-31 18:28:01Z svkaiser $";
 #endif
 
+#ifdef __APPLE__
+#include <string.h>
+#endif
+
 #include <math.h>
 
 #include "wadgen.h"

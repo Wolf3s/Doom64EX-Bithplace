@@ -32,6 +32,10 @@ static const char rcsid[] = "$Id: Level.c 1097 2012-04-01 22:24:04Z svkaiser $";
 #define Sleep(x) usleep(x)
 #endif
 
+#ifdef __APPLE__
+#include <string.h>
+#endif
+
 #include "wadgen.h"
 #include "wad.h"
 #include "files.h"

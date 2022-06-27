@@ -29,6 +29,10 @@ static const char rcsid[] =
     "$Id: Texture.c 1096 2012-03-31 18:28:01Z svkaiser $";
 #endif
 
+#ifdef __APPLE__
+#include <string.h>
+#endif
+
 #include "wadgen.h"
 #include "wad.h"
 #include "texture.h"

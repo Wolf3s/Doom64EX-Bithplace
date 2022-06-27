@@ -248,6 +248,7 @@ float GL_GetOrthoScale(void) {
 //
 
 void GL_SwapBuffers(void) {
+    I_FinishUpdate();
 }
 
 //
@@ -668,4 +669,3 @@ void GL_Init(void) {
 
     G_AddCommand("dumpglext", CMD_DumpGLExtensions, 0);
 }
-

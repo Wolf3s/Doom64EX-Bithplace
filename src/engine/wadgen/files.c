@@ -32,6 +32,11 @@ static const char rcsid[] = "$Id: Files.c 1221 2012-08-19 04:30:22Z svkaiser $";
 #include <direct.h>
 #endif
 
+#ifdef __APPLE__
+#include <string.h>
+#include <unistd.h>
+#endif
+
 #include "wadgen.h"
 #include "files.h"
 

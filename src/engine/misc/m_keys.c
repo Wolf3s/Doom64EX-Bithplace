@@ -25,6 +25,10 @@
 //
 //-----------------------------------------------------------------------------
 
+#ifdef __APPLE__
+#include <ctype.h> // toupper
+#endif
+
 #include "m_keys.h"
 #include "doomdef.h"
 

@@ -7,3 +7,5 @@
 *.db-wal
 *.db-shm
 *.db
+build/*
+*.DS_Store

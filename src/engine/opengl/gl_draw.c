@@ -24,6 +24,10 @@
 //
 //-----------------------------------------------------------------------------
 
+#ifdef __APPLE__
+#include <ctype.h>
+#endif
+
 #include <stdarg.h>
 #include "doomtype.h"
 #include "doomstat.h"

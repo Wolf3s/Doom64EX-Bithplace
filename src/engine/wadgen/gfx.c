@@ -28,6 +28,11 @@
 static const char rcsid[] = "$Id: Gfx.c 1096 2012-03-31 18:28:01Z svkaiser $";
 #endif
 
+#ifdef __APPLE__
+#include <string.h>
+#include <unistd.h>
+#endif
+
 #include "wadgen.h"
 #include "rom.h"
 #include "wad.h"

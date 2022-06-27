@@ -46,6 +46,8 @@
 
 #endif
 
+#include "gl_main.h"
+
 #define USE_SOUNDFONTS
 
 #pragma warning(disable:4996)
@@ -61,13 +63,6 @@ typedef char path[MAX_PATH];
 
 #define false	0
 #define true	1
-
-typedef struct {
-	byte r;
-	byte g;
-	byte b;
-	byte a;
-} dPalette_t;
 
 #ifdef _WIN32
 extern HWND hwnd;

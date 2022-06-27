@@ -34,6 +34,10 @@
 #include <io.h>
 #endif
 
+#ifdef __APPLE__
+#include <unistd.h>
+#endif
+
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <stdlib.h>
