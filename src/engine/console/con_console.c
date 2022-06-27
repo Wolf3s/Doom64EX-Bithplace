@@ -35,6 +35,7 @@
 #include "r_main.h"
 #include "i_system.h"
 #include "gl_texture.h"
+#include "SDL.h" // Gibbon - for SDLK_BACKQUOTE
 
 #define CONSOLE_PROMPTCHAR      '>'
 #define MAX_CONSOLE_LINES       256//must be power of 2
@@ -352,7 +353,7 @@ dboolean CON_Responder(event_t* ev) {
     case CST_LOWER:
         if(ev->type == ev_keydown) {
             switch(c) {
-            case '`':
+            case SDLK_BACKQUOTE:
                 console_state = CST_UP;
                 console_enabled = false;
                 break;
@@ -457,7 +458,11 @@ dboolean CON_Responder(event_t* ev) {
 
     case CST_UP:
     case CST_RAISE:
-        if(c == '`') {
+	// AB (GIB) - Oh Kaiser...  you plumb! :)
+	// Why the hell do this?  It only works on UK/US keyboards
+	// Gibbon fixes it!
+        //if(c == '`') { <-- BOO!
+		if(c == SDLK_BACKQUOTE) {
             if(ev->type == ev_keydown) {
                 console_state = CST_DOWN;
                 console_enabled = true;
