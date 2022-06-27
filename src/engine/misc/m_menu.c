@@ -2276,12 +2276,12 @@ void M_ChangeRatio(int choice) {
     int max = 0;
 
     if(choice) {
-        if(++m_aspectRatio > 2) {
-            if(choice == 2) {
+        if(++m_aspectRatio > 3) {
+            if(choice == 3) {
                 m_aspectRatio = 0;
             }
             else {
-                m_aspectRatio = 2;
+                m_aspectRatio = 3;
             }
         }
     }
