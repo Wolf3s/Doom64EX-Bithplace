@@ -1985,7 +1985,7 @@ menu_t VideoDef = {
     VideoBars
 };
 
-#define MAX_RES4_3  9
+#define MAX_RES4_3  11
 static const int Resolution4_3[MAX_RES4_3][2] = {
     {   320,    240     },
     {   640,    480     },
@@ -1995,7 +1995,9 @@ static const int Resolution4_3[MAX_RES4_3][2] = {
     {   1152,   864     },
     {   1280,   960     },
     {   1400,   1050    },
-    {   1600,   1200    }
+    {   1600,   1200    },
+    {   2048,   1536    },
+    {   3200,   2400    }
 };
 
 #define MAX_RES5_4  1
@@ -2018,7 +2020,7 @@ static const int Resolution16_9[MAX_RES16_9][2] = {
     {   3840,   2160    }
 };
 
-#define MAX_RES16_10  7
+#define MAX_RES16_10  9
 static const int Resolution16_10[MAX_RES16_10][2] = {
     {   320,    200     },
     {   1024,   640     },
@@ -2026,7 +2028,9 @@ static const int Resolution16_10[MAX_RES16_10][2] = {
     {   1440,   900     },
     {   1680,   1050    },
     {   1920,   1200    },
-    {   2560,   1600    }
+    {   2560,   1600    },
+    {   3840,   2400    },
+    {   7680,   4800    }
 };
 
 static const float ratioVal[3] = {
