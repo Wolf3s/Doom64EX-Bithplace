@@ -786,11 +786,6 @@ static int Signal_Pause(doomseq_t* seq) {
     SEMAPHORE_LOCK()
     for(i = 0; i < MIDI_CHANNELS; i++) {
         c = &playlist[i];
-
-        if(c->song && !c->paused) {
-            c->paused = true;
-            Chan_StopTrack(seq, c);
-        }
     }
     SEMAPHORE_UNLOCK()
 
@@ -811,11 +806,6 @@ static int Signal_Resume(doomseq_t* seq) {
     SEMAPHORE_LOCK()
     for(i = 0; i < MIDI_CHANNELS; i++) {
         c = &playlist[i];
-
-        if(c->song && c->paused) {
-            c->paused = false;
-            fluid_synth_noteon(seq->synth, c->track->channel, c->key, c->velocity);
-        }
     }
     SEMAPHORE_UNLOCK()
 
