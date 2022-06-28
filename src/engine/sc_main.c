@@ -48,7 +48,7 @@ scparser_t sc_parser;
 // SC_Open
 //
 
-static void SC_Open(char* name) {
+static void SC_Open(const char* name) {
     int lump;
 
     CON_DPrintf("--------SC_Open: Reading %s--------\n", name);
@@ -63,14 +63,14 @@ static void SC_Open(char* name) {
         }
     }
     else {
-        sc_parser.buffer     = W_CacheLumpNum(lump, PU_STATIC);
+        sc_parser.buffer     = (byte*) W_CacheLumpNum(lump, PU_STATIC);
         sc_parser.buffsize   = W_LumpLength(lump);
     }
 
     CON_DPrintf("%s size: %ikb\n", name, sc_parser.buffsize >> 10);
 
-    sc_parser.pointer_start  = sc_parser.buffer;
-    sc_parser.pointer_end    = sc_parser.buffer + sc_parser.buffsize;
+    sc_parser.pointer_start  = (char*) sc_parser.buffer;
+    sc_parser.pointer_end    = (char*) sc_parser.buffer + sc_parser.buffsize;
     sc_parser.linepos        = 1;
     sc_parser.rowpos         = 1;
     sc_parser.buffpos        = 0;
@@ -96,7 +96,7 @@ static void SC_Close(void) {
 // SC_Compare
 //
 
-static void SC_Compare(char* token) {
+static void SC_Compare(const char* token) {
     sc_parser.find(false);
     if(dstricmp(sc_parser.token, token)) {
         I_Error("SC_Compare: Expected '%s', found '%s' (line = %i, pos = %i)",
@@ -292,7 +292,7 @@ static void SC_Rewind(void) {
 // SC_Error
 //
 
-static void SC_Error(char* function) {
+static void SC_Error(const char* function) {
     if(sc_parser.token[0] < ' ') {
         return;
     }

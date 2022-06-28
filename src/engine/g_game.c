@@ -1434,7 +1434,7 @@ void G_RunTitleMap(void) {
         return;
     }
 
-    demobuffer = Z_Calloc(0x16000, PU_STATIC, NULL);
+    demobuffer = (byte*) Z_Calloc(0x16000, PU_STATIC, NULL);
     demo_p = demobuffer;
     demobuffer[0x16000-1] = DEMOMARKER;
 

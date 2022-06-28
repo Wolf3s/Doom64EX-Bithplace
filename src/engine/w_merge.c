@@ -81,7 +81,7 @@ static int sprite_frames_alloced;
 //
 // Returns -1 if not found
 
-static int FindInList(searchlist_t *list, char *name) {
+static int FindInList(searchlist_t *list, const char *name) {
     int i;
 
     for(i = 0; i < list->numlumps; ++i) {
@@ -94,8 +94,8 @@ static int FindInList(searchlist_t *list, char *name) {
 }
 
 static dboolean SetupList(searchlist_t *list, searchlist_t *src_list,
-                          char *startname, char *endname,
-                          char *startname2, char *endname2) {
+                          const char *startname, const char *endname,
+                          const char *startname2, const char *endname2) {
     int startlump, endlump;
 
     list->numlumps = 0;
@@ -156,7 +156,7 @@ static void SetupLists(void) {
 static void InitSpriteList(void) {
     if(sprite_frames == NULL) {
         sprite_frames_alloced = 128;
-        sprite_frames = Z_Malloc(sizeof(*sprite_frames) * sprite_frames_alloced,
+        sprite_frames = (sprite_frame_t*) Z_Malloc(sizeof(*sprite_frames) * sprite_frames_alloced,
                                  PU_STATIC, NULL);
     }
 
@@ -186,7 +186,7 @@ static sprite_frame_t *FindSpriteFrame(char *name, int frame) {
     if(num_sprite_frames >= sprite_frames_alloced) {
         sprite_frame_t *newframes;
 
-        newframes = Z_Malloc(sprite_frames_alloced * 2 * sizeof(*sprite_frames),
+        newframes = (sprite_frame_t*) Z_Malloc(sprite_frames_alloced * 2 * sizeof(*sprite_frames),
                              PU_STATIC, NULL);
         memcpy(newframes, sprite_frames,
                sprite_frames_alloced * sizeof(*sprite_frames));
@@ -357,7 +357,7 @@ static void DoMerge(void) {
     int i, n;
 
     // Can't ever have more lumps than we already have
-    newlumps = malloc(sizeof(lumpinfo_t) * numlumps);
+    newlumps = (lumpinfo_t*) malloc(sizeof(lumpinfo_t) * numlumps);
     num_newlumps = 0;
 
     // Add IWAD lumps

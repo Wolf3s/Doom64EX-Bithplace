@@ -805,7 +805,7 @@ static void FindResponseFile(void) {
             fseek(handle,0,SEEK_END);
             size = ftell(handle);
             fseek(handle,0,SEEK_SET);
-            file = malloc(size);
+            file = (char *)malloc(size);
             fread(file,size,1,handle);
             fclose(handle);
 
@@ -815,7 +815,7 @@ static void FindResponseFile(void) {
             }
 
             firstargv = myargv[0];
-            myargv = malloc(sizeof(char *)*MAXARGVS);
+            myargv = (char **)malloc(sizeof(char *)*MAXARGVS);
             dmemset(myargv,0,sizeof(char *)*MAXARGVS);
             myargv[0] = firstargv;
 
