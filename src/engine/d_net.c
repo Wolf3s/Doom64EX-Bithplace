@@ -262,7 +262,7 @@ static void D_NetWait(void) {
     I_Printf("---------------------------------------------\n\n");
 
 #ifndef USESYSCONSOLE
-	I_NetWaitScreen();
+	//I_NetWaitScreen();
 #endif
 
     while(net_waiting_for_start) {
