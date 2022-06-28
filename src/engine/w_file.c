@@ -145,4 +145,3 @@ char *W_FindIWAD(void) {
 
     return I_FindDataFile("doom64.wad");
 }
-

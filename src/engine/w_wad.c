@@ -54,17 +54,15 @@
 
 #include "md5.h"
 
+#ifdef __GNUG__
+#pragma implementation "w_wad.h"
+#endif
 #include "w_wad.h"
 
 //
-// GLOBALS
-//
-
 #ifdef _MSC_VER
 #pragma pack(push, 1)
 #endif
-
-//
 // TYPES
 //
 typedef struct {
@@ -88,6 +86,7 @@ typedef struct {
 #define MAX_MEMLUMPS    16
 
 // Location of each lump on disk.
+extern lumpinfo_t*    lumpinfo;
 int            numlumps;
 
 #define CopyLumps(dest, src, count) dmemcpy(dest, src, (count)*sizeof(lumpinfo_t))
@@ -191,20 +190,20 @@ void W_Init(void) {
     }
 
     numlumps = 0;
-    lumpinfo = (lumpinfo_t*) malloc(1); // Will be realloced as lumps are added
+    lumpinfo = malloc(1); // Will be realloced as lumps are added
 
     startlump = numlumps;
 
     header.numlumps = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
     length = header.numlumps*sizeof(filelump_t);
-    fileinfo = (filelump_t*) Z_Malloc(length, PU_STATIC, 0);
+    fileinfo = Z_Malloc(length, PU_STATIC, 0);
 
     W_Read(wadfile, header.infotableofs, fileinfo, length);
     numlumps += header.numlumps;
 
     // Fill in lumpinfo
-    lumpinfo = (lumpinfo_t*) realloc(lumpinfo, numlumps*sizeof(lumpinfo_t));
+    lumpinfo = realloc(lumpinfo, numlumps*sizeof(lumpinfo_t));
     dmemset(lumpinfo, 0, numlumps * sizeof(lumpinfo_t));
 
     if(!lumpinfo) {
@@ -246,15 +245,14 @@ void W_Init(void) {
             if ((filename = I_FindDataFile(myargv[p]))) {
                 W_MergeFile(filename);
                 free(filename);
-            } else {
-                W_MergeFile(myargv[p]);
             }
         }
     }
     // 20120724 villsa - find drag & drop wad files
     else {
         for(i = 1; i < myargc; i++) {
-            if(strstr(myargv[i], ".wad") || strstr(myargv[i], ".WAD")) {
+            if(dstrstr(myargv[i], ".wad") ||
+                    dstrstr(myargv[i], ".WAD")) {
                 char *filename;
                 if ((filename = I_FindDataFile(myargv[i]))) {
                     W_MergeFile(filename);
@@ -307,7 +305,7 @@ wad_file_t *W_AddFile(char *filename) {
         // them back.  Effectively we're constructing a "fake WAD directory"
         // here, as it would appear on disk.
 
-        fileinfo = (filelump_t*) Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
+        fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
         fileinfo->filepos = LONG(0);
         fileinfo->size = LONG(wadfile->length);
 
@@ -329,14 +327,14 @@ wad_file_t *W_AddFile(char *filename) {
         header.numlumps = LONG(header.numlumps);
         header.infotableofs = LONG(header.infotableofs);
         length = header.numlumps*sizeof(filelump_t);
-        fileinfo = (filelump_t*) Z_Malloc(length, PU_STATIC, 0);
+        fileinfo = Z_Malloc(length, PU_STATIC, 0);
 
         W_Read(wadfile, header.infotableofs, fileinfo, length);
         numlumps += header.numlumps;
     }
 
     // Fill in lumpinfo
-    lumpinfo = (lumpinfo_t*) realloc(lumpinfo, numlumps * sizeof(lumpinfo_t));
+    lumpinfo = realloc(lumpinfo, numlumps * sizeof(lumpinfo_t));
 
     if(lumpinfo == NULL) {
         I_Error("W_AddFile: Couldn't realloc lumpinfo");
@@ -598,7 +596,7 @@ static int GetFileNumber(wad_file_t *handle) {
     // Not found in list.  This is a new file we haven't seen yet.
     // Allocate another slot for this file.
 
-    open_wadfiles = (wad_file_t**) realloc(open_wadfiles,
+    open_wadfiles = realloc(open_wadfiles,
                             sizeof(wad_file_t *) * (num_open_wadfiles + 1));
     open_wadfiles[num_open_wadfiles] = handle;
 
