@@ -68,7 +68,7 @@ dboolean    dfcmp(float f1, float f2);
 int         dsprintf(char *buf, const char *format, ...);
 int         dsnprintf(char *src, size_t n, const char *str, ...);
 
-int D_abs(int x);
+extern int D_abs(int x);
 extern float D_fabs(float x);
 
 #define dcos(angle) finecosine[(angle) >> ANGLETOFINESHIFT]
