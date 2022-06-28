@@ -13,7 +13,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <commctrl.h>
-#include <win32/resource.h>
+#include "../win32/resource.h"
 #include <rpcdce.h>
 #include <io.h>
 #else
@@ -46,7 +46,7 @@
 
 #endif
 
-#include "gl_main.h"
+#include "../gl_main.h"
 
 #define USE_SOUNDFONTS
 
@@ -106,6 +106,6 @@ static inline char *strupr(char *in)
 }
 #endif
 
-#include "md5.h"
+#include "../md5.h"
 
 #endif

@@ -4,7 +4,7 @@
 ##
 ## LICENSE:
 ##
-## Copyright(C) 2014-2016 Zohar Malamant
+## Copyright(C) 2014-2016 Zohar Malamant, 2022 Gibbon
 ##
 ## This program is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License
@@ -74,17 +74,14 @@ set(VERSION_GIT true)
 ##
 
 if (WIN32)
-  add_sources(system/win32
-    doom64ex-plus.rc
-    )
 
-  add_sources(system
-    i_cpu.c
-    )
+set(WIN32_GAME_SOURCE_FILES
+i_cpu.c win32/doom64ex-plus.rc)
+
 else ()
-  add_sources(system
-    i_cpu_posix.c
-    )
+
+set(POSIX_GAME_SOURCE_FILES
+i_cpu_posix.c)
 
   add_link_libraries(m) # math lib
 endif ()
@@ -93,209 +90,41 @@ endif ()
 ## Sources
 ##
 
-# src/automap
-add_sources(automap
-  am_draw.c
-  am_map.c
-  )
+set(GAME_SOURCE_FILES
+am_draw.c am_map.c info.c md5.c tables.c
+con_console.c con_cvar.c d_devstat.c d_main.c
+d_net.c f_finale.c in_stuff.c 
+g_actions.c g_demo.c g_game.c g_settings.c
+wi_stuff.c m_cheat.c m_fixed.c m_keys.c m_menu.c m_misc.c m_password.c
+m_random.c m_shift.c net_client.c net_common.c net_dedicated.c
+net_io.c net_loop.c net_packet.c net_query.c net_sdl.c net_server.c net_structrw.c
+dgl.c gl_draw.c gl_main.c gl_texture.c 
+sc_main.c p_ceilng.c p_doors.c p_enemy.c
+p_floor.c p_inter.c p_lights.c p_macros.c p_map.c p_maputl.c p_mobj.c
+p_plats.c p_pspr.c p_saveg.c p_setup.c p_sight.c p_spec.c p_switch.c p_telept.c
+p_tick.c p_user.c r_bsp.c r_clipper.c r_drawlist.c r_lights.c r_main.c
+r_scene.c r_sky.c r_things.c r_wipe.c s_sound.c st_stuff.c i_audio.c
+i_main.c i_png.c i_system.c i_video.c w_file.c w_merge.c w_wad.c
+wadgen/deflate-N64.c wadgen/files.c wadgen/gfx.c  wadgen/level.c
+wadgen/mem.c wadgen/png.c wadgen/rom.c wadgen/sndfont.c
+wadgen/sound.c wadgen/sprite.c wadgen/texture.c wadgen/wad.c
+wadgen/wadgen.c z_zone.c)
 
-# src/common
-add_sources(common
-  doomdata.h
-  doomdef.h
-  doomstat.h
-  doomtype.h
-  info.c
-  md5.c
-  tables.c
-  )
+if (WIN32)
 
-# src/console
-add_sources(console
-  con_console.c
-  con_cvar.c
-  )
+set(SOURCE_FILES ${GAME_SOURCE_FILES} ${WIN32_GAME_SOURCE_FILES})
 
-# src/doom_main
-add_sources(doom_main
-  d_devstat.c
-  d_englsh.h
-  d_event.h
-  d_keywds.h
-  d_main.c
-  d_net.c
-  d_player.h
-  d_think.h
-  d_ticcmd.h
-  )
+else ()
 
-# src/finale
-add_sources(finale
-  f_finale.c
-  in_stuff.c
-  )
+set(SOURCE_FILES ${GAME_SOURCE_FILES} ${POSIX_GAME_SOURCE_FILES})
 
-# src/game
-add_sources(game
-  g_actions.c
-  g_controls.h
-  g_demo.c
-  g_game.c
-  g_local.h
-  g_settings.c
-  )
-
-# src/intermission
-add_sources(intermission
-  wi_stuff.c
-  )
-
-# src/misc
-add_sources(misc
-  m_cheat.c
-  m_fixed.c
-  m_keys.c
-  m_menu.c
-  m_misc.c
-  m_password.c
-  m_random.c
-  m_shift.c
-  )
-
-# src/net
-add_sources(net
-  net_client.c
-  net_common.c
-  net_dedicated.c
-  net_defs.h
-  net_io.c
-  net_loop.c
-  net_packet.c
-  net_query.c
-  net_sdl.c
-  net_server.c
-  net_structrw.c
-  )
-
-# src/opengl
-add_sources(opengl
-  dgl.c
-  gl_draw.c
-  gl_main.c
-  gl_texture.c
-  )
-
-# src/parser
-add_sources(parser
-  sc_main.c
-  )
-
-# src/playloop
-add_sources(playloop
-  p_ceilng.c
-  p_doors.c
-  p_enemy.c
-  p_floor.c
-  p_inter.c
-  p_lights.c
-  p_local.h
-  p_macros.c
-  p_map.c
-  p_maputl.c
-  p_mobj.c
-  p_plats.c
-  p_pspr.c
-  p_saveg.c
-  p_setup.c
-  p_sight.c
-  p_spec.c
-  p_switch.c
-  p_telept.c
-  p_tick.c
-  p_user.c
-  )
-
-# src/renderer
-add_sources(renderer
-  r_bsp.c
-  r_clipper.c
-  r_drawlist.c
-  r_lights.c
-  r_local.h
-  r_main.c
-  r_scene.c
-  r_sky.c
-  r_things.c
-  r_wipe.c
-  )
-
-# src/sound
-add_sources(sound
-  sounds.h
-  s_sound.c
-  )
-
-# src/statusbar
-add_sources(statusbar
-  st_stuff.c
-  )
-
-# src/system
-add_sources(system
-  i_audio.c
-  i_main.c
-  i_png.c
-  i_swap.h
-  i_system.c
-  i_video.c
-  )
-
-# src/wadfile
-add_sources(wadfile
-  w_file.c
-  w_merge.c
-  w_wad.c
-  )
-
-# src/wadgen
-add_sources(wadgen
-  deflate-N64.c
-  deflate-N64.h
-  files.c
-  files.h
-  gfx.c
-  gfx.h
-  level.c
-  level.h
-  mem.c
-  mem.h
-  png.c
-  rom.c
-  rom.h
-  sndfont.c
-  sndfont.h
-  sound.c
-  sound.h
-  sprite.c
-  sprite.h
-  texture.c
-  texture.h
-  wad.c
-  wad.h
-  wadgen.c
-  wadgen.h
-  )
-
-# src/zone
-add_sources(zone
-  z_zone.c
-  )
+endif ()
 
 ##------------------------------------------------------------------------------
 ## Build target
 ##
 
-add_executable(doom64ex-plus MACOSX_BUNDLE ${SOURCES})
+add_executable(doom64ex-plus MACOSX_BUNDLE ${SOURCE_FILES})
 target_include_directories(doom64ex-plus PRIVATE ${INCLUDES})
 target_link_libraries(doom64ex-plus ${LIBRARIES})
 add_dependencies(doom64ex-plus doom64expluswad)

@@ -39,7 +39,7 @@ static const char rcsid[] =
 #include "wad.h"
 #include "level.h"
 #include "sndfont.h"
-#include "m_misc.h"
+#include "../m_misc.h"
 
 #include <stdarg.h>
 
