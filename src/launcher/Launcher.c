@@ -37,7 +37,7 @@ HWND        hwndNetType = NULL;
 HWND        hwndPlrName = NULL;
 HWND        hwndIpAddr  = NULL;
 
-TCHAR CommandLine[1024]=L"";
+wchar_t CommandLine[1024]=L"";
 
 POINT Resolutions[]=
 {
@@ -49,6 +49,8 @@ POINT Resolutions[]=
     {   1280,   960     },
     {   1400,   1050    },
     {   1600,   1200    },
+    {   2048,   1536    },
+    {   3200,   2400    },
 
     {   854,    480     },
     {   1280,   720     },
@@ -60,6 +62,11 @@ POINT Resolutions[]=
     {   1440,   900     },
     {   1680,   1050    },
     {   1920,   1200    },
+    {   2560,   1600    },
+    {   3840,   2400    },
+    {   7680,   4800    },
+
+    {   1280,   1024    },
     {   0,      0       }
 };
 
@@ -111,7 +118,7 @@ tDefTypes_t LauncherDefaults[] =
     
     {L"level_warp",      'i', 0,     &iWarp,         NULL,           NULL},
     {L"start_skill",		'i', 2,     &iSkill,        NULL,           NULL},
-    {L"video_resolution",'i', 3,     &iResolution,   NULL,           NULL},
+    {L"video_resolution",'i', 4,     &iResolution,   NULL,           NULL},
     
     {L"windowed",        'i', true,  &bWindowed,     NULL,           NULL},
     
@@ -205,7 +212,7 @@ void L_InitConfig(tDefTypes_t *config, HWND hWnd)
 
 void L_InitResolution(HWND hWnd)
 {
-    TCHAR buff[20];
+    wchar_t *buff[30];
     POINT	*p;
     int		i = 0;
     
@@ -213,16 +220,18 @@ void L_InitResolution(HWND hWnd)
     for (i = 0, p = Resolutions; p->x; p++, i++)
     {
         if(i <= 7)
-            sprintf(buff, L"%dx%d (4:3)", p->x, p->y);
+            sprintf(buff, "%dx%d (4:3)", p->x, p->y);
         else if(i <= 11)
-            sprintf(buff, L"%dx%d (16:9)", p->x, p->y);
+            sprintf(buff, "%dx%d (16:9)", p->x, p->y);
+        else if(i <= 21)
+            sprintf(buff, "%dx%d (16:10)", p->x, p->y);
         else
-            sprintf(buff, L"%dx%d (16:10)", p->x, p->y);
-
-        SendMessage(hwndRes, CB_ADDSTRING, 0, (LPARAM)buff);
-        SendMessage(hwndRes, CB_SETITEMDATA, i, (LPARAM)i);
+            sprintf(buff, "%dx%d (5:4)", p->x, p->y);
+        //Hack for now - GIB
+        SendMessageA(hwndRes, CB_ADDSTRING, 0, (LPARAM)buff);
+        SendMessageA(hwndRes, CB_SETITEMDATA, i, (LPARAM)i);
     }
-    SendMessage(hwndRes, CB_SETCURSEL, iResolution, 0);
+    SendMessageA(hwndRes, CB_SETCURSEL, iResolution, 0);
 }
 
 //**************************************************************
@@ -272,18 +281,18 @@ void L_InitNetType(HWND hWnd)
 void L_InitWarp(HWND hWnd)
 {
     int		i = 0;
-    wchar_t	*buff[2];
+    wchar_t   *buff[2];
     
     hwndWarp = GetDlgItem(hWnd, IDC_COWARP);
-    SendMessage(hwndWarp, CB_ADDSTRING, 0, (LPARAM)"None");
+    SendMessage(hwndWarp, CB_ADDSTRING, 0, (LPARAM)L"None");
     SendMessage(hwndWarp, CB_SETITEMDATA, 0, (LPARAM)i);
     for (i = 1; i < 33; i++)
     {
-        sprintf(buff, L"%02d", i);
-        SendMessage(hwndWarp, CB_ADDSTRING, 0, (LPARAM)buff);
-        SendMessage(hwndWarp, CB_SETITEMDATA, i, (LPARAM)i);
+        sprintf(buff, "%02d", i);
+        SendMessageA(hwndWarp, CB_ADDSTRING, 0, (LPARAM)buff);
+        SendMessageA(hwndWarp, CB_SETITEMDATA, i, (LPARAM)i);
     }
-    SendMessage(hwndWarp, CB_SETCURSEL, iWarp, 0);
+    SendMessageA(hwndWarp, CB_SETCURSEL, iWarp, 0);
 }
 
 //**************************************************************
@@ -354,7 +363,7 @@ bool L_CreateExecutableParam(HWND hWnd)
 {
     PROCESS_INFORMATION	pi;
     STARTUPINFO			si;
-    wchar_t*			buff[1024];
+    wchar_t			    *buff[1024];
     int					data;
     POINT*				res;
     
@@ -437,7 +446,7 @@ bool L_CreateExecutableParam(HWND hWnd)
     
     ZeroMemory(&si, sizeof(STARTUPINFO));
     si.cb=sizeof(STARTUPINFO);
-    if(CreateProcess(NULL, CommandLine, NULL, NULL, FALSE, 
+    if(CreateProcessA(NULL, CommandLine, NULL, NULL, FALSE, 
         CREATE_DEFAULT_ERROR_MODE|DETACHED_PROCESS, NULL, NULL, &si, &pi))
     {
         CloseHandle(pi.hProcess);
@@ -445,7 +454,7 @@ bool L_CreateExecutableParam(HWND hWnd)
     }
     else
     {
-        MessageBox(NULL, L"Unable to launch the game. Make sure launcher is in the same directory as game executable", "Error", MB_OK);
+        MessageBoxA(NULL, "Unable to launch the game. Make sure launcher is in the same directory as the game executable", "Error", MB_OK);
         return false;
     }
     return true;
