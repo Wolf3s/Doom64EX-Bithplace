@@ -440,7 +440,7 @@ bool L_CreateExecutableParam(HWND hWnd)
     sprintf(buff, " -height %i", res->y);
     strcat(CommandLine,	buff);
     
-    GetDlgItemText(hWnd, IDC_PARAM, buff, 1024);
+    GetDlgItemTextA(hWnd, IDC_PARAM, buff, 1024);
     strcat(CommandLine,	" ");
     strcat(CommandLine,	buff);
     
@@ -608,7 +608,7 @@ bool __stdcall MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             
         case ID_BTNLAUNCH:
             if(L_CreateExecutableParam(hWnd))
-                SendMessage(hWnd, WM_ENABLE, 0, 0);
+                SendMessageA(hWnd, WM_ENABLE, 0, 0);
             break;
         }
         break;
