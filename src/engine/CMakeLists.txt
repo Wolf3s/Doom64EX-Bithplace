@@ -104,11 +104,7 @@ p_floor.c p_inter.c p_lights.c p_macros.c p_map.c p_maputl.c p_mobj.c
 p_plats.c p_pspr.c p_saveg.c p_setup.c p_sight.c p_spec.c p_switch.c p_telept.c
 p_tick.c p_user.c r_bsp.c r_clipper.c r_drawlist.c r_lights.c r_main.c
 r_scene.c r_sky.c r_things.c r_wipe.c s_sound.c st_stuff.c i_audio.c
-i_main.c i_png.c i_system.c i_video.c w_file.c w_merge.c w_wad.c
-wadgen/deflate-N64.c wadgen/files.c wadgen/gfx.c  wadgen/level.c
-wadgen/mem.c wadgen/png.c wadgen/rom.c wadgen/sndfont.c
-wadgen/sound.c wadgen/sprite.c wadgen/texture.c wadgen/wad.c
-wadgen/wadgen.c z_zone.c)
+i_main.c i_png.c i_system.c i_video.c w_file.c w_merge.c w_wad.c z_zone.c)
 
 if (WIN32)
 
