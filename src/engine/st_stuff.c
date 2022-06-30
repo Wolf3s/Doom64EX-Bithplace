@@ -398,6 +398,7 @@ void ST_Ticker(void) {
     if(plyr->message) {
         CON_Printf(WHITE, "%s\n", plyr->message);
 
+		ST_ClearMessage();
         st_msg = plyr->message;
         plyr->message = NULL;
     }
