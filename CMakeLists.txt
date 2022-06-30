@@ -23,7 +23,7 @@
 ##
 
 cmake_minimum_required(VERSION 3.12.0)
-project(doom64ex-plus C CXX)
+project(DOOM64EX-Plus C CXX)
 
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/extern/build")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -35,7 +35,7 @@ set(CMAKE_CXX_FLAGS -std=c++14)
 ## Options
 ##
 
-option(GENERATE_DOOM64WAD "Generate doom64ex-plus.wad" ON)
+option(GENERATE_DOOM64WAD "Generate DOOM64EX-Plus.WAD" ON)
 
 ##------------------------------------------------------------------------------
 ## CMake functions

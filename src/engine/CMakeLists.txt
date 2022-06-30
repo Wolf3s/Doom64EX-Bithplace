@@ -65,7 +65,7 @@ add_link_libraries(${OPENGL_LIBRARIES})
 ##
 
 set(VERSION_MAJOR 3)
-set(VERSION_MINOR 2)
+set(VERSION_MINOR 3)
 set(VERSION_PATCH 0)
 set(VERSION_GIT true)
 
@@ -120,10 +120,10 @@ endif ()
 ## Build target
 ##
 
-add_executable(doom64ex-plus MACOSX_BUNDLE ${SOURCE_FILES})
-target_include_directories(doom64ex-plus PRIVATE ${INCLUDES})
-target_link_libraries(doom64ex-plus ${LIBRARIES})
-add_dependencies(doom64ex-plus doom64expluswad)
+add_executable(DOOM64EX-Plus MACOSX_BUNDLE ${SOURCE_FILES})
+target_include_directories(DOOM64EX-Plus PRIVATE ${INCLUDES})
+target_link_libraries(DOOM64EX-Plus ${LIBRARIES})
+add_dependencies(DOOM64EX-Plus doom64expluswad)
 
 
 ##------------------------------------------------------------------------------
@@ -131,5 +131,5 @@ add_dependencies(doom64ex-plus doom64expluswad)
 ##
 
 if (NOT WIN32)
-  install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/doom64ex-plus DESTINATION bin)
+  install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/DOOM64EX-Plus DESTINATION bin)
 endif ()
