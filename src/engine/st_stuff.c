@@ -398,9 +398,15 @@ void ST_Ticker(void) {
     if(plyr->message) {
         CON_Printf(WHITE, "%s\n", plyr->message);
 
-        ST_ClearMessage();
         st_msg = plyr->message;
         plyr->message = NULL;
+    }
+	
+    if(plyr->secretmessage) {
+        CON_Printf(YELLOW, "%s\n", plyr->secretmessage);
+		
+        st_msg = plyr->secretmessage;
+        plyr->secretmessage = NULL;
     }
 
     if(st_msg || plyr->messagepic >= 0) {
@@ -828,11 +834,22 @@ void ST_Drawer(void) {
     //
     // draw messages
     //
-
-    if(st_hasjmsg && st_regionmsg.value && plyr->messagepic >= 0) {
+	
+	// Secret messages
+	
+    if(st_hasjmsg && st_regionmsg.value && plyr->messagepic == 40) {
         ST_DrawJMessage(plyr->messagepic);
     }
-    else if(st_msg && (int)m_messages.value) {
+    else if(st_msg && (int)m_messages.value && plyr->messagepic == 40) {
+        Draw_Text(80, 80, YELLOW, 1, false, st_msg);
+    }
+	
+	// Standard messages
+	
+    if(st_hasjmsg && st_regionmsg.value && plyr->messagepic != 40) {
+        ST_DrawJMessage(plyr->messagepic);
+    }
+    else if(st_msg && (int)m_messages.value && plyr->messagepic != 40) {
         Draw_Text(20, 20, ST_MSGCOLOR(automapactive ? 0xff : st_msgalpha), 1, false, st_msg);
     }
     else if(automapactive) {

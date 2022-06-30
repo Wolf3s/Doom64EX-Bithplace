@@ -148,6 +148,9 @@ typedef struct player_s {
 
     // Hint messages.
     char*           message;
+	
+	// Secret messages.
+    char*           secretmessage;
 
     // [d64] tic for how long message should stay on hud...not used in d64ex
     // int          messagetic;
@@ -174,7 +177,7 @@ typedef struct player_s {
 
     // [kex] allow autoaim?
     dboolean        autoaim;
-
+    
     // [kex] display pic as message instead of text
     int             messagepic;
 
