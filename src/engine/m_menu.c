@@ -1150,7 +1150,7 @@ CVAR_EXTERNAL(r_wipe);
 CVAR_EXTERNAL(r_rendersprites);
 CVAR_EXTERNAL(r_texturecombiner);
 CVAR_EXTERNAL(r_colorscale);
-CVAR_EXTERNAL(r_disablesecretmessages);
+CVAR_EXTERNAL(hud_disablesecretmessages);
 
 enum {
     misc_header1,
@@ -1269,7 +1269,7 @@ menudefault_t MiscDefault[] = {
     { &r_rendersprites, 1 },
     { &r_skybox, 0 },
     { &r_colorscale, 0 },
-    { &r_disablesecretmessages, 0 },
+    { &hud_disablesecretmessages, 0 },
     { &am_showkeymarkers, 0 },
     { &am_showkeycolors, 0 },
     { &am_drawobjects, 0 },
@@ -1394,7 +1394,7 @@ void M_MiscChoice(int choice) {
         break;
 		
     case misc_disablesecretmessages:
-        M_SetOptionValue(choice, 0, 1, 1, &r_disablesecretmessages);
+        M_SetOptionValue(choice, 0, 1, 1, &hud_disablesecretmessages);
         break;
 
     case misc_showkey:
@@ -1480,7 +1480,7 @@ void M_DrawMisc(void) {
     DRAWMISCITEM(misc_comp_pain, compat_limitpain.value, msgNames);
     DRAWMISCITEM(misc_comp_pass, !compat_mobjpass.value, msgNames);
     DRAWMISCITEM(misc_comp_grab, compat_grabitems.value, msgNames);
-    DRAWMISCITEM(misc_disablesecretmessages, r_disablesecretmessages.value, disablesecretmessages);
+    DRAWMISCITEM(misc_disablesecretmessages, hud_disablesecretmessages.value, disablesecretmessages);
 
 #undef DRAWMISCITEM
 

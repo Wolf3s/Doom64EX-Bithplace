@@ -838,12 +838,12 @@ void ST_Drawer(void) {
 	
 	// Secret messages
 	
-	CVAR_EXTERNAL(r_disablesecretmessages);
+	CVAR_EXTERNAL(hud_disablesecretmessages);
 	
-    if(st_hasjmsg && st_regionmsg.value && plyr->messagepic == 40 && r_disablesecretmessages.value != 1) {
+    if(st_hasjmsg && st_regionmsg.value && plyr->messagepic == 40 && hud_disablesecretmessages.value != 1) {
         ST_DrawJMessage(plyr->messagepic);
     }
-    else if(st_msg && (int)m_messages.value && plyr->messagepic == 40 && r_disablesecretmessages.value != 1) {
+    else if(st_msg && (int)m_messages.value && plyr->messagepic == 40 && hud_disablesecretmessages.value != 1) {
         Draw_Text(80, 80, YELLOW, 1, false, st_msg);
     }
 	
