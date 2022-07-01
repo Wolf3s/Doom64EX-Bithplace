@@ -343,7 +343,7 @@ void T_MobjExplode(mobjexp_t *mexp) {
 
     mexp->delay = mexp->delaymax;
 
-    if(mobj->state != (state_t *)S_000) {
+    if(mobj->state != (state_t *)S_NULL) {
         x = (((P_Random() - P_Random()) << 14) + mobj->x);
         y = (((P_Random() - P_Random()) << 14) + mobj->y);
         z = (((P_Random() - P_Random()) << 14) + mobj->z);

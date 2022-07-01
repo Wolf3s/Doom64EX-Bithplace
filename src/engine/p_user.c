@@ -327,8 +327,8 @@ void P_MovePlayer(player_t* player) {
         }
     }
 
-    if((cmd->forwardmove || cmd->sidemove) && player->mo->state == &states[S_001]) {
-        P_SetMobjState(player->mo, S_002);
+    if((cmd->forwardmove || cmd->sidemove) && player->mo->state == &states[S_PLAY]) {
+        P_SetMobjState(player->mo, S_PLAY_RUN1);
     }
 
     if(cmd->buttons2 & BT2_JUMP) {
@@ -456,8 +456,8 @@ void P_PlayerXYMovment(mobj_t* mo) {
     if(mo->momx > -STOPSPEED && mo->momx < STOPSPEED &&
             mo->momy > -STOPSPEED && mo->momy < STOPSPEED) {
         // if in a walking frame, stop moving
-        if(((unsigned)(mo->state - states)- S_002) < 4) {
-            P_SetMobjState(mo, S_001);
+        if(((unsigned)(mo->state - states)- S_PLAY_RUN1) < 4) {
+            P_SetMobjState(mo, S_PLAY);
         }
 
         mo->momx = 0;
