@@ -24,7 +24,6 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <framework/pixmap.h>
 #include "doomstat.h"
 #include "r_local.h"
 #include "i_png.h"
@@ -140,7 +139,7 @@ static void InitWorldTextures(void) {
     textureheight       = Z_Calloc(numtextures * sizeof(word), PU_STATIC, NULL);
 
     for(i = 0; i < numtextures; i++) {
-        Pixmap *pixmap;
+        byte* png;
         int w;
         int h;
 
@@ -156,13 +155,13 @@ static void InitWorldTextures(void) {
         palettetranslation[i] = 0;
 
         // read PNG and setup global width and heights
-        pixmap = I_PNGReadData(t_start + i, true, true, false, &w, &h, NULL, 0);
+        png = I_PNGReadData(t_start + i, true, true, false, &w, &h, NULL, 0);
 
         textureptr[i][0] = 0;
         texturewidth[i] = w;
         textureheight[i] = h;
 
-        Pixmap_Free(pixmap);
+        Z_Free(png);
     }
 
     CON_DPrintf("%i world textures initialized\n", numtextures);
@@ -173,7 +172,7 @@ static void InitWorldTextures(void) {
 //
 
 void GL_BindWorldTexture(int texnum, int *width, int *height) {
-    Pixmap *pixmap;
+    byte *png;
     int w;
     int h;
 
@@ -209,12 +208,12 @@ void GL_BindWorldTexture(int texnum, int *width, int *height) {
     }
 
     // create a new texture
-    pixmap = I_PNGReadData(t_start + texnum, false, true, true,
+    png = I_PNGReadData(t_start + texnum, false, true, true,
                         &w, &h, NULL, palettetranslation[texnum]);
 
     dglGenTextures(1, &textureptr[texnum][palettetranslation[texnum]]);
     dglBindTexture(GL_TEXTURE_2D, textureptr[texnum][palettetranslation[texnum]]);
-    dglTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, Pixmap_GetData(pixmap));
+    dglTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, png);
 
     dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -233,7 +232,7 @@ void GL_BindWorldTexture(int texnum, int *width, int *height) {
         *height = textureheight[texnum];
     }
 
-    Pixmap_Free(pixmap);
+    Z_Free(png);
 
     if(devparm) {
         glBindCalls++;
@@ -257,10 +256,9 @@ void GL_SetNewPalette(int id, byte palID) {
 // SetTextureImage
 //
 
-static void SetTextureImage(byte* data, int bits, int *origwidth, int *origheight, int format, int type)
-{
+static void SetTextureImage(byte* data, int bits, int *origwidth, int *origheight, int format, int type) {
     if(r_texnonpowresize.value > 0) {
-        Pixmap pixmap_src, *pixmap;
+        byte* pad;
         int wp;
         int hp;
 
@@ -268,14 +266,19 @@ static void SetTextureImage(byte* data, int bits, int *origwidth, int *origheigh
         wp = GL_PadTextureDims(*origwidth);
         hp = GL_PadTextureDims(*origheight);
 
-        Pixmap_Raw(&pixmap_src, data, *origwidth, *origheight, 0, PF_RGBA32);
+        pad = Z_Calloc(wp * hp * bits, PU_STATIC, 0);
 
         if(r_texnonpowresize.value >= 2) {
             // this will probably look like crap
-            pixmap = Pixmap_Resample(&pixmap_src, wp, hp, PIXMAP_INTERP_NEAREST, PIXMAP_EXTRAP_NEAREST);
+            GL_ResampleTexture((int*)data, *origwidth, *origheight, (int*)pad, wp, hp, type);
         }
         else {
-            pixmap = Pixmap_Resize(&pixmap_src, wp, hp, NULL);
+            int y;
+
+            for(y = 0; y < *origheight; y++) {
+                dmemcpy(pad + y * wp * bits,
+                        ((byte*)data) + y **origwidth * bits, *origwidth * bits);
+            }
 
             *origwidth = wp;
             *origheight = hp;
@@ -290,10 +293,10 @@ static void SetTextureImage(byte* data, int bits, int *origwidth, int *origheigh
             0,
             type,
             GL_UNSIGNED_BYTE,
-            Pixmap_GetData(pixmap)
+            pad
         );
 
-        Pixmap_Free(pixmap);
+        Z_Free(pad);
     }
     else {
         dglTexImage2D(
@@ -330,11 +333,11 @@ static void InitGfxTextures(void) {
     gfxorigheight   = Z_Calloc(numgfx * sizeof(short), PU_STATIC, NULL);
 
     for(i = 0; i < numgfx; i++) {
-        Pixmap *pixmap;
+        byte* png;
         int w;
         int h;
 
-        pixmap = I_PNGReadData(g_start + i, true, true, false, &w, &h, NULL, 0);
+        png = I_PNGReadData(g_start + i, true, true, false, &w, &h, NULL, 0);
 
         gfxptr[i] = 0;
         gfxwidth[i] = w;
@@ -342,7 +345,7 @@ static void InitGfxTextures(void) {
         gfxorigheight[i] = h;
         gfxheight[i] = h;
 
-        Pixmap_Free(pixmap);
+        Z_Free(png);
     }
 
     CON_DPrintf("%i generic textures initialized\n", numgfx);
@@ -353,7 +356,7 @@ static void InitGfxTextures(void) {
 //
 
 int GL_BindGfxTexture(const char* name, dboolean alpha) {
-    Pixmap *pixmap;
+    byte* png;
     dboolean npot;
     int lump;
     int width;
@@ -380,7 +383,7 @@ int GL_BindGfxTexture(const char* name, dboolean alpha) {
         return gfxid;
     }
 
-    pixmap = I_PNGReadData(lump, false, true, alpha, &width, &height, NULL, 0);
+    png = I_PNGReadData(lump, false, true, alpha, &width, &height, NULL, 0);
 
     // check for non-power of two textures
     npot = has_GL_ARB_texture_non_power_of_two;
@@ -396,8 +399,8 @@ int GL_BindGfxTexture(const char* name, dboolean alpha) {
     format = alpha ? GL_RGBA8 : GL_RGB8;
     type = alpha ? GL_RGBA : GL_RGB;
 
-    SetTextureImage(Pixmap_GetData(pixmap), (alpha ? 4 : 3), &width, &height, format, type);
-    Pixmap_Free(pixmap);
+    SetTextureImage(png, (alpha ? 4 : 3), &width, &height, format, type);
+    Z_Free(png);
 
     gfxwidth[gfxid] = width;
     gfxheight[gfxid] = height;
@@ -459,7 +462,7 @@ static void InitSpriteTextures(void) {
     CON_DPrintf("%i external palettes initialized\n", palcnt);
 
     for(i = 0; i < numsprtex; i++) {
-        Pixmap *pixmap;
+        byte* png;
         int w;
         int h;
         size_t x;
@@ -473,14 +476,14 @@ static void InitSpriteTextures(void) {
         }
 
         // read data and setup globals
-        pixmap = I_PNGReadData(s_start + i, true, true, false, &w, &h, offset, 0);
+        png = I_PNGReadData(s_start + i, true, true, false, &w, &h, offset, 0);
 
         spritewidth[i]      = w;
         spriteheight[i]     = h;
         spriteoffset[i]     = (float)offset[0];
         spritetopoffset[i]  = (float)offset[1];
 
-        Pixmap_Free(pixmap);
+        Z_Free(png);
     }
 }
 
@@ -489,7 +492,7 @@ static void InitSpriteTextures(void) {
 //
 
 void GL_BindSpriteTexture(int spritenum, int pal) {
-    Pixmap *pixmap;
+    byte* png;
     dboolean npot;
     int w;
     int h;
@@ -521,7 +524,7 @@ void GL_BindSpriteTexture(int spritenum, int pal) {
         return;
     }
 
-    pixmap = I_PNGReadData(s_start + spritenum, false, true, true, &w, &h, NULL, pal);
+    png = I_PNGReadData(s_start + spritenum, false, true, true, &w, &h, NULL, pal);
 
     // check for non-power of two textures
     npot = has_GL_ARB_texture_non_power_of_two;
@@ -536,8 +539,8 @@ void GL_BindSpriteTexture(int spritenum, int pal) {
     dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, DGL_CLAMP);
     dglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, DGL_CLAMP);
 
-    SetTextureImage(Pixmap_GetData(pixmap), 4, &w, &h, GL_RGBA8, GL_RGBA);
-    Pixmap_Free(pixmap);
+    SetTextureImage(png, 4, &w, &h, GL_RGBA8, GL_RGBA);
+    Z_Free(png);
 
     spritewidth[spritenum] = w;
     spriteheight[spritenum] = h;
@@ -938,10 +941,6 @@ void GL_DumpTextures(void) {
     int i;
     int j;
     int p;
-
-    if (!usingGL) {
-        return;
-    }
 
     for(i = 0; i < numtextures; i++) {
         GL_UnloadTexture(&textureptr[i][0]);
