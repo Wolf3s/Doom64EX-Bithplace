@@ -66,7 +66,6 @@ static float sky_cloudpan2 = 0;
 
 CVAR_EXTERNAL(r_texturecombiner);
 CVAR_EXTERNAL(r_skybox);
-CVAR_EXTERNAL(r_disablesecretmessages);
 
 #define SKYVIEWPOS(angle, amount, x) x = -(angle / (float)ANG90 * amount); while(x < 1.0f) x += 1.0f
 
