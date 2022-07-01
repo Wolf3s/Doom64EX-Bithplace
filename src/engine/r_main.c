@@ -92,6 +92,7 @@ CVAR(r_drawtrace, 0);
 CVAR(r_rendersprites, 1);
 CVAR(r_drawfill, 0);
 CVAR(r_skybox, 0);
+CVAR(r_disablesecretmessages, 0);
 
 CVAR_CMD(r_colorscale, 0) {
     GL_SetColorScale();
@@ -942,6 +943,7 @@ void R_RegisterCvars(void) {
     CON_CvarRegister(&r_drawfill);
     CON_CvarRegister(&r_skybox);
     CON_CvarRegister(&r_colorscale);
+    CON_CvarRegister(&r_disablesecretmessages);
 }
 
 

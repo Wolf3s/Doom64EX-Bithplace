@@ -1150,6 +1150,7 @@ CVAR_EXTERNAL(r_wipe);
 CVAR_EXTERNAL(r_rendersprites);
 CVAR_EXTERNAL(r_texturecombiner);
 CVAR_EXTERNAL(r_colorscale);
+CVAR_EXTERNAL(r_disablesecretmessages);
 
 enum {
     misc_header1,
@@ -1180,6 +1181,7 @@ enum {
     misc_comp_pain,
     misc_comp_pass,
     misc_comp_grab,
+	misc_disablesecretmessages,
     misc_default,
     misc_return,
     misc_end
@@ -1214,6 +1216,7 @@ menuitem_t MiscMenu[]= {
     {2,"Limit Lost Souls:",M_MiscChoice,'l'},
     {2,"Tall Actors:",M_MiscChoice,'i'},
     {2,"Grab High Items:",M_MiscChoice,'g'},
+    {2,"Secret Messages:",M_MiscChoice,'x'},
     {-2,"Default",M_DoDefaults,'d'},
     {1,"/r Return",M_Return, 0x20}
 };
@@ -1247,6 +1250,7 @@ char* MiscHints[misc_end]= {
     "limit max amount of lost souls spawned by pain elemental to 17",
     "emulate infinite height bug for all solid actors",
     "be able to grab high items by bumping into the sector it sits on",
+    "disable the secret message text",
     NULL,
     NULL
 };
@@ -1265,6 +1269,7 @@ menudefault_t MiscDefault[] = {
     { &r_rendersprites, 1 },
     { &r_skybox, 0 },
     { &r_colorscale, 0 },
+    { &r_disablesecretmessages, 0 },
     { &am_showkeymarkers, 0 },
     { &am_showkeycolors, 0 },
     { &am_drawobjects, 0 },
@@ -1387,6 +1392,10 @@ void M_MiscChoice(int choice) {
     case misc_rgbscale:
         M_SetOptionValue(choice, 0, 2, 1, &r_colorscale);
         break;
+		
+    case misc_disablesecretmessages:
+        M_SetOptionValue(choice, 0, 1, 1, &r_disablesecretmessages);
+        break;
 
     case misc_showkey:
         M_SetOptionValue(choice, 0, 1, 1, &am_showkeymarkers);
@@ -1428,6 +1437,7 @@ void M_DrawMisc(void) {
     static const char* objectdrawtype[3] = { "Arrows", "Sprites", "Both" };
     static const char* texresizetype[3] = { "Auto", "Padded", "Scaled" };
     static const char* rgbscaletype[3] = { "1x", "2x", "4x" };
+    static const char* disablesecretmessages[2] = { "Enabled", "Disabled" };
     int y;
 
     if(currentMenu->menupageoffset <= misc_menufade+1 &&
@@ -1470,6 +1480,7 @@ void M_DrawMisc(void) {
     DRAWMISCITEM(misc_comp_pain, compat_limitpain.value, msgNames);
     DRAWMISCITEM(misc_comp_pass, !compat_mobjpass.value, msgNames);
     DRAWMISCITEM(misc_comp_grab, compat_grabitems.value, msgNames);
+    DRAWMISCITEM(misc_disablesecretmessages, r_disablesecretmessages.value, disablesecretmessages);
 
 #undef DRAWMISCITEM
 
