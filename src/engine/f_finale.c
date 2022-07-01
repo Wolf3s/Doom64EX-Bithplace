@@ -156,7 +156,7 @@ int F_Ticker(void) {
         return 0;    // not time to change state yet
     }
 
-    if(caststate->tics == -1 || caststate->nextstate == S_000) {
+    if(caststate->tics == -1 || caststate->nextstate == S_NULL) {
         // switch from deathstate to next monster
 
         castnum++;
@@ -181,7 +181,7 @@ int F_Ticker(void) {
     else {
         // just advance to next state in animation
 
-        if(caststate == &states[S_007]) { // gross hack..
+        if(caststate == &states[S_PLAY_ATK2]) { // gross hack..
             goto stopattack;
         }
 
@@ -194,42 +194,42 @@ int F_Ticker(void) {
             int sound = 0;
 
             switch(st) {
-            case S_007:
+            case S_PLAY_ATK2:                           // player
                 sound = sfx_sht2fire;
-                break;    // player
-            case S_055:
+                break;
+            case S_SARG_ATK2:                           // demon
                 sound = sfx_sargatk;
-                break;     // demon
-            case S_084:                                 // mancubus
-            case S_086:                                 // mancubus
-            case S_170:                                 // imp
-            case S_201:                                 // cacodemon
-            case S_245:                                 // hell knight
-            case S_224:                                 // bruiser
-            case S_088:
+                break;
+            case S_FATT_ATK2:                           // mancubus
+            case S_FATT_ATK4:                           // mancubus
+            case S_FATT_ATK6:                           // mancubus
+            case S_TROO_ATK2:                           // imp
+            case S_HEAD_ATK3:                           // cacodemon
+            case S_BOSS1_ATK3:                          // hell knight
+            case S_BOSS2_ATK3:                          // baron
                 sound = sfx_bdmissile;
-                break;   // mancubus
-            case S_168:
+                break;
+            case S_TROO_MELEE3:                         // imp scratch
                 sound = sfx_scratch;
-                break;     // imp scratch
-            case S_109:
+                break;
+            case S_POSS1_ATK2:                          // former human
                 sound = sfx_pistol;
-                break;      // possessed
-            case S_138:
+                break;
+            case S_POSS2_ATK2:                          // shotgun guy
                 sound = sfx_shotgun;
-                break;     // shotgun guy
-            case S_331:                                 // pain
-            case S_261:
+                break;
+            case S_SKUL_ATK2:                           // skull
+            case S_PAIN_ATK4:                           // pain
                 sound = sfx_skullatk;
-                break;    // skull
-            case S_288:
+                break;
+            case S_BSPI_ATK2:                           // arachnotron
                 sound = sfx_plasma;
-                break;      // baby
-            case S_308:                                 // cyborg
-            case S_310:                                 // cyborg
-            case S_312:
+                break;
+            case S_CYBR_ATK2:                           // cyberdemon
+            case S_CYBR_ATK4:
+            case S_CYBR_ATK6:
                 sound = sfx_missile;
-                break;     // cyborg
+                break;
             default:
                 sound = 0;
                 break;
@@ -252,7 +252,7 @@ int F_Ticker(void) {
         }
         castonmelee ^= 1;
 
-        if(caststate == &states[S_000]) {
+        if(caststate == &states[S_NULL]) {
             if(castonmelee) {
                 caststate = &states[mobjinfo[castorder[castnum].type].meleestate];
             }

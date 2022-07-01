@@ -239,10 +239,10 @@ void R_InitSprites(char** namelist) {
             lump = 0;
         }
 
-        states[S_494].sprite = SPR_RBLD + lump;
-        states[S_495].sprite = SPR_RBLD + lump;
-        states[S_496].sprite = SPR_RBLD + lump;
-        states[S_497].sprite = SPR_RBLD + lump;
+        states[S_BLOOD1].sprite = SPR_RBLD + lump;
+        states[S_BLOOD2].sprite = SPR_RBLD + lump;
+        states[S_BLOOD3].sprite = SPR_RBLD + lump;
+        states[S_BLOOD4].sprite = SPR_RBLD + lump;
     }
 }
 

@@ -57,16 +57,16 @@
 #define BFGCELLS                40
 
 weaponinfo_t    weaponinfo[NUMWEAPONS] = {
-    { am_noammo,    S_708, S_707, S_705, S_709, S_000 },    // chainsaw
-    { am_noammo,    S_714, S_713, S_712, S_715, S_000 },    // fist
-    { am_clip,        S_722, S_721, S_720, S_723, S_728 },    // pistol
-    { am_shell,        S_731, S_730, S_729, S_732, S_738 },    // shotgun
-    { am_shell,        S_741, S_740, S_739, S_742, S_752 },    // super shotgun
-    { am_clip,        S_755, S_754, S_753, S_756, S_759 },    // chaingun
-    { am_misl,        S_763, S_762, S_761, S_764, S_767 },    // rocket launcher
-    { am_cell,        S_773, S_772, S_771, S_775, S_000 },    // plasma gun
-    { am_cell,        S_783, S_782, S_781, S_784, S_788 },    // bfg
-    { am_cell,        S_793, S_792, S_791, S_794, S_796 }        // laser rifle
+    { am_noammo,    S_SAWUP, S_SAWDOWN, S_SAWA, S_SAW1, S_NULL },    // chainsaw
+    { am_noammo,    S_PUNCHUP, S_PUNCHDOWN, S_PUNCH, S_PUNCH1, S_NULL },    // fist
+    { am_clip,      S_PISTOLUP, S_PISTOLDOWN, S_PISTOL, S_PISTOL1, S_PISTOLFLASH },    // pistol
+    { am_shell,     S_SGUNUP, S_SGUNDOWN, S_SGUN, S_SGUN1, S_SGUNFLASH },    // shotgun
+    { am_shell,     S_SSGUP, S_SSGDOWN, S_SSG, S_SSG1, S_SSGFLASH },    // super shotgun
+    { am_clip,      S_CHAINGUP, S_CHAINGDOWN, S_CHAING, S_CHAING1, S_CHAINGLIGHT1 },    // chaingun
+    { am_misl,      S_ROCKETLUP, S_ROCKETLDOWN, S_ROCKETL, S_ROCKETL1, S_ROCKETLLIGHT1 },    // rocket launcher
+    { am_cell,      S_PLASMAGUP1, S_PLASMAGDOWN, S_PLASMAG, S_PLASMAG1, S_NULL },    // plasma gun
+    { am_cell,      S_BFGUP, S_BFGDOWN, S_BFG, S_BFG1, S_BFGLIGHT1 },    // bfg
+    { am_cell,      S_LASERGUP, S_LASERGDOWN, S_LASERG, S_LASERG1, S_LASERGLIGHT }    // laser rifle
 };
 
 static int laserCells = 1;
@@ -248,7 +248,7 @@ void P_FireWeapon(void *data) {
         return;
     }
 
-    P_SetMobjState(player->mo, S_006/*S_PLAY_ATK1*/);
+    P_SetMobjState(player->mo, S_PLAY_ATK1);
 
     player->psprites[ps_weapon].sx = FRACUNIT;
     player->psprites[ps_weapon].sy = WEAPONTOP;
@@ -360,7 +360,7 @@ void A_Lower(player_t* player, pspdef_t* psp) {
     /* */
     /* [d64] clear flash graphic drawer */
     /* */
-    P_SetPsprite(player, ps_flash, S_000);
+    P_SetPsprite(player, ps_flash, S_NULL);
 
     // Player is dead.
     if(player->playerstate == PST_DEAD) {
@@ -374,7 +374,7 @@ void A_Lower(player_t* player, pspdef_t* psp) {
     // so change the weapon and start raising it
     if(!player->health) {
         // Player is dead, so keep the weapon off screen.
-        P_SetPsprite(player,  ps_weapon, S_000);
+        P_SetPsprite(player,  ps_weapon, S_NULL);
         return;
     }
 
@@ -408,7 +408,7 @@ void A_Raise(player_t* player, pspdef_t* psp) {
 // A_GunFlash
 //
 void A_GunFlash(player_t* player, pspdef_t* psp) {
-    P_SetMobjState(player->mo, S_007);
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
 
     // [d64] set alpha on flash frame
     if(player->readyweapon == wp_missile) {
@@ -549,7 +549,7 @@ void A_FireBFG(player_t* player, pspdef_t* psp) {
 static int pls_animpic = 0;
 
 void A_PlasmaAnimate(player_t *player, pspdef_t *psp) {
-    P_SetPsprite(player, ps_flash, S_778 + pls_animpic);
+    P_SetPsprite(player, ps_flash, S_PLASMAGANIM1 + pls_animpic);
 
     if(++pls_animpic >= 3) {
         pls_animpic = 0;
@@ -563,7 +563,7 @@ void A_PlasmaAnimate(player_t *player, pspdef_t *psp) {
 void A_FirePlasma(player_t* player, pspdef_t* psp) {
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-    P_SetPsprite(player, ps_flash, S_000);
+    P_SetPsprite(player, ps_flash, S_NULL);
     P_SpawnPlayerMissile(player->mo, MT_PROJ_PLASMA);
 }
 
@@ -624,7 +624,7 @@ void P_GunShot(mobj_t* mo, dboolean accurate) {
 void A_FirePistol(player_t* player, pspdef_t* psp) {
     S_StartSound(player->mo, sfx_pistol);
 
-    P_SetMobjState(player->mo, S_007);
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
     P_SetPsprite(player,
@@ -643,7 +643,7 @@ void A_FireShotgun(player_t* player, pspdef_t* psp) {
     int i;
 
     S_StartSound(player->mo, sfx_shotgun);
-    P_SetMobjState(player->mo, S_007);
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
 
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
@@ -672,7 +672,7 @@ void A_FireShotgun2(player_t* player, pspdef_t* psp) {
     int         damage;
 
     S_StartSound(player->mo, sfx_sht2fire);
-    P_SetMobjState(player->mo, S_007);
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
     player->ammo[weaponinfo[player->readyweapon].ammo] -= 2;
 
     P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
@@ -707,7 +707,7 @@ void A_FireCGun(player_t* player, pspdef_t* psp) {
 
     S_StartSound(player->mo, sfx_pistol);
 
-    P_SetMobjState(player->mo, S_007);
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
     // randomize sx
@@ -721,7 +721,7 @@ void A_FireCGun(player_t* player, pspdef_t* psp) {
     player->psprites[ps_flash].alpha = 160;
 
     P_SetPsprite(player, ps_flash,
-                 weaponinfo[player->readyweapon].flashstate + psp->state - &states[S_756]);
+                 weaponinfo[player->readyweapon].flashstate + psp->state - &states[S_CHAING1]);
 
     player->recoilpitch = RECOILPITCH;
 
@@ -1090,7 +1090,7 @@ void A_FireLaser(player_t *player, pspdef_t *psp) {
     }
 
     S_StartSound(player->mo, sfx_laser);
-    P_SetMobjState(player->mo, S_007);
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
     P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
 }
 

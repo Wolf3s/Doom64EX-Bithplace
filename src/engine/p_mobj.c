@@ -63,8 +63,8 @@ dboolean P_SetMobjState(mobj_t* mobj, statenum_t state) {
     state_t* st;
 
     do {
-        if(!mobj->state || state == S_000) {
-            mobj->state = (state_t *)S_000;
+        if(!mobj->state || state == S_NULL) {
+            mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
             return false;
         }
@@ -1161,7 +1161,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z) {
 
     // don't make punches spark on the wall
     if(attackrange == MELEERANGE) {
-        P_SetMobjState(th, S_490);
+        P_SetMobjState(th, S_PUFF3);
     }
 }
 
@@ -1186,10 +1186,10 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, int damage) {
         }
 
         if(damage <= 12 && (damage >= 9)) {
-            P_SetMobjState(th, S_495);
+            P_SetMobjState(th, S_BLOOD2);
         }
         else if(damage < 9) {
-            P_SetMobjState(th, S_496);
+            P_SetMobjState(th, S_BLOOD3);
         }
     }
 }

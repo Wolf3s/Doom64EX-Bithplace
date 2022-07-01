@@ -1134,7 +1134,7 @@ void P_DamageMobj(mobj_t* target, mobj_t* inflictor, mobj_t* source, int damage)
         if(source->type != MT_DEST_PROJECTILE) {
             P_SetTarget(&target->target, source);
             target->threshold = BASETHRESHOLD;
-            if(target->state == &states[target->info->spawnstate] && target->info->seestate != S_000) {
+            if(target->state == &states[target->info->spawnstate] && target->info->seestate != S_NULL) {
                 P_SetMobjState(target, target->info->seestate);
             }
         }

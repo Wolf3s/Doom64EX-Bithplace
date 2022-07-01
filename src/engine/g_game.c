@@ -477,7 +477,7 @@ static CMD(SpawnThing) {
 
     thing = P_SpawnMobj(x, y, z, id);
 
-    if(thing->info->spawnstate == S_000) {
+    if(thing->info->spawnstate == S_NULL) {
         P_RemoveMobj(thing);
         return;
     }
@@ -1647,7 +1647,7 @@ void G_SetFastParms(int fast_pending) {
     if(fast != fast_pending) {
         /* only change if necessary */
         if((fast = fast_pending)) {
-            for(i = S_044; i <= S_058; i++) {
+            for(i = S_SARG_STND; i <= S_SARG_PAIN2; i++) {
                 if(states[i].tics != 1) { // killough 4/10/98
                     states[i].tics >>= 1;    // don't change 1->0 since it causes cycles
                 }
@@ -1658,7 +1658,7 @@ void G_SetFastParms(int fast_pending) {
             mobjinfo[MT_PROJ_IMP1].speed = 20*FRACUNIT;
         }
         else {
-            for(i = S_044; i <= S_058; i++) {
+            for(i = S_SARG_STND; i <= S_SARG_PAIN2; i++) {
                 states[i].tics <<= 1;
             }
 

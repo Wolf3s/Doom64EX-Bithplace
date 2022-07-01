@@ -138,803 +138,870 @@ void A_MissileSetAlpha();
 #pragma warning(disable:4113)
 state_t states[NUMSTATES] = {      //0x4DFF4
 
-    /*S_000*/         { SPR_SPOT, 0, -1, {NULL}, S_000 },
-    /*S_001*/         { SPR_PLAY, 0, -1, {NULL}, S_000 },
-    /*S_002*/         { SPR_PLAY, 0, 4, {NULL}, S_003 },
-    /*S_003*/         { SPR_PLAY, 1, 4, {NULL}, S_004 },
-    /*S_004*/         { SPR_PLAY, 2, 4, {NULL}, S_005 },
-    /*S_005*/         { SPR_PLAY, 3, 4, {NULL}, S_002 },
-    /*S_006*/         { SPR_PLAY, 4, 12, {NULL}, S_007 },
-    /*S_007*/         { SPR_PLAY, 32773, 6, {NULL}, S_001 },
-    /*S_008*/         { SPR_PLAY, 6, 4, {NULL}, S_009 },
-    /*S_009*/         { SPR_PLAY, 6, 4, {A_Pain/*ACTION_6148*/}, S_001 },
-    /*S_010*/         { SPR_PLAY, 7, 10, {NULL}, S_011 },
-    /*S_011*/         { SPR_PLAY, 8, 10, {A_Scream/*ACTION_5952*/}, S_012 },
-    /*S_012*/         { SPR_PLAY, 9, 10, {A_Fall/*ACTION_6236*/}, S_013 },
-    /*S_013*/         { SPR_PLAY, 10, 10, {NULL}, S_014 },
-    /*S_014*/         { SPR_PLAY, 11, 10, {NULL}, S_015 },
-    /*S_015*/         { SPR_PLAY, 12, -1, {NULL}, S_000 },
-    /*S_016*/         { SPR_PLAY, 13, 5, {NULL}, S_017 },
-    /*S_017*/         { SPR_PLAY, 14, 5, {A_XScream/*ACTION_6116*/}, S_018 },
-    /*S_018*/         { SPR_PLAY, 15, 5, {A_Fall/*ACTION_6236*/}, S_019 },
-    /*S_019*/         { SPR_PLAY, 16, 5, {NULL}, S_020 },
-    /*S_020*/         { SPR_PLAY, 17, 5, {NULL}, S_021 },
-    /*S_021*/         { SPR_PLAY, 18, 5, {NULL}, S_022 },
-    /*S_022*/         { SPR_PLAY, 19, 5, {NULL}, S_023 },
-    /*S_023*/         { SPR_PLAY, 20, 5, {NULL}, S_024 },
-    /*S_024*/         { SPR_PLAY, 21, -1, {NULL}, S_000 },
-    /*S_025*/         { SPR_PLAY, 4, 10, {A_Look/*ACTION_4928*/}, S_025 },
-    /*S_026*/         { SPR_PLAY, 0, 4, {A_Chase/*ACTION_5228*/}, S_027 },
-    /*S_027*/         { SPR_PLAY, 1, 4, {A_Chase/*ACTION_5228*/}, S_028 },
-    /*S_028*/         { SPR_PLAY, 2, 4, {A_Chase/*ACTION_5228*/}, S_029 },
-    /*S_029*/         { SPR_PLAY, 3, 4, {A_Chase/*ACTION_5228*/}, S_026 },
-    /*S_030*/         { SPR_PLAY, 4, 4, {A_PosAttack/*ACTION_6484*/}, S_031 },
-    /*S_031*/         { SPR_PLAY, 32773, 4, {A_PosAttack/*ACTION_6484*/}, S_032 },
-    /*S_032*/         { SPR_PLAY, 4, 4, {A_PosAttack/*ACTION_6484*/}, S_033 },
-    /*S_033*/         { SPR_PLAY, 32773, 4, {A_PosAttack/*ACTION_6484*/}, S_034 },
-    /*S_034*/         { SPR_PLAY, 4, 4, {A_PosAttack/*ACTION_6484*/}, S_035 },
-    /*S_035*/         { SPR_PLAY, 32773, 4, {A_PosAttack/*ACTION_6484*/}, S_026 },
-    /*S_036*/         { SPR_PLAY, 6, 4, {NULL}, S_037 },
-    /*S_037*/         { SPR_PLAY, 6, 4, {A_Pain/*ACTION_6148*/}, S_026 },
-    /*S_038*/         { SPR_PLAY, 4, 4, {A_PlayAttack/*ACTION_6940*/}, S_039 },
-    /*S_039*/         { SPR_PLAY, 32773, 4, {A_PlayAttack/*ACTION_6940*/}, S_040 },
-    /*S_040*/         { SPR_PLAY, 4, 4, {A_PlayAttack/*ACTION_6940*/}, S_041 },
-    /*S_041*/         { SPR_PLAY, 32773, 4, {A_PlayAttack/*ACTION_6940*/}, S_042 },
-    /*S_042*/         { SPR_PLAY, 4, 4, {A_PlayAttack/*ACTION_6940*/}, S_043 },
-    /*S_043*/         { SPR_PLAY, 32773, 4, {A_PlayAttack/*ACTION_6940*/}, S_026 },
-    /*S_044*/         { SPR_SARG, 1, 8, {A_Look/*ACTION_4928*/}, S_045 },
-    /*S_045*/         { SPR_SARG, 3, 8, {A_Look/*ACTION_4928*/}, S_044 },
-    /*S_046*/         { SPR_SARG, 0, 2, {A_Chase/*ACTION_5228*/}, S_047 },
-    /*S_047*/         { SPR_SARG, 0, 2, {A_Chase/*ACTION_5228*/}, S_048 },
-    /*S_048*/         { SPR_SARG, 1, 2, {A_Chase/*ACTION_5228*/}, S_049 },
-    /*S_049*/         { SPR_SARG, 1, 2, {A_Chase/*ACTION_5228*/}, S_050 },
-    /*S_050*/         { SPR_SARG, 2, 2, {A_Chase/*ACTION_5228*/}, S_051 },
-    /*S_051*/         { SPR_SARG, 2, 2, {A_Chase/*ACTION_5228*/}, S_052 },
-    /*S_052*/         { SPR_SARG, 3, 2, {A_Chase/*ACTION_5228*/}, S_053 },
-    /*S_053*/         { SPR_SARG, 3, 2, {A_Chase/*ACTION_5228*/}, S_046 },
-    /*S_054*/         { SPR_SARG, 4, 8, {A_FaceTarget/*ACTION_5800*/}, S_055 },
-    /*S_055*/         { SPR_SARG, 5, 8, {A_FaceTarget/*ACTION_5800*/}, S_056 },
-    /*S_056*/         { SPR_SARG, 6, 8, {A_SargAttack/*ACTION_7720*/}, S_046 },
-    /*S_057*/         { SPR_SARG, 7, 2, {NULL}, S_058 },
-    /*S_058*/         { SPR_SARG, 7, 2, {A_Pain/*ACTION_6148*/}, S_046 },
-    /*S_059*/         { SPR_SARG, 8, 8, {NULL}, S_060 },
-    /*S_060*/         { SPR_SARG, 9, 8, {A_Scream/*ACTION_5952*/}, S_061 },
-    /*S_061*/         { SPR_SARG, 10, 4, {NULL}, S_062 },
-    /*S_062*/         { SPR_SARG, 11, 4, {A_Fall/*ACTION_6236*/}, S_063 },
-    /*S_063*/         { SPR_SARG, 12, 4, {A_OnDeathTrigger/*ACTION_6292*/}, S_064 },
-    /*S_064*/         { SPR_SARG, 13, -1, {NULL}, S_000 },
-    /*S_065*/         { SPR_SARG, 0, 1, {A_FadeOut/*ACTION_13216*/}, S_046 },
-    /*S_066*/         { SPR_SARG, 4, 1, {A_FadeOut/*ACTION_13216*/}, S_054 },
-    /*S_067*/         { SPR_SARG, 7, 1, {A_FadeOut/*ACTION_13216*/}, S_057 },
-    /*S_068*/         { SPR_SARG, 8, 1, {A_FadeIn/*ACTION_13352*/}, S_059 },
-    /*S_069*/         { SPR_FATT, 0, 15, {A_Look/*ACTION_4928*/}, S_070 },
-    /*S_070*/         { SPR_FATT, 1, 15, {A_Look/*ACTION_4928*/}, S_069 },
-    /*S_071*/         { SPR_FATT, 0, 4, {A_Chase/*ACTION_5228*/}, S_072 },
-    /*S_072*/         { SPR_FATT, 0, 4, {A_Chase/*ACTION_5228*/}, S_073 },
-    /*S_073*/         { SPR_FATT, 1, 4, {A_Chase/*ACTION_5228*/}, S_074 },
-    /*S_074*/         { SPR_FATT, 1, 4, {A_Chase/*ACTION_5228*/}, S_075 },
-    /*S_075*/         { SPR_FATT, 2, 4, {A_Chase/*ACTION_5228*/}, S_076 },
-    /*S_076*/         { SPR_FATT, 2, 4, {A_Chase/*ACTION_5228*/}, S_077 },
-    /*S_077*/         { SPR_FATT, 3, 4, {A_Chase/*ACTION_5228*/}, S_078 },
-    /*S_078*/         { SPR_FATT, 3, 4, {A_Chase/*ACTION_5228*/}, S_079 },
-    /*S_079*/         { SPR_FATT, 4, 4, {A_Chase/*ACTION_5228*/}, S_080 },
-    /*S_080*/         { SPR_FATT, 4, 4, {A_Chase/*ACTION_5228*/}, S_081 },
-    /*S_081*/         { SPR_FATT, 5, 4, {A_Chase/*ACTION_5228*/}, S_082 },
-    /*S_082*/         { SPR_FATT, 5, 4, {A_Chase/*ACTION_5228*/}, S_071 },
-    /*S_083*/         { SPR_FATT, 7, 20, {A_FatRaise/*ACTION_8948*/}, S_084 },
-    /*S_084*/         { SPR_FATT, 32774, 10, {A_FatAttack1/*ACTION_8992*/}, S_085 },
-    /*S_085*/         { SPR_FATT, 7, 10, {A_FaceTarget/*ACTION_5800*/}, S_086 },
-    /*S_086*/         { SPR_FATT, 32774, 10, {A_FatAttack2/*ACTION_9136*/}, S_087 },
-    /*S_087*/         { SPR_FATT, 7, 10, {A_FaceTarget/*ACTION_5800*/}, S_088 },
-    /*S_088*/         { SPR_FATT, 32774, 10, {A_FatAttack3/*ACTION_9280*/}, S_089 },
-    /*S_089*/         { SPR_FATT, 7, 10, {A_FaceTarget/*ACTION_5800*/}, S_071 },
-    /*S_090*/         { SPR_FATT, 8, 3, {NULL}, S_091 },
-    /*S_091*/         { SPR_FATT, 8, 3, {A_Pain/*ACTION_6148*/}, S_071 },
-    /*S_092*/         { SPR_FATT, 9, 6, {NULL}, S_093 },
-    /*S_093*/         { SPR_FATT, 10, 6, {A_Scream/*ACTION_5952*/}, S_094 },
-    /*S_094*/         { SPR_FATT, 11, 6, {A_Fall/*ACTION_6236*/}, S_095 },
-    /*S_095*/         { SPR_FATT, 12, 6, {NULL}, S_096 },
-    /*S_096*/         { SPR_FATT, 13, 6, {A_OnDeathTrigger/*ACTION_6292*/}, S_097 },
-    /*S_097*/         { SPR_FATT, 14, -1, {NULL}, S_000 },
-    /*S_098*/         { SPR_POSS, 0, 10, {A_Look/*ACTION_4928*/}, S_099 },
-    /*S_099*/         { SPR_POSS, 1, 10, {A_Look/*ACTION_4928*/}, S_098 },
-    /*S_100*/         { SPR_POSS, 0, 4, {A_Chase/*ACTION_5228*/}, S_101 },
-    /*S_101*/         { SPR_POSS, 0, 4, {A_Chase/*ACTION_5228*/}, S_102 },
-    /*S_102*/         { SPR_POSS, 1, 4, {A_Chase/*ACTION_5228*/}, S_103 },
-    /*S_103*/         { SPR_POSS, 1, 4, {A_Chase/*ACTION_5228*/}, S_104 },
-    /*S_104*/         { SPR_POSS, 2, 4, {A_Chase/*ACTION_5228*/}, S_105 },
-    /*S_105*/         { SPR_POSS, 2, 4, {A_Chase/*ACTION_5228*/}, S_106 },
-    /*S_106*/         { SPR_POSS, 3, 4, {A_Chase/*ACTION_5228*/}, S_107 },
-    /*S_107*/         { SPR_POSS, 3, 4, {A_Chase/*ACTION_5228*/}, S_100 },
-    /*S_108*/         { SPR_POSS, 4, 10, {A_FaceTarget/*ACTION_5800*/}, S_109 },
-    /*S_109*/         { SPR_POSS, 5, 8, {A_PosAttack/*ACTION_6484*/}, S_110 },
-    /*S_110*/         { SPR_POSS, 4, 8, {NULL}, S_100 },
-    /*S_111*/         { SPR_POSS, 6, 3, {NULL}, S_112 },
-    /*S_112*/         { SPR_POSS, 6, 3, {A_Pain/*ACTION_6148*/}, S_100 },
-    /*S_113*/         { SPR_POSS, 7, 5, {NULL}, S_114 },
-    /*S_114*/         { SPR_POSS, 8, 5, {A_Scream/*ACTION_5952*/}, S_115 },
-    /*S_115*/         { SPR_POSS, 9, 5, {A_Fall/*ACTION_6236*/}, S_116 },
-    /*S_116*/         { SPR_POSS, 10, 5, {A_OnDeathTrigger/*ACTION_6292*/}, S_117 },
-    /*S_117*/         { SPR_POSS, 11, -1, {NULL}, S_000 },
-    /*S_118*/         { SPR_POSS, 12, 5, {NULL}, S_119 },
-    /*S_119*/         { SPR_POSS, 13, 5, {A_XScream/*ACTION_6116*/}, S_120 },
-    /*S_120*/         { SPR_POSS, 14, 5, {A_Fall/*ACTION_6236*/}, S_121 },
-    /*S_121*/         { SPR_POSS, 15, 5, {NULL}, S_122 },
-    /*S_122*/         { SPR_POSS, 16, 5, {NULL}, S_123 },
-    /*S_123*/         { SPR_POSS, 17, 5, {NULL}, S_124 },
-    /*S_124*/         { SPR_POSS, 18, 5, {NULL}, S_125 },
-    /*S_125*/         { SPR_POSS, 19, 5, {A_OnDeathTrigger/*ACTION_6292*/}, S_126 },
-    /*S_126*/         { SPR_POSS, 20, -1, {NULL}, S_000 },
-    /*S_127*/         { SPR_POSS, 0, 10, {A_Look/*ACTION_4928*/}, S_128 },
-    /*S_128*/         { SPR_POSS, 1, 10, {A_Look/*ACTION_4928*/}, S_127 },
-    /*S_129*/         { SPR_POSS, 0, 3, {A_Chase/*ACTION_5228*/}, S_130 },
-    /*S_130*/         { SPR_POSS, 0, 3, {A_Chase/*ACTION_5228*/}, S_131 },
-    /*S_131*/         { SPR_POSS, 1, 3, {A_Chase/*ACTION_5228*/}, S_132 },
-    /*S_132*/         { SPR_POSS, 1, 3, {A_Chase/*ACTION_5228*/}, S_133 },
-    /*S_133*/         { SPR_POSS, 2, 3, {A_Chase/*ACTION_5228*/}, S_134 },
-    /*S_134*/         { SPR_POSS, 2, 3, {A_Chase/*ACTION_5228*/}, S_135 },
-    /*S_135*/         { SPR_POSS, 3, 3, {A_Chase/*ACTION_5228*/}, S_136 },
-    /*S_136*/         { SPR_POSS, 3, 3, {A_Chase/*ACTION_5228*/}, S_129 },
-    /*S_137*/         { SPR_POSS, 4, 10, {A_FaceTarget/*ACTION_5800*/}, S_138 },
-    /*S_138*/         { SPR_POSS, 5, 10, {A_SPosAttack/*ACTION_6652*/}, S_139 },
-    /*S_139*/         { SPR_POSS, 4, 10, {NULL}, S_129 },
-    /*S_140*/         { SPR_POSS, 6, 3, {NULL}, S_141 },
-    /*S_141*/         { SPR_POSS, 6, 3, {A_Pain/*ACTION_6148*/}, S_129 },
-    /*S_142*/         { SPR_POSS, 7, 5, {NULL}, S_143 },
-    /*S_143*/         { SPR_POSS, 8, 5, {A_Scream/*ACTION_5952*/}, S_144 },
-    /*S_144*/         { SPR_POSS, 9, 5, {A_Fall/*ACTION_6236*/}, S_145 },
-    /*S_145*/         { SPR_POSS, 10, 5, {A_OnDeathTrigger/*ACTION_6292*/}, S_146 },
-    /*S_146*/         { SPR_POSS, 11, -1, {NULL}, S_000 },
-    /*S_147*/         { SPR_POSS, 12, 5, {NULL}, S_148 },
-    /*S_148*/         { SPR_POSS, 13, 5, {A_XScream/*ACTION_6116*/}, S_149 },
-    /*S_149*/         { SPR_POSS, 14, 5, {A_Fall/*ACTION_6236*/}, S_150 },
-    /*S_150*/         { SPR_POSS, 15, 5, {NULL}, S_151 },
-    /*S_151*/         { SPR_POSS, 16, 5, {NULL}, S_152 },
-    /*S_152*/         { SPR_POSS, 17, 5, {NULL}, S_153 },
-    /*S_153*/         { SPR_POSS, 18, 5, {NULL}, S_154 },
-    /*S_154*/         { SPR_POSS, 19, 5, {A_OnDeathTrigger/*ACTION_6292*/}, S_155 },
-    /*S_155*/         { SPR_POSS, 20, -1, {NULL}, S_000 },
-    /*S_156*/         { SPR_TROO, 0, 10, {A_Look/*ACTION_4928*/}, S_157 },
-    /*S_157*/         { SPR_TROO, 1, 10, {A_Look/*ACTION_4928*/}, S_156 },
-    /*S_158*/         { SPR_TROO, 0, 3, {A_Chase/*ACTION_5228*/}, S_159 },
-    /*S_159*/         { SPR_TROO, 0, 3, {A_Chase/*ACTION_5228*/}, S_160 },
-    /*S_160*/         { SPR_TROO, 1, 3, {A_Chase/*ACTION_5228*/}, S_161 },
-    /*S_161*/         { SPR_TROO, 1, 3, {A_Chase/*ACTION_5228*/}, S_162 },
-    /*S_162*/         { SPR_TROO, 2, 3, {A_Chase/*ACTION_5228*/}, S_163 },
-    /*S_163*/         { SPR_TROO, 2, 3, {A_Chase/*ACTION_5228*/}, S_164 },
-    /*S_164*/         { SPR_TROO, 3, 3, {A_Chase/*ACTION_5228*/}, S_165 },
-    /*S_165*/         { SPR_TROO, 3, 3, {A_Chase/*ACTION_5228*/}, S_158 },
-    /*S_166*/         { SPR_TROO, 4, 8, {A_FaceTarget/*ACTION_5800*/}, S_167 },
-    /*S_167*/         { SPR_TROO, 5, 8, {A_FaceTarget/*ACTION_5800*/}, S_168 },
-    /*S_168*/         { SPR_TROO, 6, 6, {A_TroopMelee/*ACTION_7544*/}, S_158 },
-    /*S_169*/         { SPR_TROO, 8, 8, {A_FaceTarget/*ACTION_5800*/}, S_170 },
-    /*S_170*/         { SPR_TROO, 9, 8, {A_FaceTarget/*ACTION_5800*/}, S_171 },
-    /*S_171*/         { SPR_TROO, 10, 6, {A_TroopAttack/*ACTION_7660*/}, S_158 },
-    /*S_172*/         { SPR_TROO, 7, 2, {NULL}, S_173 },
-    /*S_173*/         { SPR_TROO, 7, 2, {A_Pain/*ACTION_6148*/}, S_158 },
-    /*S_174*/         { SPR_TROO, 11, 8, {NULL}, S_175 },
-    /*S_175*/         { SPR_TROO, 12, 8, {A_Scream/*ACTION_5952*/}, S_176 },
-    /*S_176*/         { SPR_TROO, 13, 6, {A_Fall/*ACTION_6236*/}, S_177 },
-    /*S_177*/         { SPR_TROO, 14, 6, {A_OnDeathTrigger/*ACTION_6292*/}, S_178 },
-    /*S_178*/         { SPR_TROO, 15, -1, {NULL}, S_000 },
-    /*S_179*/         { SPR_TROO, 16, 5, {NULL}, S_180 },
-    /*S_180*/         { SPR_TROO, 17, 5, {A_XScream/*ACTION_6116*/}, S_181 },
-    /*S_181*/         { SPR_TROO, 18, 5, {NULL}, S_182 },
-    /*S_182*/         { SPR_TROO, 19, 5, {A_Fall/*ACTION_6236*/}, S_183 },
-    /*S_183*/         { SPR_TROO, 20, 5, {NULL}, S_184 },
-    /*S_184*/         { SPR_TROO, 21, 5, {NULL}, S_185 },
-    /*S_185*/         { SPR_TROO, 22, 5, {A_OnDeathTrigger/*ACTION_6292*/}, S_186 },
-    /*S_186*/         { SPR_TROO, 23, -1, {NULL}, S_000 },
-    /*S_187*/         { SPR_HEAD, 0, 15, {A_Look/*ACTION_4928*/}, S_188 },
-    /*S_188*/         { SPR_HEAD, 1, 15, {A_Look/*ACTION_4928*/}, S_189 },
-    /*S_189*/         { SPR_HEAD, 2, 15, {A_Look/*ACTION_4928*/}, S_190 },
-    /*S_190*/         { SPR_HEAD, 3, 15, {A_Look/*ACTION_4928*/}, S_187 },
-    /*S_191*/         { SPR_HEAD, 0, 3, {A_Chase/*ACTION_5228*/}, S_192 },
-    /*S_192*/         { SPR_HEAD, 0, 3, {A_Chase/*ACTION_5228*/}, S_193 },
-    /*S_193*/         { SPR_HEAD, 1, 3, {A_Chase/*ACTION_5228*/}, S_194 },
-    /*S_194*/         { SPR_HEAD, 1, 3, {A_Chase/*ACTION_5228*/}, S_195 },
-    /*S_195*/         { SPR_HEAD, 2, 3, {A_Chase/*ACTION_5228*/}, S_196 },
-    /*S_196*/         { SPR_HEAD, 2, 3, {A_Chase/*ACTION_5228*/}, S_197 },
-    /*S_197*/         { SPR_HEAD, 3, 3, {A_Chase/*ACTION_5228*/}, S_198 },
-    /*S_198*/         { SPR_HEAD, 3, 3, {A_Chase/*ACTION_5228*/}, S_191 },
-    /*S_199*/         { SPR_HEAD, 4, 5, {A_FaceTarget/*ACTION_5800*/}, S_200 },
-    /*S_200*/         { SPR_HEAD, 5, 5, {A_FaceTarget/*ACTION_5800*/}, S_201 },
-    /*S_201*/         { SPR_HEAD, 6, 5, {A_FaceTarget/*ACTION_5800*/}, S_202 },
-    /*S_202*/         { SPR_HEAD, 6, 0, {A_HeadAttack/*ACTION_7824*/}, S_191 },
-    /*S_203*/         { SPR_HEAD, 1, 3, {NULL}, S_204 },
-    /*S_204*/         { SPR_HEAD, 1, 3, {A_Pain/*ACTION_6148*/}, S_205 },
-    /*S_205*/         { SPR_HEAD, 1, 6, {NULL}, S_191 },
-    /*S_206*/         { SPR_HEAD, 7, 8, {NULL}, S_207 },
-    /*S_207*/         { SPR_HEAD, 8, 8, {A_Scream/*ACTION_5952*/}, S_208 },
-    /*S_208*/         { SPR_HEAD, 9, 8, {NULL}, S_209 },
-    /*S_209*/         { SPR_HEAD, 10, 8, {A_Fall/*ACTION_6236*/}, S_210 },
-    /*S_210*/         { SPR_HEAD, 11, 8, {A_OnDeathTrigger/*ACTION_6292*/}, S_211 },
-    /*S_211*/         { SPR_HEAD, 12, -1, {NULL}, S_000 },
-    /*S_212*/         { SPR_BOSS, 0, 10, {A_Look/*ACTION_4928*/}, S_213 },
-    /*S_213*/         { SPR_BOSS, 1, 10, {A_Look/*ACTION_4928*/}, S_212 },
-    /*S_214*/         { SPR_BOSS, 0, 3, {A_Chase/*ACTION_5228*/}, S_215 },
-    /*S_215*/         { SPR_BOSS, 0, 3, {A_Chase/*ACTION_5228*/}, S_216 },
-    /*S_216*/         { SPR_BOSS, 1, 3, {A_Chase/*ACTION_5228*/}, S_217 },
-    /*S_217*/         { SPR_BOSS, 1, 3, {A_Chase/*ACTION_5228*/}, S_218 },
-    /*S_218*/         { SPR_BOSS, 2, 3, {A_Chase/*ACTION_5228*/}, S_219 },
-    /*S_219*/         { SPR_BOSS, 2, 3, {A_Chase/*ACTION_5228*/}, S_220 },
-    /*S_220*/         { SPR_BOSS, 3, 3, {A_Chase/*ACTION_5228*/}, S_221 },
-    /*S_221*/         { SPR_BOSS, 3, 3, {A_Chase/*ACTION_5228*/}, S_214 },
-    /*S_222*/         { SPR_BOSS, 4, 8, {A_FaceTarget/*ACTION_5800*/}, S_223 },
-    /*S_223*/         { SPR_BOSS, 5, 8, {A_FaceTarget/*ACTION_5800*/}, S_224 },
-    /*S_224*/         { SPR_BOSS, 6, 8, {A_BruisAttack/*ACTION_8132*/}, S_214 },
-    /*S_225*/         { SPR_BOSS, 7, 2, {NULL}, S_226 },
-    /*S_226*/         { SPR_BOSS, 7, 2, {A_Pain/*ACTION_6148*/}, S_214 },
-    /*S_227*/         { SPR_BOSS, 8, 8, {NULL}, S_228 },
-    /*S_228*/         { SPR_BOSS, 9, 8, {A_Scream/*ACTION_5952*/}, S_229 },
-    /*S_229*/         { SPR_BOSS, 10, 8, {NULL}, S_230 },
-    /*S_230*/         { SPR_BOSS, 11, 8, {A_Fall/*ACTION_6236*/}, S_231 },
-    /*S_231*/         { SPR_BOSS, 12, 8, {A_OnDeathTrigger/*ACTION_6292*/}, S_232 },
-    /*S_232*/         { SPR_BOSS, 13, -1, {NULL}, S_000 },
-    /*S_233*/         { SPR_BOSS, 0, 10, {A_Look/*ACTION_4928*/}, S_234 },
-    /*S_234*/         { SPR_BOSS, 1, 10, {A_Look/*ACTION_4928*/}, S_233 },
-    /*S_235*/         { SPR_BOSS, 0, 3, {A_Chase/*ACTION_5228*/}, S_236 },
-    /*S_236*/         { SPR_BOSS, 0, 3, {A_Chase/*ACTION_5228*/}, S_237 },
-    /*S_237*/         { SPR_BOSS, 1, 3, {A_Chase/*ACTION_5228*/}, S_238 },
-    /*S_238*/         { SPR_BOSS, 1, 3, {A_Chase/*ACTION_5228*/}, S_239 },
-    /*S_239*/         { SPR_BOSS, 2, 3, {A_Chase/*ACTION_5228*/}, S_240 },
-    /*S_240*/         { SPR_BOSS, 2, 3, {A_Chase/*ACTION_5228*/}, S_241 },
-    /*S_241*/         { SPR_BOSS, 3, 3, {A_Chase/*ACTION_5228*/}, S_242 },
-    /*S_242*/         { SPR_BOSS, 3, 3, {A_Chase/*ACTION_5228*/}, S_235 },
-    /*S_243*/         { SPR_BOSS, 4, 8, {A_FaceTarget/*ACTION_5800*/}, S_244 },
-    /*S_244*/         { SPR_BOSS, 5, 8, {A_FaceTarget/*ACTION_5800*/}, S_245 },
-    /*S_245*/         { SPR_BOSS, 6, 8, {A_BruisAttack/*ACTION_8132*/}, S_235 },
-    /*S_246*/         { SPR_BOSS, 7, 2, {NULL}, S_247 },
-    /*S_247*/         { SPR_BOSS, 7, 2, {A_Pain/*ACTION_6148*/}, S_235 },
-    /*S_248*/         { SPR_BOSS, 8, 8, {NULL}, S_249 },
-    /*S_249*/         { SPR_BOSS, 9, 8, {A_Scream/*ACTION_5952*/}, S_250 },
-    /*S_250*/         { SPR_BOSS, 10, 8, {NULL}, S_251 },
-    /*S_251*/         { SPR_BOSS, 11, 8, {A_Fall/*ACTION_6236*/}, S_252 },
-    /*S_252*/         { SPR_BOSS, 12, 8, {A_OnDeathTrigger/*ACTION_6292*/}, S_253 },
-    /*S_253*/         { SPR_BOSS, 13, -1, {NULL}, S_000 },
-    /*S_254*/         { SPR_SKUL, 0, 5, {A_Look/*ACTION_4928*/}, S_255 },
-    /*S_255*/         { SPR_SKUL, 1, 5, {A_Look/*ACTION_4928*/}, S_256 },
-    /*S_256*/         { SPR_SKUL, 2, 5, {A_Look/*ACTION_4928*/}, S_254 },
-    /*S_257*/         { SPR_SKUL, 0, 3, {A_Chase/*ACTION_5228*/}, S_258 },
-    /*S_258*/         { SPR_SKUL, 1, 3, {A_Chase/*ACTION_5228*/}, S_259 },
-    /*S_259*/         { SPR_SKUL, 2, 3, {A_Chase/*ACTION_5228*/}, S_257 },
-    /*S_260*/         { SPR_SKUL, 3, 6, {A_FaceTarget/*ACTION_5800*/}, S_261 },
-    /*S_261*/         { SPR_SKUL, 4, 4, {A_SkullAttack/*ACTION_9512*/}, S_262 },
-    /*S_262*/         { SPR_SKUL, 3, 4, {NULL}, S_263 },
-    /*S_263*/         { SPR_SKUL, 4, 4, {NULL}, S_262 },
-    /*S_264*/         { SPR_SKUL, 5, 3, {NULL}, S_265 },
-    /*S_265*/         { SPR_SKUL, 5, 3, {A_Pain/*ACTION_6148*/}, S_257 },
-    /*S_266*/         { SPR_SKUL, 32774, 5, {NULL}, S_267 },
-    /*S_267*/         { SPR_SKUL, 32775, 5, {A_Scream/*ACTION_5952*/}, S_268 },
-    /*S_268*/         { SPR_SKUL, 32776, 5, {A_Fall/*ACTION_6236*/}, S_269 },
-    /*S_269*/         { SPR_SKUL, 32777, 5, {A_OnDeathTrigger/*ACTION_6292*/}, S_270 },
-    /*S_270*/         { SPR_SKUL, 32778, 4, {A_SkullSetAlpha/*ACTION_13176*/}, S_271 },
-    /*S_271*/         { SPR_SKUL, 32779, 3, {NULL}, S_272 },
-    /*S_272*/         { SPR_SKUL, 32780, 2, {NULL}, S_273 },
-    /*S_273*/         { SPR_SKUL, 32781, 2, {NULL}, S_274 },
-    /*S_274*/         { SPR_SKUL, 32782, 1, {NULL}, S_275 },
-    /*S_275*/         { SPR_SKUL, 32783, 1, {NULL}, S_000 },
-    /*S_276*/         { SPR_BSPI, 0, 10, {A_Look/*ACTION_4928*/}, S_277 },
-    /*S_277*/         { SPR_BSPI, 1, 10, {A_Look/*ACTION_4928*/}, S_276 },
-    /*S_278*/         { SPR_BSPI, 0, 20, {NULL}, S_279 },
-    /*S_279*/         { SPR_BSPI, 0, 3, {A_BabyMetal/*ACTION_12608*/}, S_280 },
-    /*S_280*/         { SPR_BSPI, 0, 3, {A_Chase/*ACTION_5228*/}, S_281 },
-    /*S_281*/         { SPR_BSPI, 1, 3, {A_Chase/*ACTION_5228*/}, S_282 },
-    /*S_282*/         { SPR_BSPI, 1, 3, {A_Chase/*ACTION_5228*/}, S_283 },
-    /*S_283*/         { SPR_BSPI, 2, 3, {A_Chase/*ACTION_5228*/}, S_284 },
-    /*S_284*/         { SPR_BSPI, 2, 3, {A_Chase/*ACTION_5228*/}, S_285 },
-    /*S_285*/         { SPR_BSPI, 3, 3, {A_Chase/*ACTION_5228*/}, S_286 },
-    /*S_286*/         { SPR_BSPI, 3, 3, {A_Chase/*ACTION_5228*/}, S_279 },
-    /*S_287*/         { SPR_BSPI, 0, 15, {A_BspiFaceTarget/*ACTION_7248*/}, S_288 },
-    /*S_288*/         { SPR_BSPI, 32772, 6, {A_BspiAttack/*ACTION_7284*/}, S_289 },
-    /*S_289*/         { SPR_BSPI, 32772, 1, {A_SpidRefire/*ACTION_7356*/}, S_288 },
-    /*S_290*/         { SPR_BSPI, 5, 3, {NULL}, S_291 },
-    /*S_291*/         { SPR_BSPI, 5, 3, {A_Pain/*ACTION_6148*/}, S_279 },
-    /*S_292*/         { SPR_BSPI, 6, 20, {A_Scream/*ACTION_5952*/}, S_293 },
-    /*S_293*/         { SPR_BSPI, 7, 7, {A_Fall/*ACTION_6236*/}, S_294 },
-    /*S_294*/         { SPR_BSPI, 8, 7, {NULL}, S_295 },
-    /*S_295*/         { SPR_BSPI, 9, 7, {NULL}, S_296 },
-    /*S_296*/         { SPR_BSPI, 10, 7, {A_OnDeathTrigger/*ACTION_6292*/}, S_297 },
-    /*S_297*/         { SPR_BSPI, 11, -1, {NULL}, S_000 },
-    /*S_298*/         { SPR_CYBR, 5, 10, {A_Look/*ACTION_4928*/}, S_298 },
-    /*S_299*/         { SPR_CYBR, 0, 4, {A_Hoof/*ACTION_12512*/}, S_300 },
-    /*S_300*/         { SPR_CYBR, 0, 4, {A_Chase/*ACTION_5228*/}, S_301 },
-    /*S_301*/         { SPR_CYBR, 1, 4, {A_Chase/*ACTION_5228*/}, S_302 },
-    /*S_302*/         { SPR_CYBR, 1, 4, {A_Chase/*ACTION_5228*/}, S_303 },
-    /*S_303*/         { SPR_CYBR, 2, 4, {A_Chase/*ACTION_5228*/}, S_304 },
-    /*S_304*/         { SPR_CYBR, 2, 4, {A_Chase/*ACTION_5228*/}, S_305 },
-    /*S_305*/         { SPR_CYBR, 3, 4, {A_Metal/*ACTION_12560*/}, S_306 },
-    /*S_306*/         { SPR_CYBR, 3, 4, {A_Chase/*ACTION_5228*/}, S_299 },
-    /*S_307*/         { SPR_CYBR, 32772, 6, {A_FaceTarget/*ACTION_5800*/}, S_308 },
-    /*S_308*/         { SPR_CYBR, 5, 12, {A_CyberAttack/*ACTION_7944*/}, S_309 },
-    /*S_309*/         { SPR_CYBR, 32772, 12, {A_FaceTarget/*ACTION_5800*/}, S_310 },
-    /*S_310*/         { SPR_CYBR, 5, 12, {A_CyberAttack/*ACTION_7944*/}, S_311 },
-    /*S_311*/         { SPR_CYBR, 32772, 12, {A_FaceTarget/*ACTION_5800*/}, S_312 },
-    /*S_312*/         { SPR_CYBR, 5, 12, {A_CyberAttack/*ACTION_7944*/}, S_299 },
-    /*S_313*/         { SPR_CYBR, 5, 10, {A_Pain/*ACTION_6148*/}, S_299 },
-    /*S_314*/         { SPR_CYBR, 6, 30, {A_CyberDeathEvent/*ACTION_8004*/}, S_315 },
-    /*S_315*/         { SPR_CYBR, 7, 8, {NULL}, S_316 },
-    /*S_316*/         { SPR_CYBR, 8, 7, {NULL}, S_317 },
-    /*S_317*/         { SPR_CYBR, 9, 6, {NULL}, S_318 },
-    /*S_318*/         { SPR_CYBR, 10, 5, {NULL}, S_319 },
-    /*S_319*/         { SPR_CYBR, 11, 4, {A_Fall/*ACTION_6236*/}, S_320 },
-    /*S_320*/         { SPR_CYBR, 12, 4, {NULL}, S_321 },
-    /*S_321*/         { SPR_CYBR, 13, 4, {A_OnDeathTrigger/*ACTION_6292*/}, S_322 },
-    /*S_322*/         { SPR_CYBR, 14, -1, {NULL}, S_000 },
-    /*S_323*/         { SPR_CYBR, 5, 1, {A_TargetCamera/*ACTION_12268*/}, S_323 },
-    /*S_324*/         { SPR_CYBR, 32772, 18, {A_CyberAttack/*ACTION_7944*/}, S_325 },
-    /*S_325*/         { SPR_CYBR, 5, 18, {A_FaceTarget/*ACTION_5800*/}, S_324 },
-    /*S_326*/         { SPR_PAIN, 0, 5, {A_Look/*ACTION_4928*/}, S_326 },
-    /*S_327*/         { SPR_PAIN, 0, 3, {A_Chase/*ACTION_5228*/}, S_327 },
-    /*S_328*/         { SPR_PAIN, 32769, 5, {A_FaceTarget/*ACTION_5800*/}, S_329 },
-    /*S_329*/         { SPR_PAIN, 32769, 5, {A_FaceTarget/*ACTION_5800*/}, S_330 },
-    /*S_330*/         { SPR_PAIN, 32770, 5, {A_FaceTarget/*ACTION_5800*/}, S_331 },
-    /*S_331*/         { SPR_PAIN, 32770, 0, {A_PainAttack/*ACTION_10244*/}, S_327 },
-    /*S_332*/         { SPR_PAIN, 3, 6, {NULL}, S_333 },
-    /*S_333*/         { SPR_PAIN, 3, 6, {A_Pain/*ACTION_6148*/}, S_327 },
-    /*S_334*/         { SPR_PAIN, 32772, 8, {NULL}, S_335 },
-    /*S_335*/         { SPR_PAIN, 32773, 8, {A_Scream/*ACTION_5952*/}, S_336 },
-    /*S_336*/         { SPR_PAIN, 32774, 8, {A_PainDie/*ACTION_10332*/}, S_337 },
-    /*S_337*/         { SPR_PAIN, 32775, 8, {A_PainDeathEvent/*ACTION_13156*/}, S_338 },
-    /*S_338*/         { SPR_PAIN, 32776, 5, {A_PainDeathEvent/*ACTION_13156*/}, S_339 },
-    /*S_339*/         { SPR_PAIN, 32777, 5, {A_PainDeathEvent/*ACTION_13156*/}, S_340 },
-    /*S_340*/         { SPR_PAIN, 32778, 5, {NULL}, S_341 },
-    /*S_341*/         { SPR_PAIN, 32779, 5, {NULL}, S_000 },
-    /*S_342*/         { SPR_RECT, 0, 8, {A_Look/*ACTION_4928*/}, S_343 },
-    /*S_343*/         { SPR_RECT, 1, 8, {A_Look/*ACTION_4928*/}, S_344 },
-    /*S_344*/         { SPR_RECT, 2, 8, {A_Look/*ACTION_4928*/}, S_345 },
-    /*S_345*/         { SPR_RECT, 3, 8, {A_Look/*ACTION_4928*/}, S_342 },
-    /*S_346*/         { SPR_RECT, 0, 3, {A_RectChase/*ACTION_10436*/}, S_347 },
-    /*S_347*/         { SPR_RECT, 0, 3, {A_RectChase/*ACTION_10436*/}, S_348 },
-    /*S_348*/         { SPR_RECT, 0, 3, {A_RectChase/*ACTION_10436*/}, S_349 },
-    /*S_349*/         { SPR_RECT, 1, 3, {A_RectChase/*ACTION_10436*/}, S_350 },
-    /*S_350*/         { SPR_RECT, 1, 3, {A_RectChase/*ACTION_10436*/}, S_351 },
-    /*S_351*/         { SPR_RECT, 1, 3, {A_RectChase/*ACTION_10436*/}, S_352 },
-    /*S_352*/         { SPR_RECT, 2, 3, {A_RectChase/*ACTION_10436*/}, S_353 },
-    /*S_353*/         { SPR_RECT, 2, 3, {A_RectChase/*ACTION_10436*/}, S_354 },
-    /*S_354*/         { SPR_RECT, 2, 3, {A_RectChase/*ACTION_10436*/}, S_355 },
-    /*S_355*/         { SPR_RECT, 3, 3, {A_RectChase/*ACTION_10436*/}, S_356 },
-    /*S_356*/         { SPR_RECT, 3, 3, {A_RectChase/*ACTION_10436*/}, S_357 },
-    /*S_357*/         { SPR_RECT, 3, 3, {A_RectChase/*ACTION_10436*/}, S_346 },
-    /*S_358*/         { SPR_RECT, 32774, 12, {A_RectGroundFire/*ACTION_10604*/}, S_359 },
-    /*S_359*/         { SPR_RECT, 4, 12, {NULL}, S_360 },
-    /*S_360*/         { SPR_RECT, 32773, 12, {A_RectMissile/*ACTION_11036*/}, S_361 },
-    /*S_361*/         { SPR_RECT, 4, 8, {NULL}, S_346 },
-    /*S_362*/         { SPR_RECT, 7, 18, {A_Pain/*ACTION_6148*/}, S_358 },
-    /*S_363*/         { SPR_RECT, 8, 60, {A_RectDeathEvent/*ACTION_12140*/}, S_364 },
-    /*S_364*/         { SPR_RECT, 9, 8, {NULL}, S_365 },
-    /*S_365*/         { SPR_RECT, 10, 8, {NULL}, S_366 },
-    /*S_366*/         { SPR_RECT, 11, 5, {NULL}, S_367 },
-    /*S_367*/         { SPR_RECT, 12, 4, {NULL}, S_368 },
-    /*S_368*/         { SPR_RECT, 13, 3, {A_OnDeathTrigger/*ACTION_6292*/}, S_369 },
-    /*S_369*/         { SPR_RECT, 14, 2, {NULL}, S_000 },
-    /*S_370*/         { SPR_SPOT, 32768, -1, {NULL}, S_000 },
-    /*S_371*/         { SPR_MISL, 32768, 2, {A_SpawnSmoke/*ACTION_8268*/}, S_371 },
-    /*S_372*/         { SPR_MISL, 32769, 3, {A_Explode/*ACTION_6256*/}, S_373 },
-    /*S_373*/         { SPR_MISL, 32769, 3, {A_FadeAlpha/*ACTION_13116*/}, S_374 },
-    /*S_374*/         { SPR_MISL, 32770, 3, {A_FadeAlpha/*ACTION_13116*/}, S_375 },
-    /*S_375*/         { SPR_MISL, 32770, 3, {A_FadeAlpha/*ACTION_13116*/}, S_376 },
-    /*S_376*/         { SPR_MISL, 32771, 2, {A_FadeAlpha/*ACTION_13116*/}, S_377 },
-    /*S_377*/         { SPR_MISL, 32772, 2, {NULL}, S_378 },
-    /*S_378*/         { SPR_MISL, 32773, 2, {NULL}, S_000 },
-    /*S_379*/         { SPR_PLSS, 32768, 3, {NULL}, S_380 },
-    /*S_380*/         { SPR_PLSS, 32769, 3, {NULL}, S_379 },
-    /*S_381*/         { SPR_PLSS, 32770, 2, {A_FadeAlpha/*ACTION_13116*/}, S_382 },
-    /*S_382*/         { SPR_PLSS, 32771, 2, {NULL}, S_383 },
-    /*S_383*/         { SPR_PLSS, 32772, 2, {NULL}, S_384 },
-    /*S_384*/         { SPR_PLSS, 32773, 2, {NULL}, S_385 },
-    /*S_385*/         { SPR_PLSS, 32774, 2, {NULL}, S_386 },
-    /*S_386*/         { SPR_PLSS, 32775, 2, {NULL}, S_000 },
-    /*S_387*/         { SPR_BFS1, 32768, 2, {NULL}, S_388 },
-    /*S_388*/         { SPR_BFS1, 32769, 2, {NULL}, S_387 },
-    /*S_389*/         { SPR_BFS1, 32770, 8, {A_BFGFlash/*ACTION_50504*/}, S_390 },
-    /*S_390*/         { SPR_BFS1, 32771, 6, {A_FadeAlpha/*ACTION_13116*/}, S_391 },
-    /*S_391*/         { SPR_BFS1, 32772, 3, {A_BFGSpray/*ACTION_50528*/}, S_392 },
-    /*S_392*/         { SPR_BFS1, 32773, 3, {A_FadeAlpha/*ACTION_13116*/}, S_393 },
-    /*S_393*/         { SPR_BFS1, 32774, 2, {NULL}, S_394 },
-    /*S_394*/         { SPR_BFS1, 32775, 2, {NULL}, S_000 },
-    /*S_395*/         { SPR_LASS, 32768, 3, {NULL}, S_396 },
-    /*S_396*/         { SPR_LASS, 32769, 3, {NULL}, S_395 },
-    /*S_397*/         { SPR_BAL1, 32768, 4, {NULL}, S_398 },
-    /*S_398*/         { SPR_BAL1, 32769, 4, {NULL}, S_399 },
-    /*S_399*/         { SPR_BAL1, 32770, 4, {NULL}, S_397 },
-    /*S_400*/         { SPR_BAL1, 32771, 1, {NULL}, S_401 },
-    /*S_401*/         { SPR_BAL1, 32772, 1, {NULL}, S_402 },
-    /*S_402*/         { SPR_BAL1, 32773, 1, {NULL}, S_403 },
-    /*S_403*/         { SPR_BAL1, 32774, 1, {NULL}, S_404 },
-    /*S_404*/         { SPR_BAL1, 32775, 1, {NULL}, S_405 },
-    /*S_405*/         { SPR_BAL1, 32776, 1, {NULL}, S_000 },
-    /*S_406*/         { SPR_BAL3, 32768, 4, {NULL}, S_407 },
-    /*S_407*/         { SPR_BAL3, 32769, 4, {NULL}, S_408 },
-    /*S_408*/         { SPR_BAL3, 32770, 4, {NULL}, S_406 },
-    /*S_409*/         { SPR_BAL3, 32771, 2, {NULL}, S_410 },
-    /*S_410*/         { SPR_BAL3, 32772, 2, {NULL}, S_411 },
-    /*S_411*/         { SPR_BAL3, 32773, 2, {NULL}, S_412 },
-    /*S_412*/         { SPR_BAL3, 32774, 2, {NULL}, S_413 },
-    /*S_413*/         { SPR_BAL3, 32775, 2, {NULL}, S_414 },
-    /*S_414*/         { SPR_BAL3, 32776, 2, {NULL}, S_000 },
-    /*S_415*/         { SPR_BAL2, 32768, 4, {NULL}, S_416 },
-    /*S_416*/         { SPR_BAL2, 32769, 4, {NULL}, S_417 },
-    /*S_417*/         { SPR_BAL2, 32770, 4, {NULL}, S_415 },
-    /*S_418*/         { SPR_BAL2, 32771, 6, {A_MissileSetAlpha/*ACTION_13196*/}, S_419 },
-    /*S_419*/         { SPR_BAL2, 32772, 5, {NULL}, S_420 },
-    /*S_420*/         { SPR_BAL2, 32773, 2, {NULL}, S_421 },
-    /*S_421*/         { SPR_BAL2, 32774, 2, {NULL}, S_422 },
-    /*S_422*/         { SPR_BAL2, 32775, 2, {NULL}, S_000 },
-    /*S_423*/         { SPR_BAL7, 32768, 4, {NULL}, S_424 },
-    /*S_424*/         { SPR_BAL7, 32769, 4, {NULL}, S_423 },
-    /*S_425*/         { SPR_BAL7, 32770, 3, {NULL}, S_426 },
-    /*S_426*/         { SPR_BAL7, 32771, 3, {A_FadeAlpha/*ACTION_13116*/}, S_427 },
-    /*S_427*/         { SPR_BAL7, 32772, 3, {A_FadeAlpha/*ACTION_13116*/}, S_428 },
-    /*S_428*/         { SPR_BAL7, 32773, 2, {NULL}, S_429 },
-    /*S_429*/         { SPR_BAL7, 32774, 2, {NULL}, S_430 },
-    /*S_430*/         { SPR_BAL7, 32775, 2, {NULL}, S_000 },
-    /*S_431*/         { SPR_BAL8, 32768, 4, {NULL}, S_432 },
-    /*S_432*/         { SPR_BAL8, 32769, 4, {NULL}, S_431 },
-    /*S_433*/         { SPR_BAL8, 32770, 3, {NULL}, S_434 },
-    /*S_434*/         { SPR_BAL8, 32771, 3, {A_FadeAlpha/*ACTION_13116*/}, S_435 },
-    /*S_435*/         { SPR_BAL8, 32772, 3, {A_FadeAlpha/*ACTION_13116*/}, S_436 },
-    /*S_436*/         { SPR_BAL8, 32773, 2, {NULL}, S_437 },
-    /*S_437*/         { SPR_BAL8, 32774, 2, {NULL}, S_438 },
-    /*S_438*/         { SPR_BAL8, 32775, 2, {NULL}, S_000 },
-    /*S_439*/         { SPR_APLS, 32768, 2, {NULL}, S_440 },
-    /*S_440*/         { SPR_APLS, 32769, 2, {NULL}, S_439 },
-    /*S_441*/         { SPR_APLS, 32770, 3, {NULL}, S_442 },
-    /*S_442*/         { SPR_APLS, 32771, 3, {NULL}, S_443 },
-    /*S_443*/         { SPR_APLS, 32772, 3, {NULL}, S_444 },
-    /*S_444*/         { SPR_APLS, 32773, 3, {NULL}, S_445 },
-    /*S_445*/         { SPR_APLS, 32774, 3, {NULL}, S_446 },
-    /*S_446*/         { SPR_APLS, 32775, 3, {NULL}, S_000 },
-    /*S_447*/         { SPR_MANF, 32768, 2, {NULL}, S_448 },
-    /*S_448*/         { SPR_MANF, 32769, 2, {NULL}, S_449 },
-    /*S_449*/         { SPR_MANF, 32770, 2, {NULL}, S_447 },
-    /*S_450*/         { SPR_MANF, 32771, 6, {NULL}, S_451 },
-    /*S_451*/         { SPR_MANF, 32772, 4, {A_FadeAlpha/*ACTION_13116*/}, S_452 },
-    /*S_452*/         { SPR_MANF, 32773, 3, {A_FadeAlpha/*ACTION_13116*/}, S_453 },
-    /*S_453*/         { SPR_MANF, 32774, 2, {A_FadeAlpha/*ACTION_13116*/}, S_454 },
-    /*S_454*/         { SPR_MANF, 32775, 2, {NULL}, S_455 },
-    /*S_455*/         { SPR_MANF, 32776, 2, {NULL}, S_000 },
-    /*S_456*/         { SPR_TRCR, 32768, 3, {A_Tracer/*ACTION_8328*/}, S_457 },
-    /*S_457*/         { SPR_TRCR, 32769, 3, {A_Tracer/*ACTION_8328*/}, S_456 },
-    /*S_458*/         { SPR_TRCR, 32770, 4, {A_FadeAlpha/*ACTION_13116*/}, S_459 },
-    /*S_459*/         { SPR_TRCR, 32771, 3, {A_FadeAlpha/*ACTION_13116*/}, S_460 },
-    /*S_460*/         { SPR_TRCR, 32772, 2, {A_FadeAlpha/*ACTION_13116*/}, S_461 },
-    /*S_461*/         { SPR_TRCR, 32773, 2, {A_FadeAlpha/*ACTION_13116*/}, S_462 },
-    /*S_462*/         { SPR_TRCR, 32774, 2, {NULL}, S_463 },
-    /*S_463*/         { SPR_TRCR, 32775, 2, {NULL}, S_464 },
-    /*S_464*/         { SPR_TRCR, 32776, 2, {NULL}, S_000 },
-    /*S_465*/         { SPR_DART, 32768, -1, {NULL}, S_000 },
-    /*S_466*/         { SPR_FIRE, 32768, 3, {A_MoveGroundFire/*ACTION_11940*/}, S_467 },
-    /*S_467*/         { SPR_FIRE, 32769, 3, {A_MoveGroundFire/*ACTION_11940*/}, S_468 },
-    /*S_468*/         { SPR_FIRE, 32770, 3, {A_MoveGroundFire/*ACTION_11940*/}, S_469 },
-    /*S_469*/         { SPR_FIRE, 32771, 3, {A_MoveGroundFire/*ACTION_11940*/}, S_466 },
-    /*S_470*/         { SPR_RBAL, 0, 2, {A_RectTracer/*ACTION_12084*/}, S_471 },
-    /*S_471*/         { SPR_RBAL, 1, 2, {A_RectTracer/*ACTION_12084*/}, S_470 },
-    /*S_472*/         { SPR_RBAL, 32770, 4, {NULL}, S_473 },
-    /*S_473*/         { SPR_RBAL, 32771, 3, {A_MissileSetAlpha/*ACTION_13196*/}, S_474 },
-    /*S_474*/         { SPR_RBAL, 32772, 2, {NULL}, S_475 },
-    /*S_475*/         { SPR_RBAL, 32773, 2, {NULL}, S_476 },
-    /*S_476*/         { SPR_RBAL, 32774, 2, {NULL}, S_477 },
-    /*S_477*/         { SPR_RBAL, 32775, 2, {NULL}, S_000 },
-    /*S_478*/         { SPR_PUF2, 32768, 2, {NULL}, S_479 },
-    /*S_479*/         { SPR_PUF2, 32769, 2, {NULL}, S_480 },
-    /*S_480*/         { SPR_PUF2, 32770, 2, {NULL}, S_481 },
-    /*S_481*/         { SPR_PUF2, 32771, 2, {NULL}, S_482 },
-    /*S_482*/         { SPR_PUF2, 32772, 2, {NULL}, S_000 },
-    /*S_483*/         { SPR_PUF3, 32768, 2, {NULL}, S_484 },
-    /*S_484*/         { SPR_PUF3, 32769, 2, {NULL}, S_485 },
-    /*S_485*/         { SPR_PUF3, 32770, 2, {NULL}, S_486 },
-    /*S_486*/         { SPR_PUF3, 32771, 2, {NULL}, S_487 },
-    /*S_487*/         { SPR_PUF3, 32772, 2, {NULL}, S_000 },
-    /*S_488*/         { SPR_PUFF, 32768, 4, {NULL}, S_489 },
-    /*S_489*/         { SPR_PUFF, 32769, 3, {NULL}, S_490 },
-    /*S_490*/         { SPR_PUFF, 2, 3, {NULL}, S_491 },
-    /*S_491*/         { SPR_PUFF, 3, 3, {NULL}, S_492 },
-    /*S_492*/         { SPR_PUFF, 4, 3, {NULL}, S_493 },
-    /*S_493*/         { SPR_PUFF, 5, 3, {NULL}, S_000 },
-    /*S_494*/         { SPR_BLUD, 0, 6, {NULL}, S_495 },
-    /*S_495*/         { SPR_BLUD, 1, 6, {NULL}, S_496 },
-    /*S_496*/         { SPR_BLUD, 2, 6, {NULL}, S_497 },
-    /*S_497*/         { SPR_BLUD, 3, 6, {NULL}, S_000 },
-    /*S_498*/         { SPR_A027, 0, -1, {NULL}, S_000 },
-    /*S_499*/         { SPR_TFOG, 32772, 3, {NULL}, S_500 },
-    /*S_500*/         { SPR_TFOG, 32771, 3, {NULL}, S_501 },
-    /*S_501*/         { SPR_TFOG, 32770, 3, {NULL}, S_502 },
-    /*S_502*/         { SPR_TFOG, 32769, 3, {NULL}, S_503 },
-    /*S_503*/         { SPR_TFOG, 32768, 3, {NULL}, S_504 },
-    /*S_504*/         { SPR_TFOG, 32769, 3, {NULL}, S_505 },
-    /*S_505*/         { SPR_TFOG, 32770, 3, {NULL}, S_506 },
-    /*S_506*/         { SPR_TFOG, 32771, 3, {NULL}, S_507 },
-    /*S_507*/         { SPR_TFOG, 32772, 3, {NULL}, S_508 },
-    /*S_508*/         { SPR_TFOG, 32773, 3, {NULL}, S_509 },
-    /*S_509*/         { SPR_TFOG, 32774, 3, {NULL}, S_510 },
-    /*S_510*/         { SPR_TFOG, 32775, 3, {NULL}, S_000 },
-    /*S_511*/         { SPR_BFE2, 32768, 4, {NULL}, S_512 },
-    /*S_512*/         { SPR_BFE2, 32769, 3, {A_FadeAlpha/*ACTION_13116*/}, S_513 },
-    /*S_513*/         { SPR_BFE2, 32770, 2, {NULL}, S_514 },
-    /*S_514*/         { SPR_BFE2, 32771, 2, {NULL}, S_515 },
-    /*S_515*/         { SPR_BFE2, 32772, 2, {NULL}, S_516 },
-    /*S_516*/         { SPR_BFE2, 32773, 2, {NULL}, S_000 },
-    /*S_517*/         { SPR_ARM1, 32768, 6, {NULL}, S_518 },
-    /*S_518*/         { SPR_ARM1, 32769, 6, {NULL}, S_517 },
-    /*S_519*/         { SPR_ARM2, 32768, 6, {NULL}, S_520 },
-    /*S_520*/         { SPR_ARM2, 32769, 6, {NULL}, S_519 },
-    /*S_521*/         { SPR_BON1, 0, 3, {NULL}, S_522 },
-    /*S_522*/         { SPR_BON1, 1, 3, {NULL}, S_523 },
-    /*S_523*/         { SPR_BON1, 2, 3, {NULL}, S_524 },
-    /*S_524*/         { SPR_BON1, 3, 3, {NULL}, S_521 },
-    /*S_525*/         { SPR_BON2, 0, 3, {NULL}, S_526 },
-    /*S_526*/         { SPR_BON2, 1, 3, {NULL}, S_527 },
-    /*S_527*/         { SPR_BON2, 2, 3, {NULL}, S_528 },
-    /*S_528*/         { SPR_BON2, 3, 3, {NULL}, S_529 },
-    /*S_529*/         { SPR_BON2, 2, 3, {NULL}, S_530 },
-    /*S_530*/         { SPR_BON2, 1, 3, {NULL}, S_525 },
-    /*S_531*/         { SPR_BKEY, 0, 5, {NULL}, S_532 },
-    /*S_532*/         { SPR_BKEY, 32768, 5, {NULL}, S_531 },
-    /*S_533*/         { SPR_RKEY, 0, 5, {NULL}, S_534 },
-    /*S_534*/         { SPR_RKEY, 32768, 5, {NULL}, S_533 },
-    /*S_535*/         { SPR_YKEY, 0, 5, {NULL}, S_536 },
-    /*S_536*/         { SPR_YKEY, 32768, 5, {NULL}, S_535 },
-    /*S_537*/         { SPR_YSKU, 0, 5, {NULL}, S_538 },
-    /*S_538*/         { SPR_YSKU, 32768, 5, {NULL}, S_537 },
-    /*S_539*/         { SPR_RSKU, 0, 5, {NULL}, S_540 },
-    /*S_540*/         { SPR_RSKU, 32768, 5, {NULL}, S_539 },
-    /*S_541*/         { SPR_BSKU, 0, 5, {NULL}, S_542 },
-    /*S_542*/         { SPR_BSKU, 32768, 5, {NULL}, S_541 },
-    /*S_543*/         { SPR_ART1, 32768, 4, {NULL}, S_544 },
-    /*S_544*/         { SPR_ART1, 32769, 4, {NULL}, S_545 },
-    /*S_545*/         { SPR_ART1, 32770, 4, {NULL}, S_546 },
-    /*S_546*/         { SPR_ART1, 32771, 4, {NULL}, S_547 },
-    /*S_547*/         { SPR_ART1, 32772, 4, {NULL}, S_548 },
-    /*S_548*/         { SPR_ART1, 32771, 4, {NULL}, S_549 },
-    /*S_549*/         { SPR_ART1, 32770, 4, {NULL}, S_550 },
-    /*S_550*/         { SPR_ART1, 32769, 4, {NULL}, S_543 },
-    /*S_551*/         { SPR_ART2, 32768, 4, {NULL}, S_552 },
-    /*S_552*/         { SPR_ART2, 32769, 4, {NULL}, S_553 },
-    /*S_553*/         { SPR_ART2, 32770, 4, {NULL}, S_554 },
-    /*S_554*/         { SPR_ART2, 32771, 4, {NULL}, S_555 },
-    /*S_555*/         { SPR_ART2, 32772, 4, {NULL}, S_556 },
-    /*S_556*/         { SPR_ART2, 32771, 4, {NULL}, S_557 },
-    /*S_557*/         { SPR_ART2, 32770, 4, {NULL}, S_558 },
-    /*S_558*/         { SPR_ART2, 32769, 4, {NULL}, S_551 },
-    /*S_559*/         { SPR_ART3, 32768, 4, {NULL}, S_560 },
-    /*S_560*/         { SPR_ART3, 32769, 4, {NULL}, S_561 },
-    /*S_561*/         { SPR_ART3, 32770, 4, {NULL}, S_562 },
-    /*S_562*/         { SPR_ART3, 32771, 4, {NULL}, S_563 },
-    /*S_563*/         { SPR_ART3, 32772, 4, {NULL}, S_564 },
-    /*S_564*/         { SPR_ART3, 32771, 4, {NULL}, S_565 },
-    /*S_565*/         { SPR_ART3, 32770, 4, {NULL}, S_566 },
-    /*S_566*/         { SPR_ART3, 32769, 4, {NULL}, S_559 },
-    /*S_567*/         { SPR_STIM, 0, -1, {NULL}, S_000 },
-    /*S_568*/         { SPR_MEDI, 0, -1, {NULL}, S_000 },
-    /*S_569*/         { SPR_SOUL, 32768, 6, {NULL}, S_570 },
-    /*S_570*/         { SPR_SOUL, 32769, 6, {NULL}, S_571 },
-    /*S_571*/         { SPR_SOUL, 32770, 6, {NULL}, S_572 },
-    /*S_572*/         { SPR_SOUL, 32771, 6, {NULL}, S_573 },
-    /*S_573*/         { SPR_SOUL, 32770, 6, {NULL}, S_574 },
-    /*S_574*/         { SPR_SOUL, 32769, 6, {NULL}, S_569 },
-    /*S_575*/         { SPR_PINV, 32768, 6, {NULL}, S_576 },
-    /*S_576*/         { SPR_PINV, 32769, 6, {NULL}, S_577 },
-    /*S_577*/         { SPR_PINV, 32770, 6, {NULL}, S_578 },
-    /*S_578*/         { SPR_PINV, 32771, 6, {NULL}, S_579 },
-    /*S_579*/         { SPR_PINV, 32770, 6, {NULL}, S_580 },
-    /*S_580*/         { SPR_PINV, 32769, 6, {NULL}, S_575 },
-    /*S_581*/         { SPR_PSTR, 32768, -1, {NULL}, S_000 },
-    /*S_582*/         { SPR_PINS, 32768, 2, {NULL}, S_583 },
-    /*S_583*/         { SPR_PINS, 32769, 3, {NULL}, S_584 },
-    /*S_584*/         { SPR_PINS, 32770, 2, {NULL}, S_585 },
-    /*S_585*/         { SPR_PINS, 32771, 1, {NULL}, S_586 },
-    /*S_586*/         { SPR_PINS, 32769, 2, {NULL}, S_587 },
-    /*S_587*/         { SPR_PINS, 32770, 1, {NULL}, S_582 },
-    /*S_588*/         { SPR_SUIT, 32768, 4, {NULL}, S_589 },
-    /*S_589*/         { SPR_SUIT, 32769, 4, {NULL}, S_588 },
-    /*S_590*/         { SPR_PMAP, 32768, 5, {NULL}, S_591 },
-    /*S_591*/         { SPR_PMAP, 32769, 5, {NULL}, S_592 },
-    /*S_592*/         { SPR_PMAP, 32770, 5, {NULL}, S_593 },
-    /*S_593*/         { SPR_PMAP, 32771, 5, {NULL}, S_590 },
-    /*S_594*/         { SPR_PVIS, 32768, 3, {NULL}, S_595 },
-    /*S_595*/         { SPR_PVIS, 1, 3, {NULL}, S_594 },
-    /*S_596*/         { SPR_MEGA, 32768, 4, {NULL}, S_597 },
-    /*S_597*/         { SPR_MEGA, 32769, 4, {NULL}, S_598 },
-    /*S_598*/         { SPR_MEGA, 32770, 4, {NULL}, S_599 },
-    /*S_599*/         { SPR_MEGA, 32771, 4, {NULL}, S_600 },
-    /*S_600*/         { SPR_MEGA, 32770, 4, {NULL}, S_601 },
-    /*S_601*/         { SPR_MEGA, 32769, 4, {NULL}, S_596 },
-    /*S_602*/         { SPR_CLIP, 0, -1, {NULL}, S_000 },
-    /*S_603*/         { SPR_AMMO, 0, -1, {NULL}, S_000 },
-    /*S_604*/         { SPR_RCKT, 0, -1, {NULL}, S_000 },
-    /*S_605*/         { SPR_BROK, 0, -1, {NULL}, S_000 },
-    /*S_606*/         { SPR_CELL, 0, -1, {NULL}, S_000 },
-    /*S_607*/         { SPR_CELP, 0, -1, {NULL}, S_000 },
-    /*S_608*/         { SPR_SHEL, 0, -1, {NULL}, S_000 },
-    /*S_609*/         { SPR_SBOX, 0, -1, {NULL}, S_000 },
-    /*S_610*/         { SPR_BPAK, 0, -1, {NULL}, S_000 },
-    /*S_611*/         { SPR_BFUG, 0, -1, {NULL}, S_000 },
-    /*S_612*/         { SPR_CSAW, 0, -1, {NULL}, S_000 },
-    /*S_613*/         { SPR_MGUN, 0, -1, {NULL}, S_000 },
-    /*S_614*/         { SPR_LAUN, 0, -1, {NULL}, S_000 },
-    /*S_615*/         { SPR_PLSM, 0, -1, {NULL}, S_000 },
-    /*S_616*/         { SPR_SHOT, 0, -1, {NULL}, S_000 },
-    /*S_617*/         { SPR_SGN2, 0, -1, {NULL}, S_000 },
-    /*S_618*/         { SPR_LSRG, 0, -1, {NULL}, S_000 },
-    /*S_619*/         { SPR_FIRE, 0, 3, {NULL}, S_620 },
-    /*S_620*/         { SPR_FIRE, 1, 3, {NULL}, S_621 },
-    /*S_621*/         { SPR_FIRE, 2, 3, {NULL}, S_622 },
-    /*S_622*/         { SPR_FIRE, 3, 3, {NULL}, S_623 },
-    /*S_623*/         { SPR_FIRE, 4, 3, {NULL}, S_619 },
-    /*S_624*/         { SPR_CAND, 0, 2, {NULL}, S_625 },
-    /*S_625*/         { SPR_CAND, 1, 2, {NULL}, S_624 },
-    /*S_626*/         { SPR_BAR1, 0, -1, {NULL}, S_000 },
-    /*S_627*/         { SPR_BAR1, 1, 5, {NULL}, S_628 },
-    /*S_628*/         { SPR_BAR1, 2, 5, {NULL}, S_629 },
-    /*S_629*/         { SPR_BAR1, 3, 5, {NULL}, S_630 },
-    /*S_630*/         { SPR_BAR1, 32772, 5, {A_BarrelExplode/*ACTION_12400*/}, S_000 },
-    /*S_631*/         { SPR_MISL, 32769, 6, {NULL}, S_632 },
-    /*S_632*/         { SPR_MISL, 32770, 5, {NULL}, S_633 },
-    /*S_633*/         { SPR_MISL, 32771, 2, {NULL}, S_634 },
-    /*S_634*/         { SPR_MISL, 32772, 2, {NULL}, S_635 },
-    /*S_635*/         { SPR_MISL, 32773, 2, {NULL}, S_000 },
-    /*S_636*/         { SPR_MISL, 32769, 2, {NULL}, S_637 },
-    /*S_637*/         { SPR_MISL, 32770, 2, {NULL}, S_638 },
-    /*S_638*/         { SPR_MISL, 32771, 2, {NULL}, S_639 },
-    /*S_639*/         { SPR_MISL, 32772, 2, {NULL}, S_640 },
-    /*S_640*/         { SPR_MISL, 32773, 2, {NULL}, S_000 },
-    /*S_641*/         { SPR_LMP1, 0, -1, {NULL}, S_000 },
-    /*S_642*/         { SPR_LMP2, 0, -1, {NULL}, S_000 },
-    /*S_643*/         { SPR_A031, 0, 4, {NULL}, S_644 },
-    /*S_644*/         { SPR_A031, 1, 4, {NULL}, S_645 },
-    /*S_645*/         { SPR_A031, 2, 4, {NULL}, S_646 },
-    /*S_646*/         { SPR_A031, 3, 4, {NULL}, S_647 },
-    /*S_647*/         { SPR_A031, 4, 4, {NULL}, S_643 },
-    /*S_648*/         { SPR_A030, 0, 4, {NULL}, S_649 },
-    /*S_649*/         { SPR_A030, 1, 4, {NULL}, S_650 },
-    /*S_650*/         { SPR_A030, 2, 4, {NULL}, S_651 },
-    /*S_651*/         { SPR_A030, 3, 4, {NULL}, S_652 },
-    /*S_652*/         { SPR_A030, 4, 4, {NULL}, S_648 },
-    /*S_653*/         { SPR_A032, 0, 4, {NULL}, S_654 },
-    /*S_654*/         { SPR_A032, 1, 4, {NULL}, S_655 },
-    /*S_655*/         { SPR_A032, 2, 4, {NULL}, S_656 },
-    /*S_656*/         { SPR_A032, 3, 4, {NULL}, S_657 },
-    /*S_657*/         { SPR_A032, 4, 4, {NULL}, S_653 },
-    /*S_658*/         { SPR_A033, 0, -1, {NULL}, S_000 },
-    /*S_659*/         { SPR_A034, 0, -1, {NULL}, S_000 },
-    /*S_660*/         { SPR_BFLM, 32768, 4, {NULL}, S_661 },
-    /*S_661*/         { SPR_BFLM, 32769, 4, {NULL}, S_662 },
-    /*S_662*/         { SPR_BFLM, 32770, 4, {NULL}, S_663 },
-    /*S_663*/         { SPR_BFLM, 32771, 4, {NULL}, S_664 },
-    /*S_664*/         { SPR_BFLM, 32772, 4, {NULL}, S_660 },
-    /*S_665*/         { SPR_RFLM, 32768, 4, {NULL}, S_666 },
-    /*S_666*/         { SPR_RFLM, 32769, 4, {NULL}, S_667 },
-    /*S_667*/         { SPR_RFLM, 32770, 4, {NULL}, S_668 },
-    /*S_668*/         { SPR_RFLM, 32771, 4, {NULL}, S_669 },
-    /*S_669*/         { SPR_RFLM, 32772, 4, {NULL}, S_665 },
-    /*S_670*/         { SPR_YFLM, 32768, 4, {NULL}, S_671 },
-    /*S_671*/         { SPR_YFLM, 32769, 4, {NULL}, S_672 },
-    /*S_672*/         { SPR_YFLM, 32770, 4, {NULL}, S_673 },
-    /*S_673*/         { SPR_YFLM, 32771, 4, {NULL}, S_674 },
-    /*S_674*/         { SPR_YFLM, 32772, 4, {NULL}, S_670 },
-    /*S_675*/         { SPR_A006, 0, -1, {NULL}, S_000 },
-    /*S_676*/         { SPR_A021, 0, -1, {NULL}, S_000 },
-    /*S_677*/         { SPR_A003, 0, -1, {NULL}, S_000 },
-    /*S_678*/         { SPR_A020, 0, -1, {NULL}, S_000 },
-    /*S_679*/         { SPR_A014, 0, 6, {NULL}, S_680 },
-    /*S_680*/         { SPR_A014, 1, 6, {NULL}, S_679 },
-    /*S_681*/         { SPR_A016, 0, -1, {NULL}, S_000 },
-    /*S_682*/         { SPR_A027, 0, -1, {NULL}, S_000 },
-    /*S_683*/         { SPR_A008, 0, -1, {NULL}, S_000 },
-    /*S_684*/         { SPR_A007, 0, -1, {NULL}, S_000 },
-    /*S_685*/         { SPR_A015, 0, -1, {NULL}, S_000 },
-    /*S_686*/         { SPR_A001, 0, -1, {NULL}, S_000 },
-    /*S_687*/         { SPR_A012, 0, -1, {NULL}, S_000 },
-    /*S_688*/         { SPR_A010, 0, -1, {NULL}, S_000 },
-    /*S_689*/         { SPR_A018, 0, -1, {NULL}, S_000 },
-    /*S_690*/         { SPR_A017, 0, -1, {NULL}, S_000 },
-    /*S_691*/         { SPR_A026, 0, -1, {NULL}, S_000 },
-    /*S_692*/         { SPR_A022, 0, -1, {NULL}, S_000 },
-    /*S_693*/         { SPR_A028, 0, -1, {NULL}, S_000 },
-    /*S_694*/         { SPR_A029, 0, -1, {NULL}, S_000 },
-    /*S_695*/         { SPR_A035, 0, -1, {NULL}, S_000 },
-    /*S_696*/         { SPR_A036, 0, -1, {NULL}, S_000 },
-    /*S_697*/         { SPR_TRE3, 0, -1, {NULL}, S_000 },
-    /*S_698*/         { SPR_TRE2, 0, -1, {NULL}, S_000 },
-    /*S_699*/         { SPR_TRE1, 0, -1, {NULL}, S_000 },
-    /*S_700*/         { SPR_A013, 0, -1, {NULL}, S_000 },
-    /*S_701*/         { SPR_A019, 0, -1, {NULL}, S_000 },
-    /*S_702*/         { SPR_A004, 0, -1, {NULL}, S_000 },
-    /*S_703*/         { SPR_A005, 0, -1, {NULL}, S_000 },
-    /*S_704*/         { SPR_A023, 0, -1, {NULL}, S_000 },
-    /*S_705*/         { SPR_SAWG, 0, 4, {A_ChainSawReady/*ACTION_48552*/}, S_706 },
-    /*S_706*/         { SPR_SAWG, 1, 4, {A_WeaponReady/*ACTION_47164*/}, S_705 },
-    /*S_707*/         { SPR_SAWG, 1, 1, {A_Lower/*ACTION_47552*/}, S_707 },
-    /*S_708*/         { SPR_SAWG, 1, 1, {A_Raise/*ACTION_47748*/}, S_708 },
-    /*S_709*/         { SPR_SAWG, 2, 2, {A_Saw/*ACTION_48156*/}, S_710 },
-    /*S_710*/         { SPR_SAWG, 3, 2, {A_Saw/*ACTION_48156*/}, S_711 },
-    /*S_711*/         { SPR_SAWG, 3, 0, {A_ReFire/*ACTION_47388*/}, S_705 },
-    /*S_712*/         { SPR_PUNG, 0, 1, {A_WeaponReady/*ACTION_47164*/}, S_712 },
-    /*S_713*/         { SPR_PUNG, 0, 1, {A_Lower/*ACTION_47552*/}, S_713 },
-    /*S_714*/         { SPR_PUNG, 0, 1, {A_Raise/*ACTION_47748*/}, S_714 },
-    /*S_715*/         { SPR_PUNG, 1, 4, {NULL}, S_716 },
-    /*S_716*/         { SPR_PUNG, 2, 4, {A_Punch/*ACTION_47916*/}, S_717 },
-    /*S_717*/         { SPR_PUNG, 3, 5, {NULL}, S_718 },
-    /*S_718*/         { SPR_PUNG, 2, 4, {NULL}, S_719 },
-    /*S_719*/         { SPR_PUNG, 1, 5, {A_ReFire/*ACTION_47388*/}, S_712 },
-    /*S_720*/         { SPR_PISG, 0, 1, {A_WeaponReady/*ACTION_47164*/}, S_720 },
-    /*S_721*/         { SPR_PISG, 0, 1, {A_Lower/*ACTION_47552*/}, S_721 },
-    /*S_722*/         { SPR_PISG, 0, 1, {A_Raise/*ACTION_47748*/}, S_722 },
-    /*S_723*/         { SPR_PISG, 0, 2, {NULL}, S_724 },
-    /*S_724*/         { SPR_PISG, 1, 1, {A_FirePistol/*ACTION_49332*/}, S_725 },
-    /*S_725*/         { SPR_PISG, 2, 5, {NULL}, S_726 },
-    /*S_726*/         { SPR_PISG, 1, 5, {NULL}, S_727 },
-    /*S_727*/         { SPR_PISG, 0, 1, {A_ReFire/*ACTION_47388*/}, S_720 },
-    /*S_728*/         { SPR_PISG, 32771, 3, {NULL}, S_000 },
-    /*S_729*/         { SPR_SHT1, 0, 1, {A_WeaponReady/*ACTION_47164*/}, S_729 },
-    /*S_730*/         { SPR_SHT1, 0, 1, {A_Lower/*ACTION_47552*/}, S_730 },
-    /*S_731*/         { SPR_SHT1, 0, 1, {A_Raise/*ACTION_47748*/}, S_731 },
-    /*S_732*/         { SPR_SHT1, 0, 2, {NULL}, S_733 },
-    /*S_733*/         { SPR_SHT1, 0, 4, {A_FireShotgun/*ACTION_49464*/}, S_734 },
-    /*S_734*/         { SPR_SHT1, 1, 18, {NULL}, S_735 },
-    /*S_735*/         { SPR_SHT1, 2, 5, {NULL}, S_736 },
-    /*S_736*/         { SPR_SHT1, 0, 3, {NULL}, S_737 },
-    /*S_737*/         { SPR_SHT1, 0, 7, {A_ReFire/*ACTION_47388*/}, S_729 },
-    /*S_738*/         { SPR_SHT1, 32771, 4, {NULL}, S_000 },
-    /*S_739*/         { SPR_SHT2, 0, 1, {A_WeaponReady/*ACTION_47164*/}, S_739 },
-    /*S_740*/         { SPR_SHT2, 0, 1, {A_Lower/*ACTION_47552*/}, S_740 },
-    /*S_741*/         { SPR_SHT2, 0, 1, {A_Raise/*ACTION_47748*/}, S_741 },
-    /*S_742*/         { SPR_SHT2, 0, 1, {NULL}, S_743 },
-    /*S_743*/         { SPR_SHT2, 0, 4, {A_FireShotgun2/*ACTION_49680*/}, S_744 },
-    /*S_744*/         { SPR_SHT2, 1, 7, {NULL}, S_745 },
-    /*S_745*/         { SPR_SHT2, 1, 5, {A_CheckReload/*ACTION_47520*/}, S_746 },
-    /*S_746*/         { SPR_SHT2, 1, 5, {NULL}, S_747 },
-    /*S_747*/         { SPR_SHT2, 1, 5, {NULL}, S_748 },
-    /*S_748*/         { SPR_SHT2, 1, 5, {NULL}, S_749 },
-    /*S_749*/         { SPR_SHT2, 1, 5, {A_LoadShotgun2/*ACTION_50880*/}, S_750 },
-    /*S_750*/         { SPR_SHT2, 2, 4, {A_CloseShotgun2/*ACTION_50920*/}, S_751 },
-    /*S_751*/         { SPR_SHT2, 0, 5, {A_ReFire/*ACTION_47388*/}, S_739 },
-    /*S_752*/         { SPR_SHT2, 32771, 4, {NULL}, S_000 },
-    /*S_753*/         { SPR_CHGG, 0, 1, {A_WeaponReady/*ACTION_47164*/}, S_753 },
-    /*S_754*/         { SPR_CHGG, 0, 1, {A_Lower/*ACTION_47552*/}, S_754 },
-    /*S_755*/         { SPR_CHGG, 0, 1, {A_Raise/*ACTION_47748*/}, S_755 },
-    /*S_756*/         { SPR_CHGG, 0, 3, {A_FireCGun/*ACTION_50168*/}, S_757 },
-    /*S_757*/         { SPR_CHGG, 1, 3, {A_FireCGun/*ACTION_50168*/}, S_758 },
-    /*S_758*/         { SPR_CHGG, 1, 0, {A_ReFire/*ACTION_47388*/}, S_753 },
-    /*S_759*/         { SPR_CHGG, 32771, 3, {NULL}, S_000 },
-    /*S_760*/         { SPR_CHGG, 32770, 3, {NULL}, S_000 },
-    /*S_761*/         { SPR_ROCK, 0, 1, {A_WeaponReady/*ACTION_47164*/}, S_761 },
-    /*S_762*/         { SPR_ROCK, 0, 1, {A_Lower/*ACTION_47552*/}, S_762 },
-    /*S_763*/         { SPR_ROCK, 0, 1, {A_Raise/*ACTION_47748*/}, S_763 },
-    /*S_764*/         { SPR_ROCK, 1, 8, {A_GunFlash/*ACTION_47832*/}, S_765 },
-    /*S_765*/         { SPR_ROCK, 1, 10, {A_FireMissile/*ACTION_48612*/}, S_766 },
-    /*S_766*/         { SPR_ROCK, 1, 0, {A_ReFire/*ACTION_47388*/}, S_761 },
-    /*S_767*/         { SPR_ROCK, 32770, 3, {NULL}, S_768 },
-    /*S_768*/         { SPR_ROCK, 32771, 4, {NULL}, S_769 },
-    /*S_769*/         { SPR_ROCK, 32772, 4, {NULL}, S_770 },
-    /*S_770*/         { SPR_ROCK, 32773, 4, {NULL}, S_000 },
-    /*S_771*/         { SPR_PLAS, 0, 1, {A_WeaponReady/*ACTION_47164*/}, S_771 },
-    /*S_772*/         { SPR_PLAS, 0, 1, {A_Lower/*ACTION_47552*/}, S_772 },
-    /*S_773*/         { SPR_PLAS, 0, 0, {A_PlasmaAnimate/*ACTION_48856*/}, S_774 },
-    /*S_774*/         { SPR_PLAS, 0, 1, {A_Raise/*ACTION_47748*/}, S_774 },
-    /*S_775*/         { SPR_PLAS, 32772, 2, {A_FirePlasma/*ACTION_48940*/}, S_776 },
-    /*S_776*/         { SPR_PLAS, 0, 2, {A_PlasmaAnimate/*ACTION_48856*/}, S_777 },
-    /*S_777*/         { SPR_PLAS, 0, 1, {A_ReFire/*ACTION_47388*/}, S_771 },
-    /*S_778*/         { SPR_PLAS, 1, 2, {NULL}, S_779 },
-    /*S_779*/         { SPR_PLAS, 2, 2, {NULL}, S_780 },
-    /*S_780*/         { SPR_PLAS, 3, 2, {NULL}, S_778 },
-    /*S_781*/         { SPR_BFGG, 0, 1, {A_WeaponReady/*ACTION_47164*/}, S_781 },
-    /*S_782*/         { SPR_BFGG, 0, 1, {A_Lower/*ACTION_47552*/}, S_782 },
-    /*S_783*/         { SPR_BFGG, 0, 1, {A_Raise/*ACTION_47748*/}, S_783 },
-    /*S_784*/         { SPR_BFGG, 0, 20, {A_BFGsound/*ACTION_50840*/}, S_785 },
-    /*S_785*/         { SPR_BFGG, 1, 10, {A_GunFlash/*ACTION_47832*/}, S_786 },
-    /*S_786*/         { SPR_BFGG, 1, 10, {A_FireBFG/*ACTION_48760*/}, S_787 },
-    /*S_787*/         { SPR_BFGG, 1, 20, {A_ReFire/*ACTION_47388*/}, S_781 },
-    /*S_788*/         { SPR_BFGG, 32770, 8, {NULL}, S_789 },
-    /*S_789*/         { SPR_BFGG, 32771, 5, {NULL}, S_790 },
-    /*S_790*/         { SPR_BFGG, 32772, 3, {NULL}, S_000 },
-    /*S_791*/         { SPR_LASR, 0, 2, {A_WeaponReady/*ACTION_47164*/}, S_791 },
-    /*S_792*/         { SPR_LASR, 0, 1, {A_Lower/*ACTION_47552*/}, S_792 },
-    /*S_793*/         { SPR_LASR, 0, 1, {A_Raise/*ACTION_47748*/}, S_793 },
-    /*S_794*/         { SPR_LASR, 0, 8, {A_FireLaser/*ACTION_51904*/}, S_795 },
-    /*S_795*/         { SPR_LASR, 0, 3, {A_ReFire/*ACTION_47388*/}, S_791 },
-    /*S_796*/         { SPR_LASR, 32769, 3, {NULL}, S_000 },
+    /*S_NULL*/              { SPR_SPOT, 0, -1, {NULL}, S_NULL },
+
+    /*S_PLAY*/              { SPR_PLAY, 0, -1, {NULL}, S_NULL },
+    /*S_PLAY_RUN1*/         { SPR_PLAY, 0, 4, {NULL}, S_PLAY_RUN2 },
+    /*S_PLAY_RUN2*/         { SPR_PLAY, 1, 4, {NULL}, S_PLAY_RUN3 },
+    /*S_PLAY_RUN3*/         { SPR_PLAY, 2, 4, {NULL}, S_PLAY_RUN4 },
+    /*S_PLAY_RUN4*/         { SPR_PLAY, 3, 4, {NULL}, S_PLAY_RUN1 },
+    /*S_PLAY_ATK1*/         { SPR_PLAY, 4, 12, {NULL}, S_PLAY_ATK2 },
+    /*S_PLAY_ATK2*/         { SPR_PLAY, 32773, 6, {NULL}, S_PLAY },
+    /*S_PLAY_PAIN*/         { SPR_PLAY, 6, 4, {NULL}, S_PLAY_PAIN2 },
+    /*S_PLAY_PAIN2*/        { SPR_PLAY, 6, 4, {A_Pain}, S_PLAY },
+    /*S_PLAY_DIE1*/         { SPR_PLAY, 7, 10, {NULL}, S_PLAY_DIE2 },
+    /*S_PLAY_DIE2*/         { SPR_PLAY, 8, 10, {A_Scream}, S_PLAY_DIE3 },
+    /*S_PLAY_DIE3*/         { SPR_PLAY, 9, 10, {A_Fall}, S_PLAY_DIE4 },
+    /*S_PLAY_DIE4*/         { SPR_PLAY, 10, 10, {NULL}, S_PLAY_DIE5 },
+    /*S_PLAY_DIE5*/         { SPR_PLAY, 11, 10, {NULL}, S_PLAY_DIE6 },
+    /*S_PLAY_DIE6*/         { SPR_PLAY, 12, -1, {NULL}, S_NULL },
+    /*S_PLAY_XDIE1*/        { SPR_PLAY, 13, 5, {NULL}, S_PLAY_XDIE2 },
+    /*S_PLAY_XDIE2*/        { SPR_PLAY, 14, 5, {A_XScream}, S_PLAY_XDIE3 },
+    /*S_PLAY_XDIE3*/        { SPR_PLAY, 15, 5, {A_Fall}, S_PLAY_XDIE4 },
+    /*S_PLAY_XDIE4*/        { SPR_PLAY, 16, 5, {NULL}, S_PLAY_XDIE5 },
+    /*S_PLAY_XDIE5*/        { SPR_PLAY, 17, 5, {NULL}, S_PLAY_XDIE6 },
+    /*S_PLAY_XDIE6*/        { SPR_PLAY, 18, 5, {NULL}, S_PLAY_XDIE7 },
+    /*S_PLAY_XDIE7*/        { SPR_PLAY, 19, 5, {NULL}, S_PLAY_XDIE8 },
+    /*S_PLAY_XDIE8*/        { SPR_PLAY, 20, 5, {NULL}, S_PLAY_XDIE9 },
+    /*S_PLAY_XDIE9*/        { SPR_PLAY, 21, -1, {NULL}, S_NULL },
+
+    /*S_PBOT_STND*/         { SPR_PLAY, 4, 10, {A_Look}, S_PBOT_STND },
+    /*S_PBOT_RUN1*/         { SPR_PLAY, 0, 4, {A_Chase}, S_PBOT_RUN2 },
+    /*S_PBOT_RUN2*/         { SPR_PLAY, 1, 4, {A_Chase}, S_PBOT_RUN3 },
+    /*S_PBOT_RUN3*/         { SPR_PLAY, 2, 4, {A_Chase}, S_PBOT_RUN4 },
+    /*S_PBOT_RUN4*/         { SPR_PLAY, 3, 4, {A_Chase}, S_PBOT_RUN1 },
+    /*S_PBOT_ATK1*/         { SPR_PLAY, 4, 4, {A_PosAttack}, S_PBOT_ATK2 },
+    /*S_PBOT_ATK2*/         { SPR_PLAY, 32773, 4, {A_PosAttack}, S_PBOT_ATK3 },
+    /*S_PBOT_ATK3*/         { SPR_PLAY, 4, 4, {A_PosAttack}, S_PBOT_ATK4 },
+    /*S_PBOT_ATK4*/         { SPR_PLAY, 32773, 4, {A_PosAttack}, S_PBOT_ATK5 },
+    /*S_PBOT_ATK5*/         { SPR_PLAY, 4, 4, {A_PosAttack}, S_PBOT_ATK6 },
+    /*S_PBOT_ATK6*/         { SPR_PLAY, 32773, 4, {A_PosAttack}, S_PBOT_RUN1 },
+    /*S_PBOT_PAIN*/         { SPR_PLAY, 6, 4, {NULL}, S_PBOT_PAIN2 },
+    /*S_PBOT_PAIN2*/        { SPR_PLAY, 6, 4, {A_Pain}, S_PBOT_RUN1 },
+    /*S_PBOT_PATK1*/        { SPR_PLAY, 4, 4, {A_PlayAttack}, S_PBOT_PATK2 },
+    /*S_PBOT_PATK2*/        { SPR_PLAY, 32773, 4, {A_PlayAttack}, S_PBOT_PATK3 },
+    /*S_PBOT_PATK3*/        { SPR_PLAY, 4, 4, {A_PlayAttack}, S_PBOT_PATK4 },
+    /*S_PBOT_PATK4*/        { SPR_PLAY, 32773, 4, {A_PlayAttack}, S_PBOT_PATK5 },
+    /*S_PBOT_PATK5*/        { SPR_PLAY, 4, 4, {A_PlayAttack}, S_PBOT_PATK6 },
+    /*S_PBOT_PATK6*/        { SPR_PLAY, 32773, 4, {A_PlayAttack}, S_PBOT_RUN1 },
+
+    /*S_SARG_STND*/         { SPR_SARG, 1, 8, {A_Look}, S_SARG_STND2 },
+    /*S_SARG_STND2*/        { SPR_SARG, 3, 8, {A_Look}, S_SARG_STND },
+    /*S_SARG_RUN1*/         { SPR_SARG, 0, 2, {A_Chase}, S_SARG_RUN2 },
+    /*S_SARG_RUN2*/         { SPR_SARG, 0, 2, {A_Chase}, S_SARG_RUN3 },
+    /*S_SARG_RUN3*/         { SPR_SARG, 1, 2, {A_Chase}, S_SARG_RUN4 },
+    /*S_SARG_RUN4*/         { SPR_SARG, 1, 2, {A_Chase}, S_SARG_RUN5 },
+    /*S_SARG_RUN5*/         { SPR_SARG, 2, 2, {A_Chase}, S_SARG_RUN6 },
+    /*S_SARG_RUN6*/         { SPR_SARG, 2, 2, {A_Chase}, S_SARG_RUN7 },
+    /*S_SARG_RUN7*/         { SPR_SARG, 3, 2, {A_Chase}, S_SARG_RUN8 },
+    /*S_SARG_RUN8*/         { SPR_SARG, 3, 2, {A_Chase}, S_SARG_RUN1 },
+    /*S_SARG_ATK1*/         { SPR_SARG, 4, 8, {A_FaceTarget}, S_SARG_ATK2 },
+    /*S_SARG_ATK2*/         { SPR_SARG, 5, 8, {A_FaceTarget}, S_SARG_ATK3 },
+    /*S_SARG_ATK3*/         { SPR_SARG, 6, 8, {A_SargAttack}, S_SARG_RUN1 },
+    /*S_SARG_PAIN1*/        { SPR_SARG, 7, 2, {NULL}, S_SARG_PAIN2 },
+    /*S_SARG_PAIN2*/        { SPR_SARG, 7, 2, {A_Pain}, S_SARG_RUN1 },
+    /*S_SARG_DIE1*/         { SPR_SARG, 8, 8, {NULL}, S_SARG_DIE2 },
+    /*S_SARG_DIE2*/         { SPR_SARG, 9, 8, {A_Scream}, S_SARG_DIE3 },
+    /*S_SARG_DIE3*/         { SPR_SARG, 10, 4, {NULL}, S_SARG_DIE4 },
+    /*S_SARG_DIE4*/         { SPR_SARG, 11, 4, {A_Fall}, S_SARG_DIE5 },
+    /*S_SARG_DIE5*/         { SPR_SARG, 12, 4, {A_OnDeathTrigger}, S_SARG_DIE6 },
+    /*S_SARG_DIE6*/         { SPR_SARG, 13, -1, {NULL}, S_NULL },
+    /*S_SARG_RUN0*/         { SPR_SARG, 0, 1, {A_FadeOut}, S_SARG_RUN1 },
+    /*S_SARG_ATK0*/         { SPR_SARG, 4, 1, {A_FadeOut}, S_SARG_ATK1 },
+    /*S_SARG_PAIN0*/        { SPR_SARG, 7, 1, {A_FadeOut}, S_SARG_PAIN1 },
+    /*S_SARG_DIE0*/         { SPR_SARG, 8, 1, {A_FadeIn}, S_SARG_DIE1 },
+
+    /*S_FATT_STND*/         { SPR_FATT, 0, 15, {A_Look}, S_FATT_STND2 },
+    /*S_FATT_STND2*/        { SPR_FATT, 1, 15, {A_Look}, S_FATT_STND },
+    /*S_FATT_RUN1*/         { SPR_FATT, 0, 4, {A_Chase}, S_FATT_RUN2 },
+    /*S_FATT_RUN2*/         { SPR_FATT, 0, 4, {A_Chase}, S_FATT_RUN3 },
+    /*S_FATT_RUN3*/         { SPR_FATT, 1, 4, {A_Chase}, S_FATT_RUN4 },
+    /*S_FATT_RUN4*/         { SPR_FATT, 1, 4, {A_Chase}, S_FATT_RUN5 },
+    /*S_FATT_RUN5*/         { SPR_FATT, 2, 4, {A_Chase}, S_FATT_RUN6 },
+    /*S_FATT_RUN6*/         { SPR_FATT, 2, 4, {A_Chase}, S_FATT_RUN7 },
+    /*S_FATT_RUN7*/         { SPR_FATT, 3, 4, {A_Chase}, S_FATT_RUN8 },
+    /*S_FATT_RUN8*/         { SPR_FATT, 3, 4, {A_Chase}, S_FATT_RUN9 },
+    /*S_FATT_RUN9*/         { SPR_FATT, 4, 4, {A_Chase}, S_FATT_RUN10 },
+    /*S_FATT_RUN10*/        { SPR_FATT, 4, 4, {A_Chase}, S_FATT_RUN11 },
+    /*S_FATT_RUN11*/        { SPR_FATT, 5, 4, {A_Chase}, S_FATT_RUN12 },
+    /*S_FATT_RUN12*/        { SPR_FATT, 5, 4, {A_Chase}, S_FATT_RUN1 },
+    /*S_FATT_ATK1*/         { SPR_FATT, 7, 20, {A_FatRaise}, S_FATT_ATK2 },
+    /*S_FATT_ATK2*/         { SPR_FATT, 32774, 10, {A_FatAttack1}, S_FATT_ATK3 },
+    /*S_FATT_ATK3*/         { SPR_FATT, 7, 10, {A_FaceTarget}, S_FATT_ATK4 },
+    /*S_FATT_ATK4*/         { SPR_FATT, 32774, 10, {A_FatAttack2}, S_FATT_ATK5 },
+    /*S_FATT_ATK5*/         { SPR_FATT, 7, 10, {A_FaceTarget}, S_FATT_ATK6 },
+    /*S_FATT_ATK6*/         { SPR_FATT, 32774, 10, {A_FatAttack3}, S_FATT_ATK7 },
+    /*S_FATT_ATK7*/         { SPR_FATT, 7, 10, {A_FaceTarget}, S_FATT_RUN1 },
+    /*S_FATT_PAIN*/         { SPR_FATT, 8, 3, {NULL}, S_FATT_PAIN2 },
+    /*S_FATT_PAIN2*/        { SPR_FATT, 8, 3, {A_Pain}, S_FATT_RUN1 },
+    /*S_FATT_DIE1*/         { SPR_FATT, 9, 6, {NULL}, S_FATT_DIE2 },
+    /*S_FATT_DIE2*/         { SPR_FATT, 10, 6, {A_Scream}, S_FATT_DIE3 },
+    /*S_FATT_DIE3*/         { SPR_FATT, 11, 6, {A_Fall}, S_FATT_DIE4 },
+    /*S_FATT_DIE4*/         { SPR_FATT, 12, 6, {NULL}, S_FATT_DIE5 },
+    /*S_FATT_DIE5*/         { SPR_FATT, 13, 6, {A_OnDeathTrigger}, S_FATT_DIE6 },
+    /*S_FATT_DIE6*/         { SPR_FATT, 14, -1, {NULL}, S_NULL },
+
+    /*S_POSS1_STND*/        { SPR_POSS, 0, 10, {A_Look}, S_POSS1_STND2 },
+    /*S_POSS1_STND2*/       { SPR_POSS, 1, 10, {A_Look}, S_POSS1_STND },
+    /*S_POSS1_RUN1*/        { SPR_POSS, 0, 4, {A_Chase}, S_POSS1_RUN2 },
+    /*S_POSS1_RUN2*/        { SPR_POSS, 0, 4, {A_Chase}, S_POSS1_RUN3 },
+    /*S_POSS1_RUN3*/        { SPR_POSS, 1, 4, {A_Chase}, S_POSS1_RUN4 },
+    /*S_POSS1_RUN4*/        { SPR_POSS, 1, 4, {A_Chase}, S_POSS1_RUN5 },
+    /*S_POSS1_RUN5*/        { SPR_POSS, 2, 4, {A_Chase}, S_POSS1_RUN6 },
+    /*S_POSS1_RUN6*/        { SPR_POSS, 2, 4, {A_Chase}, S_POSS1_RUN7 },
+    /*S_POSS1_RUN7*/        { SPR_POSS, 3, 4, {A_Chase}, S_POSS1_RUN8 },
+    /*S_POSS1_RUN8*/        { SPR_POSS, 3, 4, {A_Chase}, S_POSS1_RUN1 },
+    /*S_POSS1_ATK1*/        { SPR_POSS, 4, 10, {A_FaceTarget}, S_POSS1_ATK2 },
+    /*S_POSS1_ATK2*/        { SPR_POSS, 5, 8, {A_PosAttack}, S_POSS1_ATK3 },
+    /*S_POSS1_ATK3*/        { SPR_POSS, 4, 8, {NULL}, S_POSS1_RUN1 },
+    /*S_POSS1_PAIN*/        { SPR_POSS, 6, 3, {NULL}, S_POSS1_PAIN2 },
+    /*S_POSS1_PAIN2*/       { SPR_POSS, 6, 3, {A_Pain}, S_POSS1_RUN1 },
+    /*S_POSS1_DIE1*/        { SPR_POSS, 7, 5, {NULL}, S_POSS1_DIE2 },
+    /*S_POSS1_DIE2*/        { SPR_POSS, 8, 5, {A_Scream}, S_POSS1_DIE3 },
+    /*S_POSS1_DIE3*/        { SPR_POSS, 9, 5, {A_Fall}, S_POSS1_DIE4 },
+    /*S_POSS1_DIE4*/        { SPR_POSS, 10, 5, {A_OnDeathTrigger}, S_POSS1_DIE5 },
+    /*S_POSS1_DIE5*/        { SPR_POSS, 11, -1, {NULL}, S_NULL },
+    /*S_POSS1_XDIE1*/       { SPR_POSS, 12, 5, {NULL}, S_POSS1_XDIE2 },
+    /*S_POSS1_XDIE2*/       { SPR_POSS, 13, 5, {A_XScream}, S_POSS1_XDIE3 },
+    /*S_POSS1_XDIE3*/       { SPR_POSS, 14, 5, {A_Fall}, S_POSS1_XDIE4 },
+    /*S_POSS1_XDIE4*/       { SPR_POSS, 15, 5, {NULL}, S_POSS1_XDIE5 },
+    /*S_POSS1_XDIE5*/       { SPR_POSS, 16, 5, {NULL}, S_POSS1_XDIE6 },
+    /*S_POSS1_XDIE6*/       { SPR_POSS, 17, 5, {NULL}, S_POSS1_XDIE7 },
+    /*S_POSS1_XDIE7*/       { SPR_POSS, 18, 5, {NULL}, S_POSS1_XDIE8 },
+    /*S_POSS1_XDIE8*/       { SPR_POSS, 19, 5, {A_OnDeathTrigger}, S_POSS1_XDIE9 },
+    /*S_POSS1_XDIE9*/       { SPR_POSS, 20, -1, {NULL}, S_NULL },
+
+    /*S_POSS2_STND*/        { SPR_POSS, 0, 10, {A_Look}, S_POSS2_STND2 },
+    /*S_POSS2_STND2*/       { SPR_POSS, 1, 10, {A_Look}, S_POSS2_STND },
+    /*S_POSS2_RUN1*/        { SPR_POSS, 0, 3, {A_Chase}, S_POSS2_RUN2 },
+    /*S_POSS2_RUN2*/        { SPR_POSS, 0, 3, {A_Chase}, S_POSS2_RUN3 },
+    /*S_POSS2_RUN3*/        { SPR_POSS, 1, 3, {A_Chase}, S_POSS2_RUN4 },
+    /*S_POSS2_RUN4*/        { SPR_POSS, 1, 3, {A_Chase}, S_POSS2_RUN5 },
+    /*S_POSS2_RUN5*/        { SPR_POSS, 2, 3, {A_Chase}, S_POSS2_RUN6 },
+    /*S_POSS2_RUN6*/        { SPR_POSS, 2, 3, {A_Chase}, S_POSS2_RUN7 },
+    /*S_POSS2_RUN7*/        { SPR_POSS, 3, 3, {A_Chase}, S_POSS2_RUN8 },
+    /*S_POSS2_RUN8*/        { SPR_POSS, 3, 3, {A_Chase}, S_POSS2_RUN1 },
+    /*S_POSS2_ATK1*/        { SPR_POSS, 4, 10, {A_FaceTarget}, S_POSS2_ATK2 },
+    /*S_POSS2_ATK2*/        { SPR_POSS, 5, 10, {A_SPosAttack}, S_POSS2_ATK3 },
+    /*S_POSS2_ATK3*/        { SPR_POSS, 4, 10, {NULL}, S_POSS2_RUN1 },
+    /*S_POSS2_PAIN*/        { SPR_POSS, 6, 3, {NULL}, S_POSS2_PAIN2 },
+    /*S_POSS2_PAIN2*/       { SPR_POSS, 6, 3, {A_Pain}, S_POSS2_RUN1 },
+    /*S_POSS2_DIE1*/        { SPR_POSS, 7, 5, {NULL}, S_POSS2_DIE2 },
+    /*S_POSS2_DIE2*/        { SPR_POSS, 8, 5, {A_Scream}, S_POSS2_DIE3 },
+    /*S_POSS2_DIE3*/        { SPR_POSS, 9, 5, {A_Fall}, S_POSS2_DIE4 },
+    /*S_POSS2_DIE4*/        { SPR_POSS, 10, 5, {A_OnDeathTrigger}, S_POSS2_DIE5 },
+    /*S_POSS2_DIE5*/        { SPR_POSS, 11, -1, {NULL}, S_NULL },
+    /*S_POSS2_XDIE1*/       { SPR_POSS, 12, 5, {NULL}, S_POSS2_XDIE2 },
+    /*S_POSS2_XDIE2*/       { SPR_POSS, 13, 5, {A_XScream}, S_POSS2_XDIE3 },
+    /*S_POSS2_XDIE3*/       { SPR_POSS, 14, 5, {A_Fall}, S_POSS2_XDIE4 },
+    /*S_POSS2_XDIE4*/       { SPR_POSS, 15, 5, {NULL}, S_POSS2_XDIE5 },
+    /*S_POSS2_XDIE5*/       { SPR_POSS, 16, 5, {NULL}, S_POSS2_XDIE6 },
+    /*S_POSS2_XDIE6*/       { SPR_POSS, 17, 5, {NULL}, S_POSS2_XDIE7 },
+    /*S_POSS2_XDIE7*/       { SPR_POSS, 18, 5, {NULL}, S_POSS2_XDIE8 },
+    /*S_POSS2_XDIE8*/       { SPR_POSS, 19, 5, {A_OnDeathTrigger}, S_POSS2_XDIE9 },
+    /*S_POSS2_XDIE9*/       { SPR_POSS, 20, -1, {NULL}, S_NULL },
+
+    /*S_TROO_STND*/         { SPR_TROO, 0, 10, {A_Look}, S_TROO_STND2 },
+    /*S_TROO_STND2*/        { SPR_TROO, 1, 10, {A_Look}, S_TROO_STND },
+    /*S_TROO_RUN1*/         { SPR_TROO, 0, 3, {A_Chase}, S_TROO_RUN2 },
+    /*S_TROO_RUN2*/         { SPR_TROO, 0, 3, {A_Chase}, S_TROO_RUN3 },
+    /*S_TROO_RUN3*/         { SPR_TROO, 1, 3, {A_Chase}, S_TROO_RUN4 },
+    /*S_TROO_RUN4*/         { SPR_TROO, 1, 3, {A_Chase}, S_TROO_RUN5 },
+    /*S_TROO_RUN5*/         { SPR_TROO, 2, 3, {A_Chase}, S_TROO_RUN6 },
+    /*S_TROO_RUN6*/         { SPR_TROO, 2, 3, {A_Chase}, S_TROO_RUN7 },
+    /*S_TROO_RUN7*/         { SPR_TROO, 3, 3, {A_Chase}, S_TROO_RUN8 },
+    /*S_TROO_RUN8*/         { SPR_TROO, 3, 3, {A_Chase}, S_TROO_RUN1 },
+    /*S_TROO_MELEE1*/       { SPR_TROO, 4, 8, {A_FaceTarget}, S_TROO_MELEE2 },
+    /*S_TROO_MELEE2*/       { SPR_TROO, 5, 8, {A_FaceTarget}, S_TROO_MELEE3 },
+    /*S_TROO_MELEE3*/       { SPR_TROO, 6, 6, {A_TroopMelee}, S_TROO_RUN1 },
+    /*S_TROO_ATK1*/         { SPR_TROO, 8, 8, {A_FaceTarget}, S_TROO_ATK2 },
+    /*S_TROO_ATK2*/         { SPR_TROO, 9, 8, {A_FaceTarget}, S_TROO_ATK3 },
+    /*S_TROO_ATK3*/         { SPR_TROO, 10, 6, {A_TroopAttack}, S_TROO_RUN1 },
+    /*S_TROO_PAIN*/         { SPR_TROO, 7, 2, {NULL}, S_TROO_PAIN2 },
+    /*S_TROO_PAIN2*/        { SPR_TROO, 7, 2, {A_Pain}, S_TROO_RUN1 },
+    /*S_TROO_DIE1*/         { SPR_TROO, 11, 8, {NULL}, S_TROO_DIE2 },
+    /*S_TROO_DIE2*/         { SPR_TROO, 12, 8, {A_Scream}, S_TROO_DIE3 },
+    /*S_TROO_DIE3*/         { SPR_TROO, 13, 6, {A_Fall}, S_TROO_DIE4 },
+    /*S_TROO_DIE4*/         { SPR_TROO, 14, 6, {A_OnDeathTrigger}, S_TROO_DIE5 },
+    /*S_TROO_DIE5*/         { SPR_TROO, 15, -1, {NULL}, S_NULL },
+    /*S_TROO_XDIE1*/        { SPR_TROO, 16, 5, {NULL}, S_TROO_XDIE2 },
+    /*S_TROO_XDIE2*/        { SPR_TROO, 17, 5, {A_XScream}, S_TROO_XDIE3 },
+    /*S_TROO_XDIE3*/        { SPR_TROO, 18, 5, {NULL}, S_TROO_XDIE4 },
+    /*S_TROO_XDIE4*/        { SPR_TROO, 19, 5, {A_Fall}, S_TROO_XDIE5 },
+    /*S_TROO_XDIE5*/        { SPR_TROO, 20, 5, {NULL}, S_TROO_XDIE6 },
+    /*S_TROO_XDIE6*/        { SPR_TROO, 21, 5, {NULL}, S_TROO_XDIE7 },
+    /*S_TROO_XDIE7*/        { SPR_TROO, 22, 5, {A_OnDeathTrigger}, S_TROO_XDIE8 },
+    /*S_TROO_XDIE8*/        { SPR_TROO, 23, -1, {NULL}, S_NULL },
+
+    /*S_HEAD_STND*/         { SPR_HEAD, 0, 15, {A_Look}, S_HEAD_STND2 },
+    /*S_HEAD_STND2*/        { SPR_HEAD, 1, 15, {A_Look}, S_HEAD_STND3 },
+    /*S_HEAD_STND3*/        { SPR_HEAD, 2, 15, {A_Look}, S_HEAD_STND4 },
+    /*S_HEAD_STND4*/        { SPR_HEAD, 3, 15, {A_Look}, S_HEAD_STND },
+    /*S_HEAD_RUN1*/         { SPR_HEAD, 0, 3, {A_Chase}, S_HEAD_RUN2 },
+    /*S_HEAD_RUN2*/         { SPR_HEAD, 0, 3, {A_Chase}, S_HEAD_RUN3 },
+    /*S_HEAD_RUN3*/         { SPR_HEAD, 1, 3, {A_Chase}, S_HEAD_RUN4 },
+    /*S_HEAD_RUN4*/         { SPR_HEAD, 1, 3, {A_Chase}, S_HEAD_RUN5 },
+    /*S_HEAD_RUN5*/         { SPR_HEAD, 2, 3, {A_Chase}, S_HEAD_RUN6 },
+    /*S_HEAD_RUN6*/         { SPR_HEAD, 2, 3, {A_Chase}, S_HEAD_RUN7 },
+    /*S_HEAD_RUN7*/         { SPR_HEAD, 3, 3, {A_Chase}, S_HEAD_RUN8 },
+    /*S_HEAD_RUN8*/         { SPR_HEAD, 3, 3, {A_Chase}, S_HEAD_RUN1 },
+    /*S_HEAD_ATK1*/         { SPR_HEAD, 4, 5, {A_FaceTarget}, S_HEAD_ATK2 },
+    /*S_HEAD_ATK2*/         { SPR_HEAD, 5, 5, {A_FaceTarget}, S_HEAD_ATK3 },
+    /*S_HEAD_ATK3*/         { SPR_HEAD, 6, 5, {A_FaceTarget}, S_HEAD_ATK4 },
+    /*S_HEAD_ATK4*/         { SPR_HEAD, 6, 0, {A_HeadAttack}, S_HEAD_RUN1 },
+    /*S_HEAD_PAIN*/         { SPR_HEAD, 1, 3, {NULL}, S_HEAD_PAIN2 },
+    /*S_HEAD_PAIN2*/        { SPR_HEAD, 1, 3, {A_Pain}, S_HEAD_PAIN3 },
+    /*S_HEAD_PAIN3*/        { SPR_HEAD, 1, 6, {NULL}, S_HEAD_RUN1 },
+    /*S_HEAD_DIE1*/         { SPR_HEAD, 7, 8, {NULL}, S_HEAD_DIE2 },
+    /*S_HEAD_DIE2*/         { SPR_HEAD, 8, 8, {A_Scream}, S_HEAD_DIE3 },
+    /*S_HEAD_DIE3*/         { SPR_HEAD, 9, 8, {NULL}, S_HEAD_DIE4 },
+    /*S_HEAD_DIE4*/         { SPR_HEAD, 10, 8, {A_Fall}, S_HEAD_DIE5 },
+    /*S_HEAD_DIE5*/         { SPR_HEAD, 11, 8, {A_OnDeathTrigger}, S_HEAD_DIE6 },
+    /*S_HEAD_DIE6*/         { SPR_HEAD, 12, -1, {NULL}, S_NULL },
+
+    /*S_BOSS1_STND*/        { SPR_BOSS, 0, 10, {A_Look}, S_BOSS1_STND2 },
+    /*S_BOSS1_STND2*/       { SPR_BOSS, 1, 10, {A_Look}, S_BOSS1_STND },
+    /*S_BOSS1_RUN1*/        { SPR_BOSS, 0, 3, {A_Chase}, S_BOSS1_RUN2 },
+    /*S_BOSS1_RUN2*/        { SPR_BOSS, 0, 3, {A_Chase}, S_BOSS1_RUN3 },
+    /*S_BOSS1_RUN3*/        { SPR_BOSS, 1, 3, {A_Chase}, S_BOSS1_RUN4 },
+    /*S_BOSS1_RUN4*/        { SPR_BOSS, 1, 3, {A_Chase}, S_BOSS1_RUN5 },
+    /*S_BOSS1_RUN5*/        { SPR_BOSS, 2, 3, {A_Chase}, S_BOSS1_RUN6 },
+    /*S_BOSS1_RUN6*/        { SPR_BOSS, 2, 3, {A_Chase}, S_BOSS1_RUN7 },
+    /*S_BOSS1_RUN7*/        { SPR_BOSS, 3, 3, {A_Chase}, S_BOSS1_RUN8 },
+    /*S_BOSS1_RUN8*/        { SPR_BOSS, 3, 3, {A_Chase}, S_BOSS1_RUN1 },
+    /*S_BOSS1_ATK1*/        { SPR_BOSS, 4, 8, {A_FaceTarget}, S_BOSS1_ATK2 },
+    /*S_BOSS1_ATK2*/        { SPR_BOSS, 5, 8, {A_FaceTarget}, S_BOSS1_ATK3 },
+    /*S_BOSS1_ATK3*/        { SPR_BOSS, 6, 8, {A_BruisAttack}, S_BOSS1_RUN1 },
+    /*S_BOSS1_PAIN*/        { SPR_BOSS, 7, 2, {NULL}, S_BOSS1_PAIN2 },
+    /*S_BOSS1_PAIN2*/       { SPR_BOSS, 7, 2, {A_Pain}, S_BOSS1_RUN1 },
+    /*S_BOSS1_DIE1*/        { SPR_BOSS, 8, 8, {NULL}, S_BOSS1_DIE2 },
+    /*S_BOSS1_DIE2*/        { SPR_BOSS, 9, 8, {A_Scream}, S_BOSS1_DIE3 },
+    /*S_BOSS1_DIE3*/        { SPR_BOSS, 10, 8, {NULL}, S_BOSS1_DIE4 },
+    /*S_BOSS1_DIE4*/        { SPR_BOSS, 11, 8, {A_Fall}, S_BOSS1_DIE5 },
+    /*S_BOSS1_DIE5*/        { SPR_BOSS, 12, 8, {A_OnDeathTrigger}, S_BOSS1_DIE6 },
+    /*S_BOSS1_DIE6*/        { SPR_BOSS, 13, -1, {NULL}, S_NULL },
+
+    /*S_BOSS2_STND*/        { SPR_BOSS, 0, 10, {A_Look}, S_BOSS2_STND2 },
+    /*S_BOSS2_STND2*/       { SPR_BOSS, 1, 10, {A_Look}, S_BOSS2_STND },
+    /*S_BOSS2_RUN1*/        { SPR_BOSS, 0, 3, {A_Chase}, S_BOSS2_RUN2 },
+    /*S_BOSS2_RUN2*/        { SPR_BOSS, 0, 3, {A_Chase}, S_BOSS2_RUN3 },
+    /*S_BOSS2_RUN3*/        { SPR_BOSS, 1, 3, {A_Chase}, S_BOSS2_RUN4 },
+    /*S_BOSS2_RUN4*/        { SPR_BOSS, 1, 3, {A_Chase}, S_BOSS2_RUN5 },
+    /*S_BOSS2_RUN5*/        { SPR_BOSS, 2, 3, {A_Chase}, S_BOSS2_RUN6 },
+    /*S_BOSS2_RUN6*/        { SPR_BOSS, 2, 3, {A_Chase}, S_BOSS2_RUN7 },
+    /*S_BOSS2_RUN7*/        { SPR_BOSS, 3, 3, {A_Chase}, S_BOSS2_RUN8 },
+    /*S_BOSS2_RUN8*/        { SPR_BOSS, 3, 3, {A_Chase}, S_BOSS2_RUN1 },
+    /*S_BOSS2_ATK1*/        { SPR_BOSS, 4, 8, {A_FaceTarget}, S_BOSS2_ATK2 },
+    /*S_BOSS2_ATK2*/        { SPR_BOSS, 5, 8, {A_FaceTarget}, S_BOSS2_ATK3 },
+    /*S_BOSS2_ATK3*/        { SPR_BOSS, 6, 8, {A_BruisAttack}, S_BOSS2_RUN1 },
+    /*S_BOSS2_PAIN*/        { SPR_BOSS, 7, 2, {NULL}, S_BOSS2_PAIN2 },
+    /*S_BOSS2_PAIN2*/       { SPR_BOSS, 7, 2, {A_Pain}, S_BOSS2_RUN1 },
+    /*S_BOSS2_DIE1*/        { SPR_BOSS, 8, 8, {NULL}, S_BOSS2_DIE2 },
+    /*S_BOSS2_DIE2*/        { SPR_BOSS, 9, 8, {A_Scream}, S_BOSS2_DIE3 },
+    /*S_BOSS2_DIE3*/        { SPR_BOSS, 10, 8, {NULL}, S_BOSS2_DIE4 },
+    /*S_BOSS2_DIE4*/        { SPR_BOSS, 11, 8, {A_Fall}, S_BOSS2_DIE5 },
+    /*S_BOSS2_DIE5*/        { SPR_BOSS, 12, 8, {A_OnDeathTrigger}, S_BOSS2_DIE6 },
+    /*S_BOSS2_DIE6*/        { SPR_BOSS, 13, -1, {NULL}, S_NULL },
+
+    /*S_SKUL_STND*/         { SPR_SKUL, 0, 5, {A_Look}, S_SKUL_STND2 },
+    /*S_SKUL_STND2*/        { SPR_SKUL, 1, 5, {A_Look}, S_SKUL_STND3 },
+    /*S_SKUL_STND3*/        { SPR_SKUL, 2, 5, {A_Look}, S_SKUL_STND },
+    /*S_SKUL_RUN1*/         { SPR_SKUL, 0, 3, {A_Chase}, S_SKUL_RUN2 },
+    /*S_SKUL_RUN2*/         { SPR_SKUL, 1, 3, {A_Chase}, S_SKUL_RUN3 },
+    /*S_SKUL_RUN3*/         { SPR_SKUL, 2, 3, {A_Chase}, S_SKUL_RUN1 },
+    /*S_SKUL_ATK1*/         { SPR_SKUL, 3, 6, {A_FaceTarget}, S_SKUL_ATK2 },
+    /*S_SKUL_ATK2*/         { SPR_SKUL, 4, 4, {A_SkullAttack}, S_SKUL_ATK3 },
+    /*S_SKUL_ATK3*/         { SPR_SKUL, 3, 4, {NULL}, S_SKUL_ATK4 },
+    /*S_SKUL_ATK4*/         { SPR_SKUL, 4, 4, {NULL}, S_SKUL_ATK3 },
+    /*S_SKUL_PAIN*/         { SPR_SKUL, 5, 3, {NULL}, S_SKUL_PAIN2 },
+    /*S_SKUL_PAIN2*/        { SPR_SKUL, 5, 3, {A_Pain}, S_SKUL_RUN1 },
+    /*S_SKUL_DIE1*/         { SPR_SKUL, 32774, 5, {NULL}, S_SKUL_DIE2 },
+    /*S_SKUL_DIE2*/         { SPR_SKUL, 32775, 5, {A_Scream}, S_SKUL_DIE3 },
+    /*S_SKUL_DIE3*/         { SPR_SKUL, 32776, 5, {A_Fall}, S_SKUL_DIE4 },
+    /*S_SKUL_DIE4*/         { SPR_SKUL, 32777, 5, {A_OnDeathTrigger}, S_SKUL_DIE5 },
+    /*S_SKUL_DIE5*/         { SPR_SKUL, 32778, 4, {A_SkullSetAlpha}, S_SKUL_DIE6 },
+    /*S_SKUL_DIE6*/         { SPR_SKUL, 32779, 3, {NULL}, S_SKUL_DIE7 },
+    /*S_SKUL_DIE7*/         { SPR_SKUL, 32780, 2, {NULL}, S_SKUL_DIE8 },
+    /*S_SKUL_DIE8*/         { SPR_SKUL, 32781, 2, {NULL}, S_SKUL_DIE9 },
+    /*S_SKUL_DIE9*/         { SPR_SKUL, 32782, 1, {NULL}, S_SKUL_DIE10 },
+    /*S_SKUL_DIE10*/        { SPR_SKUL, 32783, 1, {NULL}, S_NULL },
+
+    /*S_BSPI_STND*/         { SPR_BSPI, 0, 10, {A_Look}, S_BSPI_STND2 },
+    /*S_BSPI_STND2*/        { SPR_BSPI, 1, 10, {A_Look}, S_BSPI_STND },
+    /*S_BSPI_RUN1*/         { SPR_BSPI, 0, 20, {NULL}, S_BSPI_RUN2 },
+    /*S_BSPI_RUN2*/         { SPR_BSPI, 0, 3, {A_BabyMetal}, S_BSPI_RUN3 },
+    /*S_BSPI_RUN3*/         { SPR_BSPI, 0, 3, {A_Chase}, S_BSPI_RUN4 },
+    /*S_BSPI_RUN4*/         { SPR_BSPI, 1, 3, {A_Chase}, S_BSPI_RUN5 },
+    /*S_BSPI_RUN5*/         { SPR_BSPI, 1, 3, {A_Chase}, S_BSPI_RUN6 },
+    /*S_BSPI_RUN6*/         { SPR_BSPI, 2, 3, {A_Chase}, S_BSPI_RUN7 },
+    /*S_BSPI_RUN7*/         { SPR_BSPI, 2, 3, {A_Chase}, S_BSPI_RUN8 },
+    /*S_BSPI_RUN8*/         { SPR_BSPI, 3, 3, {A_Chase}, S_BSPI_RUN9 },
+    /*S_BSPI_RUN9*/         { SPR_BSPI, 3, 3, {A_Chase}, S_BSPI_RUN2 },
+    /*S_BSPI_ATK1*/         { SPR_BSPI, 0, 15, {A_BspiFaceTarget}, S_BSPI_ATK2 },
+    /*S_BSPI_ATK2*/         { SPR_BSPI, 32772, 6, {A_BspiAttack}, S_BSPI_ATK3 },
+    /*S_BSPI_ATK3*/         { SPR_BSPI, 32772, 1, {A_SpidRefire}, S_BSPI_ATK2 },
+    /*S_BSPI_PAIN*/         { SPR_BSPI, 5, 3, {NULL}, S_BSPI_PAIN2 },
+    /*S_BSPI_PAIN2*/        { SPR_BSPI, 5, 3, {A_Pain}, S_BSPI_RUN2 },
+    /*S_BSPI_DIE1*/         { SPR_BSPI, 6, 20, {A_Scream}, S_BSPI_DIE2 },
+    /*S_BSPI_DIE2*/         { SPR_BSPI, 7, 7, {A_Fall}, S_BSPI_DIE3 },
+    /*S_BSPI_DIE3*/         { SPR_BSPI, 8, 7, {NULL}, S_BSPI_DIE4 },
+    /*S_BSPI_DIE4*/         { SPR_BSPI, 9, 7, {NULL}, S_BSPI_DIE5 },
+    /*S_BSPI_DIE5*/         { SPR_BSPI, 10, 7, {A_OnDeathTrigger}, S_BSPI_DIE6 },
+    /*S_BSPI_DIE6*/         { SPR_BSPI, 11, -1, {NULL}, S_NULL },
+
+    /*S_CYBR_STND*/         { SPR_CYBR, 5, 10, {A_Look}, S_CYBR_STND },
+    /*S_CYBR_RUN1*/         { SPR_CYBR, 0, 4, {A_Hoof}, S_CYBR_RUN2 },
+    /*S_CYBR_RUN2*/         { SPR_CYBR, 0, 4, {A_Chase}, S_CYBR_RUN3 },
+    /*S_CYBR_RUN3*/         { SPR_CYBR, 1, 4, {A_Chase}, S_CYBR_RUN4 },
+    /*S_CYBR_RUN4*/         { SPR_CYBR, 1, 4, {A_Chase}, S_CYBR_RUN5 },
+    /*S_CYBR_RUN5*/         { SPR_CYBR, 2, 4, {A_Chase}, S_CYBR_RUN6 },
+    /*S_CYBR_RUN6*/         { SPR_CYBR, 2, 4, {A_Chase}, S_CYBR_RUN7 },
+    /*S_CYBR_RUN7*/         { SPR_CYBR, 3, 4, {A_Metal}, S_CYBR_RUN8 },
+    /*S_CYBR_RUN8*/         { SPR_CYBR, 3, 4, {A_Chase}, S_CYBR_RUN1 },
+    /*S_CYBR_ATK1*/         { SPR_CYBR, 32772, 6, {A_FaceTarget}, S_CYBR_ATK2 },
+    /*S_CYBR_ATK2*/         { SPR_CYBR, 5, 12, {A_CyberAttack}, S_CYBR_ATK3 },
+    /*S_CYBR_ATK3*/         { SPR_CYBR, 32772, 12, {A_FaceTarget}, S_CYBR_ATK4 },
+    /*S_CYBR_ATK4*/         { SPR_CYBR, 5, 12, {A_CyberAttack}, S_CYBR_ATK5 },
+    /*S_CYBR_ATK5*/         { SPR_CYBR, 32772, 12, {A_FaceTarget}, S_CYBR_ATK6 },
+    /*S_CYBR_ATK6*/         { SPR_CYBR, 5, 12, {A_CyberAttack}, S_CYBR_RUN1 },
+    /*S_CYBR_PAIN*/         { SPR_CYBR, 5, 10, {A_Pain}, S_CYBR_RUN1 },
+    /*S_CYBR_DIE1*/         { SPR_CYBR, 6, 30, {A_CyberDeathEvent}, S_CYBR_DIE2 },
+    /*S_CYBR_DIE2*/         { SPR_CYBR, 7, 8, {NULL}, S_CYBR_DIE3 },
+    /*S_CYBR_DIE3*/         { SPR_CYBR, 8, 7, {NULL}, S_CYBR_DIE4 },
+    /*S_CYBR_DIE4*/         { SPR_CYBR, 9, 6, {NULL}, S_CYBR_DIE5 },
+    /*S_CYBR_DIE5*/         { SPR_CYBR, 10, 5, {NULL}, S_CYBR_DIE6 },
+    /*S_CYBR_DIE6*/         { SPR_CYBR, 11, 4, {A_Fall}, S_CYBR_DIE7 },
+    /*S_CYBR_DIE7*/         { SPR_CYBR, 12, 4, {NULL}, S_CYBR_DIE8 },
+    /*S_CYBR_DIE8*/         { SPR_CYBR, 13, 4, {A_OnDeathTrigger}, S_CYBR_DIE9 },
+    /*S_CYBR_DIE9*/         { SPR_CYBR, 14, -1, {NULL}, S_NULL },
+    /*S_CYBR_TITLE1*/       { SPR_CYBR, 5, 1, {A_TargetCamera}, S_CYBR_TITLE1 },
+    /*S_CYBR_TITLE2*/       { SPR_CYBR, 32772, 18, {A_CyberAttack}, S_CYBR_TITLE3 },
+    /*S_CYBR_TITLE3*/       { SPR_CYBR, 5, 18, {A_FaceTarget}, S_CYBR_TITLE2 },
+
+    /*S_PAIN_STND*/         { SPR_PAIN, 0, 5, {A_Look}, S_PAIN_STND },
+    /*S_PAIN_RUN*/          { SPR_PAIN, 0, 3, {A_Chase}, S_PAIN_RUN },
+    /*S_PAIN_ATK1*/         { SPR_PAIN, 32769, 5, {A_FaceTarget}, S_PAIN_ATK2 },
+    /*S_PAIN_ATK2*/         { SPR_PAIN, 32769, 5, {A_FaceTarget}, S_PAIN_ATK3 },
+    /*S_PAIN_ATK3*/         { SPR_PAIN, 32770, 5, {A_FaceTarget}, S_PAIN_ATK4 },
+    /*S_PAIN_ATK4*/         { SPR_PAIN, 32770, 0, {A_PainAttack}, S_PAIN_RUN },
+    /*S_PAIN_PAIN*/         { SPR_PAIN, 3, 6, {NULL}, S_PAIN_PAIN2 },
+    /*S_PAIN_PAIN2*/        { SPR_PAIN, 3, 6, {A_Pain}, S_PAIN_RUN },
+    /*S_PAIN_DIE1*/         { SPR_PAIN, 32772, 8, {NULL}, S_PAIN_DIE2 },
+    /*S_PAIN_DIE2*/         { SPR_PAIN, 32773, 8, {A_Scream}, S_PAIN_DIE3 },
+    /*S_PAIN_DIE3*/         { SPR_PAIN, 32774, 8, {A_PainDie}, S_PAIN_DIE4 },
+    /*S_PAIN_DIE4*/         { SPR_PAIN, 32775, 8, {A_PainDeathEvent}, S_PAIN_DIE5 },
+    /*S_PAIN_DIE5*/         { SPR_PAIN, 32776, 5, {A_PainDeathEvent}, S_PAIN_DIE6 },
+    /*S_PAIN_DIE6*/         { SPR_PAIN, 32777, 5, {A_PainDeathEvent}, S_PAIN_DIE7 },
+    /*S_PAIN_DIE7*/         { SPR_PAIN, 32778, 5, {NULL}, S_PAIN_DIE8 },
+    /*S_PAIN_DIE8*/         { SPR_PAIN, 32779, 5, {NULL}, S_NULL },
+
+    /*S_RECT_STND*/         { SPR_RECT, 0, 8, {A_Look}, S_RECT_STND2 },
+    /*S_RECT_STND2*/        { SPR_RECT, 1, 8, {A_Look}, S_RECT_STND3 },
+    /*S_RECT_STND3*/        { SPR_RECT, 2, 8, {A_Look}, S_RECT_STND4 },
+    /*S_RECT_STND4*/        { SPR_RECT, 3, 8, {A_Look}, S_RECT_STND },
+    /*S_RECT_RUN1*/         { SPR_RECT, 0, 3, {A_RectChase}, S_RECT_RUN2 },
+    /*S_RECT_RUN2*/         { SPR_RECT, 0, 3, {A_RectChase}, S_RECT_RUN3 },
+    /*S_RECT_RUN3*/         { SPR_RECT, 0, 3, {A_RectChase}, S_RECT_RUN4 },
+    /*S_RECT_RUN4*/         { SPR_RECT, 1, 3, {A_RectChase}, S_RECT_RUN5 },
+    /*S_RECT_RUN5*/         { SPR_RECT, 1, 3, {A_RectChase}, S_RECT_RUN6 },
+    /*S_RECT_RUN6*/         { SPR_RECT, 1, 3, {A_RectChase}, S_RECT_RUN7 },
+    /*S_RECT_RUN7*/         { SPR_RECT, 2, 3, {A_RectChase}, S_RECT_RUN8 },
+    /*S_RECT_RUN8*/         { SPR_RECT, 2, 3, {A_RectChase}, S_RECT_RUN9 },
+    /*S_RECT_RUN9*/         { SPR_RECT, 2, 3, {A_RectChase}, S_RECT_RUN10 },
+    /*S_RECT_RUN10*/        { SPR_RECT, 3, 3, {A_RectChase}, S_RECT_RUN11 },
+    /*S_RECT_RUN11*/        { SPR_RECT, 3, 3, {A_RectChase}, S_RECT_RUN12 },
+    /*S_RECT_RUN12*/        { SPR_RECT, 3, 3, {A_RectChase}, S_RECT_RUN1 },
+    /*S_RECT_ATK1*/         { SPR_RECT, 32774, 12, {A_RectGroundFire}, S_RECT_ATK2 },
+    /*S_RECT_ATK2*/         { SPR_RECT, 4, 12, {NULL}, S_RECT_ATK3 },
+    /*S_RECT_ATK3*/         { SPR_RECT, 32773, 12, {A_RectMissile}, S_RECT_ATK4 },
+    /*S_RECT_ATK4*/         { SPR_RECT, 4, 8, {NULL}, S_RECT_RUN1 },
+    /*S_RECT_PAIN*/         { SPR_RECT, 7, 18, {A_Pain}, S_RECT_ATK1 },
+    /*S_RECT_DIE1*/         { SPR_RECT, 8, 60, {A_RectDeathEvent}, S_RECT_DIE2 },
+    /*S_RECT_DIE2*/         { SPR_RECT, 9, 8, {NULL}, S_RECT_DIE3 },
+    /*S_RECT_DIE3*/         { SPR_RECT, 10, 8, {NULL}, S_RECT_DIE4 },
+    /*S_RECT_DIE4*/         { SPR_RECT, 11, 5, {NULL}, S_RECT_DIE5 },
+    /*S_RECT_DIE5*/         { SPR_RECT, 12, 4, {NULL}, S_RECT_DIE6 },
+    /*S_RECT_DIE6*/         { SPR_RECT, 13, 3, {A_OnDeathTrigger}, S_RECT_DIE7 },
+    /*S_RECT_DIE7*/         { SPR_RECT, 14, 2, {NULL}, S_NULL },
+
+    /*S_FAKEITEM*/          { SPR_SPOT, 32768, -1, {NULL}, S_NULL },
+
+    /*S_ROCKET*/            { SPR_MISL, 32768, 2, {A_SpawnSmoke}, S_ROCKET },
+    /*S_ROCKET_DIE1*/       { SPR_MISL, 32769, 3, {A_Explode}, S_ROCKET_DIE2 },
+    /*S_ROCKET_DIE2*/       { SPR_MISL, 32769, 3, {A_FadeAlpha}, S_ROCKET_DIE3 },
+    /*S_ROCKET_DIE3*/       { SPR_MISL, 32770, 3, {A_FadeAlpha}, S_ROCKET_DIE4 },
+    /*S_ROCKET_DIE4*/       { SPR_MISL, 32770, 3, {A_FadeAlpha}, S_ROCKET_DIE5 },
+    /*S_ROCKET_DIE5*/       { SPR_MISL, 32771, 2, {A_FadeAlpha}, S_ROCKET_DIE6 },
+    /*S_ROCKET_DIE6*/       { SPR_MISL, 32772, 2, {NULL}, S_ROCKET_DIE7 },
+    /*S_ROCKET_DIE7*/       { SPR_MISL, 32773, 2, {NULL}, S_NULL },
+
+    /*S_PLASMA1*/           { SPR_PLSS, 32768, 3, {NULL}, S_PLASMA2 },
+    /*S_PLASMA2*/           { SPR_PLSS, 32769, 3, {NULL}, S_PLASMA1 },
+    /*S_PLASMA_DIE1*/       { SPR_PLSS, 32770, 2, {A_FadeAlpha}, S_PLASMA_DIE2 },
+    /*S_PLASMA_DIE2*/       { SPR_PLSS, 32771, 2, {NULL}, S_PLASMA_DIE3 },
+    /*S_PLASMA_DIE3*/       { SPR_PLSS, 32772, 2, {NULL}, S_PLASMA_DIE4 },
+    /*S_PLASMA_DIE4*/       { SPR_PLSS, 32773, 2, {NULL}, S_PLASMA_DIE5 },
+    /*S_PLASMA_DIE5*/       { SPR_PLSS, 32774, 2, {NULL}, S_PLASMA_DIE6 },
+    /*S_PLASMA_DIE6*/       { SPR_PLSS, 32775, 2, {NULL}, S_NULL },
+
+    /*S_BFGBALL1*/          { SPR_BFS1, 32768, 2, {NULL}, S_BFGBALL2 },
+    /*S_BFGBALL2*/          { SPR_BFS1, 32769, 2, {NULL}, S_BFGBALL1 },
+    /*S_BFGBALL_DIE1*/      { SPR_BFS1, 32770, 8, {A_BFGFlash}, S_BFGBALL_DIE2 },
+    /*S_BFGBALL_DIE2*/      { SPR_BFS1, 32771, 6, {A_FadeAlpha}, S_BFGBALL_DIE3 },
+    /*S_BFGBALL_DIE3*/      { SPR_BFS1, 32772, 3, {A_BFGSpray}, S_BFGBALL_DIE4 },
+    /*S_BFGBALL_DIE4*/      { SPR_BFS1, 32773, 3, {A_FadeAlpha}, S_BFGBALL_DIE5 },
+    /*S_BFGBALL_DIE5*/      { SPR_BFS1, 32774, 2, {NULL}, S_BFGBALL_DIE6 },
+    /*S_BFGBALL_DIE6*/      { SPR_BFS1, 32775, 2, {NULL}, S_NULL },
+
+    /*S_LASER1*/            { SPR_LASS, 32768, 3, {NULL}, S_LASER2 },
+    /*S_LASER2*/            { SPR_LASS, 32769, 3, {NULL}, S_LASER1 },
+
+    /*S_TBALL1*/            { SPR_BAL1, 32768, 4, {NULL}, S_TBALL2 },
+    /*S_TBALL2*/            { SPR_BAL1, 32769, 4, {NULL}, S_TBALL3 },
+    /*S_TBALL3*/            { SPR_BAL1, 32770, 4, {NULL}, S_TBALL1 },
+    /*S_TBALL_DIE1*/        { SPR_BAL1, 32771, 1, {NULL}, S_TBALL_DIE2 },
+    /*S_TBALL_DIE2*/        { SPR_BAL1, 32772, 1, {NULL}, S_TBALL_DIE3 },
+    /*S_TBALL_DIE3*/        { SPR_BAL1, 32773, 1, {NULL}, S_TBALL_DIE4 },
+    /*S_TBALL_DIE4*/        { SPR_BAL1, 32774, 1, {NULL}, S_TBALL_DIE5 },
+    /*S_TBALL_DIE5*/        { SPR_BAL1, 32775, 1, {NULL}, S_TBALL_DIE6 },
+    /*S_TBALL_DIE6*/        { SPR_BAL1, 32776, 1, {NULL}, S_NULL },
+
+    /*S_NBALL1*/            { SPR_BAL3, 32768, 4, {NULL}, S_NBALL2 },
+    /*S_NBALL2*/            { SPR_BAL3, 32769, 4, {NULL}, S_NBALL3 },
+    /*S_NBALL3*/            { SPR_BAL3, 32770, 4, {NULL}, S_NBALL1 },
+    /*S_NBALL_DIE1*/        { SPR_BAL3, 32771, 2, {NULL}, S_NBALL_DIE2 },
+    /*S_NBALL_DIE2*/        { SPR_BAL3, 32772, 2, {NULL}, S_NBALL_DIE3 },
+    /*S_NBALL_DIE3*/        { SPR_BAL3, 32773, 2, {NULL}, S_NBALL_DIE4 },
+    /*S_NBALL_DIE4*/        { SPR_BAL3, 32774, 2, {NULL}, S_NBALL_DIE5 },
+    /*S_NBALL_DIE5*/        { SPR_BAL3, 32775, 2, {NULL}, S_NBALL_DIE6 },
+    /*S_NBALL_DIE6*/        { SPR_BAL3, 32776, 2, {NULL}, S_NULL },
+
+    /*S_CBALL1*/            { SPR_BAL2, 32768, 4, {NULL}, S_CBALL2 },
+    /*S_CBALL2*/            { SPR_BAL2, 32769, 4, {NULL}, S_CBALL3 },
+    /*S_CBALL3*/            { SPR_BAL2, 32770, 4, {NULL}, S_CBALL1 },
+    /*S_CBALL_DIE1*/        { SPR_BAL2, 32771, 6, {A_MissileSetAlpha}, S_CBALL_DIE2 },
+    /*S_CBALL_DIE2*/        { SPR_BAL2, 32772, 5, {NULL}, S_CBALL_DIE3 },
+    /*S_CBALL_DIE3*/        { SPR_BAL2, 32773, 2, {NULL}, S_CBALL_DIE4 },
+    /*S_CBALL_DIE4*/        { SPR_BAL2, 32774, 2, {NULL}, S_CBALL_DIE5 },
+    /*S_CBALL_DIE5*/        { SPR_BAL2, 32775, 2, {NULL}, S_NULL },
+
+    /*S_BGBALL1*/           { SPR_BAL7, 32768, 4, {NULL}, S_BGBALL2 },
+    /*S_BGBALL2*/           { SPR_BAL7, 32769, 4, {NULL}, S_BGBALL1 },
+    /*S_BGBALL_DIE1*/       { SPR_BAL7, 32770, 3, {NULL}, S_BGBALL_DIE2 },
+    /*S_BGBALL_DIE2*/       { SPR_BAL7, 32771, 3, {A_FadeAlpha}, S_BGBALL_DIE3 },
+    /*S_BGBALL_DIE3*/       { SPR_BAL7, 32772, 3, {A_FadeAlpha}, S_BGBALL_DIE4 },
+    /*S_BGBALL_DIE4*/       { SPR_BAL7, 32773, 2, {NULL}, S_BGBALL_DIE5 },
+    /*S_BGBALL_DIE5*/       { SPR_BAL7, 32774, 2, {NULL}, S_BGBALL_DIE6 },
+    /*S_BGBALL_DIE6*/       { SPR_BAL7, 32775, 2, {NULL}, S_NULL },
+
+    /*S_BRBALL1*/           { SPR_BAL8, 32768, 4, {NULL}, S_BRBALL2 },
+    /*S_BRBALL2*/           { SPR_BAL8, 32769, 4, {NULL}, S_BRBALL1 },
+    /*S_BRBALL_DIE1*/       { SPR_BAL8, 32770, 3, {NULL}, S_BRBALL_DIE2 },
+    /*S_BRBALL_DIE2*/       { SPR_BAL8, 32771, 3, {A_FadeAlpha}, S_BRBALL_DIE3 },
+    /*S_BRBALL_DIE3*/       { SPR_BAL8, 32772, 3, {A_FadeAlpha}, S_BRBALL_DIE4 },
+    /*S_BRBALL_DIE4*/       { SPR_BAL8, 32773, 2, {NULL}, S_BRBALL_DIE5 },
+    /*S_BRBALL_DIE5*/       { SPR_BAL8, 32774, 2, {NULL}, S_BRBALL_DIE6 },
+    /*S_BRBALL_DIE6*/       { SPR_BAL8, 32775, 2, {NULL}, S_NULL },
+
+    /*S_APLS1*/             { SPR_APLS, 32768, 2, {NULL}, S_APLS2 },
+    /*S_APLS2*/             { SPR_APLS, 32769, 2, {NULL}, S_APLS1 },
+    /*S_APLS_DIE1*/         { SPR_APLS, 32770, 3, {NULL}, S_APLS_DIE2 },
+    /*S_APLS_DIE2*/         { SPR_APLS, 32771, 3, {NULL}, S_APLS_DIE3 },
+    /*S_APLS_DIE3*/         { SPR_APLS, 32772, 3, {NULL}, S_APLS_DIE4 },
+    /*S_APLS_DIE4*/         { SPR_APLS, 32773, 3, {NULL}, S_APLS_DIE5 },
+    /*S_APLS_DIE5*/         { SPR_APLS, 32774, 3, {NULL}, S_APLS_DIE6 },
+    /*S_APLS_DIE6*/         { SPR_APLS, 32775, 3, {NULL}, S_NULL },
+
+    /*S_MANF1*/             { SPR_MANF, 32768, 2, {NULL}, S_MANF2 },
+    /*S_MANF2*/             { SPR_MANF, 32769, 2, {NULL}, S_MANF3 },
+    /*S_MANF3*/             { SPR_MANF, 32770, 2, {NULL}, S_MANF1 },
+    /*S_MANF_DIE1*/         { SPR_MANF, 32771, 6, {NULL}, S_MANF_DIE2 },
+    /*S_MANF_DIE2*/         { SPR_MANF, 32772, 4, {A_FadeAlpha}, S_MANF_DIE3 },
+    /*S_MANF_DIE3*/         { SPR_MANF, 32773, 3, {A_FadeAlpha}, S_MANF_DIE4 },
+    /*S_MANF_DIE4*/         { SPR_MANF, 32774, 2, {A_FadeAlpha}, S_MANF_DIE5 },
+    /*S_MANF_DIE5*/         { SPR_MANF, 32775, 2, {NULL}, S_MANF_DIE6 },
+    /*S_MANF_DIE6*/         { SPR_MANF, 32776, 2, {NULL}, S_NULL },
+
+    /*S_TRCR1*/             { SPR_TRCR, 32768, 3, {A_Tracer}, S_TRCR2 },
+    /*S_TRCR2*/             { SPR_TRCR, 32769, 3, {A_Tracer}, S_TRCR1 },
+    /*S_TRCR_DIE1*/         { SPR_TRCR, 32770, 4, {A_FadeAlpha}, S_TRCR_DIE2 },
+    /*S_TRCR_DIE2*/         { SPR_TRCR, 32771, 3, {A_FadeAlpha}, S_TRCR_DIE3 },
+    /*S_TRCR_DIE3*/         { SPR_TRCR, 32772, 2, {A_FadeAlpha}, S_TRCR_DIE4 },
+    /*S_TRCR_DIE4*/         { SPR_TRCR, 32773, 2, {A_FadeAlpha}, S_TRCR_DIE5 },
+    /*S_TRCR_DIE5*/         { SPR_TRCR, 32774, 2, {NULL}, S_TRCR_DIE6 },
+    /*S_TRCR_DIE6*/         { SPR_TRCR, 32775, 2, {NULL}, S_TRCR_DIE7 },
+    /*S_TRCR_DIE7*/         { SPR_TRCR, 32776, 2, {NULL}, S_NULL },
+
+    /*S_DART*/              { SPR_DART, 32768, -1, {NULL}, S_NULL },
+
+    /*S_RFIRE1*/            { SPR_FIRE, 32768, 3, {A_MoveGroundFire}, S_RFIRE2 },
+    /*S_RFIRE2*/            { SPR_FIRE, 32769, 3, {A_MoveGroundFire}, S_RFIRE3 },
+    /*S_RFIRE3*/            { SPR_FIRE, 32770, 3, {A_MoveGroundFire}, S_RFIRE4 },
+    /*S_RFIRE4*/            { SPR_FIRE, 32771, 3, {A_MoveGroundFire}, S_RFIRE1 },
+
+    /*S_RBALL1*/            { SPR_RBAL, 0, 2, {A_RectTracer}, S_RBALL2 },
+    /*S_RBALL2*/            { SPR_RBAL, 1, 2, {A_RectTracer}, S_RBALL1 },
+    /*S_RBALL_DIE1*/        { SPR_RBAL, 32770, 4, {NULL}, S_RBALL_DIE2 },
+    /*S_RBALL_DIE2*/        { SPR_RBAL, 32771, 3, {A_MissileSetAlpha}, S_RBALL_DIE3 },
+    /*S_RBALL_DIE3*/        { SPR_RBAL, 32772, 2, {NULL}, S_RBALL_DIE4 },
+    /*S_RBALL_DIE4*/        { SPR_RBAL, 32773, 2, {NULL}, S_RBALL_DIE5 },
+    /*S_RBALL_DIE5*/        { SPR_RBAL, 32774, 2, {NULL}, S_RBALL_DIE6 },
+    /*S_RBALL_DIE6*/        { SPR_RBAL, 32775, 2, {NULL}, S_NULL },
+
+    /*S_PUF21*/             { SPR_PUF2, 32768, 2, {NULL}, S_PUF22 },
+    /*S_PUF22*/             { SPR_PUF2, 32769, 2, {NULL}, S_PUF23 },
+    /*S_PUF23*/             { SPR_PUF2, 32770, 2, {NULL}, S_PUF24 },
+    /*S_PUF24*/             { SPR_PUF2, 32771, 2, {NULL}, S_PUF25 },
+    /*S_PUF25*/             { SPR_PUF2, 32772, 2, {NULL}, S_NULL },
+
+    /*S_PUF31*/             { SPR_PUF3, 32768, 2, {NULL}, S_PUF32 },
+    /*S_PUF32*/             { SPR_PUF3, 32769, 2, {NULL}, S_PUF33 },
+    /*S_PUF33*/             { SPR_PUF3, 32770, 2, {NULL}, S_PUF34 },
+    /*S_PUF34*/             { SPR_PUF3, 32771, 2, {NULL}, S_PUF35 },
+    /*S_PUF35*/             { SPR_PUF3, 32772, 2, {NULL}, S_NULL },
+
+    /*S_PUFF1*/             { SPR_PUFF, 32768, 4, {NULL}, S_PUFF2 },
+    /*S_PUFF2*/             { SPR_PUFF, 32769, 3, {NULL}, S_PUFF3 },
+    /*S_PUFF3*/             { SPR_PUFF, 2, 3, {NULL}, S_PUFF4 },
+    /*S_PUFF4*/             { SPR_PUFF, 3, 3, {NULL}, S_PUFF5 },
+    /*S_PUFF5*/             { SPR_PUFF, 4, 3, {NULL}, S_PUFF6 },
+    /*S_PUFF6*/             { SPR_PUFF, 5, 3, {NULL}, S_NULL },
+
+    /*S_BLOOD1*/            { SPR_BLUD, 0, 6, {NULL}, S_BLOOD2 },
+    /*S_BLOOD2*/            { SPR_BLUD, 1, 6, {NULL}, S_BLOOD3 },
+    /*S_BLOOD3*/            { SPR_BLUD, 2, 6, {NULL}, S_BLOOD4 },
+    /*S_BLOOD4*/            { SPR_BLUD, 3, 6, {NULL}, S_NULL },
+
+    /*S_CORPSE*/            { SPR_A027, 0, -1, {NULL}, S_NULL },
+
+    /*S_TFOG1*/             { SPR_TFOG, 32772, 3, {NULL}, S_TFOG2 },
+    /*S_TFOG2*/             { SPR_TFOG, 32771, 3, {NULL}, S_TFOG3 },
+    /*S_TFOG3*/             { SPR_TFOG, 32770, 3, {NULL}, S_TFOG4 },
+    /*S_TFOG4*/             { SPR_TFOG, 32769, 3, {NULL}, S_TFOG5 },
+    /*S_TFOG5*/             { SPR_TFOG, 32768, 3, {NULL}, S_TFOG6 },
+    /*S_TFOG6*/             { SPR_TFOG, 32769, 3, {NULL}, S_TFOG7 },
+    /*S_TFOG7*/             { SPR_TFOG, 32770, 3, {NULL}, S_TFOG8 },
+    /*S_TFOG8*/             { SPR_TFOG, 32771, 3, {NULL}, S_TFOG9 },
+    /*S_TFOG9*/             { SPR_TFOG, 32772, 3, {NULL}, S_TFOG10 },
+    /*S_TFOG10*/            { SPR_TFOG, 32773, 3, {NULL}, S_TFOG11 },
+    /*S_TFOG11*/            { SPR_TFOG, 32774, 3, {NULL}, S_TFOG12 },
+    /*S_TFOG12*/            { SPR_TFOG, 32775, 3, {NULL}, S_NULL },
+
+    /*S_BFGEXP1*/           { SPR_BFE2, 32768, 4, {NULL}, S_BFGEXP2 },
+    /*S_BFGEXP2*/           { SPR_BFE2, 32769, 3, {A_FadeAlpha}, S_BFGEXP3 },
+    /*S_BFGEXP3*/           { SPR_BFE2, 32770, 2, {NULL}, S_BFGEXP4 },
+    /*S_BFGEXP4*/           { SPR_BFE2, 32771, 2, {NULL}, S_BFGEXP5 },
+    /*S_BFGEXP5*/           { SPR_BFE2, 32772, 2, {NULL}, S_BFGEXP6 },
+    /*S_BFGEXP6*/           { SPR_BFE2, 32773, 2, {NULL}, S_NULL },
+
+    /*S_ARMOR1A*/           { SPR_ARM1, 32768, 6, {NULL}, S_ARMOR1B },
+    /*S_ARMOR1B*/           { SPR_ARM1, 32769, 6, {NULL}, S_ARMOR1A },
+    /*S_ARMOR2A*/           { SPR_ARM2, 32768, 6, {NULL}, S_ARMOR2B },
+    /*S_ARMOR2B*/           { SPR_ARM2, 32769, 6, {NULL}, S_ARMOR2A },
+
+    /*S_BONUS1A*/           { SPR_BON1, 0, 3, {NULL}, S_BONUS1B },
+    /*S_BONUS1B*/           { SPR_BON1, 1, 3, {NULL}, S_BONUS1C },
+    /*S_BONUS1C*/           { SPR_BON1, 2, 3, {NULL}, S_BONUS1D },
+    /*S_BONUS1D*/           { SPR_BON1, 3, 3, {NULL}, S_BONUS1A },
+
+    /*S_BONUS2A*/           { SPR_BON2, 0, 3, {NULL}, S_BONUS2B },
+    /*S_BONUS2B*/           { SPR_BON2, 1, 3, {NULL}, S_BONUS2C },
+    /*S_BONUS2C*/           { SPR_BON2, 2, 3, {NULL}, S_BONUS2D },
+    /*S_BONUS2D*/           { SPR_BON2, 3, 3, {NULL}, S_BONUS2E },
+    /*S_BONUS2E*/           { SPR_BON2, 2, 3, {NULL}, S_BONUS2F },
+    /*S_BONUS2F*/           { SPR_BON2, 1, 3, {NULL}, S_BONUS2A },
+
+    /*S_BKEY1*/             { SPR_BKEY, 0, 5, {NULL}, S_BKEY2 },
+    /*S_BKEY2*/             { SPR_BKEY, 32768, 5, {NULL}, S_BKEY1 },
+    /*S_RKEY1*/             { SPR_RKEY, 0, 5, {NULL}, S_RKEY2 },
+    /*S_RKEY2*/             { SPR_RKEY, 32768, 5, {NULL}, S_RKEY1 },
+    /*S_YKEY1*/             { SPR_YKEY, 0, 5, {NULL}, S_YKEY2 },
+    /*S_YKEY2*/             { SPR_YKEY, 32768, 5, {NULL}, S_YKEY1 },
+    /*S_YSKULL1*/           { SPR_YSKU, 0, 5, {NULL}, S_YSKULL2 },
+    /*S_YSKULL2*/           { SPR_YSKU, 32768, 5, {NULL}, S_YSKULL1 },
+    /*S_RSKULL1*/           { SPR_RSKU, 0, 5, {NULL}, S_RSKULL2 },
+    /*S_RSKULL2*/           { SPR_RSKU, 32768, 5, {NULL}, S_RSKULL1 },
+    /*S_BSKULL1*/           { SPR_BSKU, 0, 5, {NULL}, S_BSKULL2 },
+    /*S_BSKULL2*/           { SPR_BSKU, 32768, 5, {NULL}, S_BSKULL1 },
+
+    /*S_ARTIFACT1A*/        { SPR_ART1, 32768, 4, {NULL}, S_ARTIFACT1B },
+    /*S_ARTIFACT1B*/        { SPR_ART1, 32769, 4, {NULL}, S_ARTIFACT1C },
+    /*S_ARTIFACT1C*/        { SPR_ART1, 32770, 4, {NULL}, S_ARTIFACT1D },
+    /*S_ARTIFACT1D*/        { SPR_ART1, 32771, 4, {NULL}, S_ARTIFACT1E },
+    /*S_ARTIFACT1E*/        { SPR_ART1, 32772, 4, {NULL}, S_ARTIFACT1F },
+    /*S_ARTIFACT1F*/        { SPR_ART1, 32771, 4, {NULL}, S_ARTIFACT1G },
+    /*S_ARTIFACT1G*/        { SPR_ART1, 32770, 4, {NULL}, S_ARTIFACT1H },
+    /*S_ARTIFACT1H*/        { SPR_ART1, 32769, 4, {NULL}, S_ARTIFACT1A },
+    /*S_ARTIFACT2A*/        { SPR_ART2, 32768, 4, {NULL}, S_ARTIFACT2B },
+    /*S_ARTIFACT2B*/        { SPR_ART2, 32769, 4, {NULL}, S_ARTIFACT2C },
+    /*S_ARTIFACT2C*/        { SPR_ART2, 32770, 4, {NULL}, S_ARTIFACT2D },
+    /*S_ARTIFACT2D*/        { SPR_ART2, 32771, 4, {NULL}, S_ARTIFACT2E },
+    /*S_ARTIFACT2E*/        { SPR_ART2, 32772, 4, {NULL}, S_ARTIFACT2F },
+    /*S_ARTIFACT2F*/        { SPR_ART2, 32771, 4, {NULL}, S_ARTIFACT2G },
+    /*S_ARTIFACT2G*/        { SPR_ART2, 32770, 4, {NULL}, S_ARTIFACT2H },
+    /*S_ARTIFACT2H*/        { SPR_ART2, 32769, 4, {NULL}, S_ARTIFACT2A },
+    /*S_ARTIFACT3A*/        { SPR_ART3, 32768, 4, {NULL}, S_ARTIFACT3B },
+    /*S_ARTIFACT3B*/        { SPR_ART3, 32769, 4, {NULL}, S_ARTIFACT3C },
+    /*S_ARTIFACT3C*/        { SPR_ART3, 32770, 4, {NULL}, S_ARTIFACT3D },
+    /*S_ARTIFACT3D*/        { SPR_ART3, 32771, 4, {NULL}, S_ARTIFACT3E },
+    /*S_ARTIFACT3E*/        { SPR_ART3, 32772, 4, {NULL}, S_ARTIFACT3F },
+    /*S_ARTIFACT3F*/        { SPR_ART3, 32771, 4, {NULL}, S_ARTIFACT3G },
+    /*S_ARTIFACT3G*/        { SPR_ART3, 32770, 4, {NULL}, S_ARTIFACT3H },
+    /*S_ARTIFACT3H*/        { SPR_ART3, 32769, 4, {NULL}, S_ARTIFACT3A },
+
+    /*S_STIM*/              { SPR_STIM, 0, -1, {NULL}, S_NULL },
+    /*S_MEDI*/              { SPR_MEDI, 0, -1, {NULL}, S_NULL },
+
+    /*S_SOUL1*/             { SPR_SOUL, 32768, 6, {NULL}, S_SOUL2 },
+    /*S_SOUL2*/             { SPR_SOUL, 32769, 6, {NULL}, S_SOUL3 },
+    /*S_SOUL3*/             { SPR_SOUL, 32770, 6, {NULL}, S_SOUL4 },
+    /*S_SOUL4*/             { SPR_SOUL, 32771, 6, {NULL}, S_SOUL5 },
+    /*S_SOUL5*/             { SPR_SOUL, 32770, 6, {NULL}, S_SOUL6 },
+    /*S_SOUL6*/             { SPR_SOUL, 32769, 6, {NULL}, S_SOUL1 },
+
+    /*S_PINV1*/             { SPR_PINV, 32768, 6, {NULL}, S_PINV2 },
+    /*S_PINV2*/             { SPR_PINV, 32769, 6, {NULL}, S_PINV3 },
+    /*S_PINV3*/             { SPR_PINV, 32770, 6, {NULL}, S_PINV4 },
+    /*S_PINV4*/             { SPR_PINV, 32771, 6, {NULL}, S_PINV5 },
+    /*S_PINV5*/             { SPR_PINV, 32770, 6, {NULL}, S_PINV6 },
+    /*S_PINV6*/             { SPR_PINV, 32769, 6, {NULL}, S_PINV1 },
+    /*S_PSTR*/              { SPR_PSTR, 32768, -1, {NULL}, S_NULL },
+    /*S_PINS1*/             { SPR_PINS, 32768, 2, {NULL}, S_PINS2 },
+    /*S_PINS2*/             { SPR_PINS, 32769, 3, {NULL}, S_PINS3 },
+    /*S_PINS3*/             { SPR_PINS, 32770, 2, {NULL}, S_PINS4 },
+    /*S_PINS4*/             { SPR_PINS, 32771, 1, {NULL}, S_PINS5 },
+    /*S_PINS5*/             { SPR_PINS, 32769, 2, {NULL}, S_PINS6 },
+    /*S_PINS6*/             { SPR_PINS, 32770, 1, {NULL}, S_PINS1 },
+    /*S_SUIT1*/             { SPR_SUIT, 32768, 4, {NULL}, S_SUIT2 },
+    /*S_SUIT2*/             { SPR_SUIT, 32769, 4, {NULL}, S_SUIT1 },
+    /*S_PMAP1*/             { SPR_PMAP, 32768, 5, {NULL}, S_PMAP2 },
+    /*S_PMAP2*/             { SPR_PMAP, 32769, 5, {NULL}, S_PMAP3 },
+    /*S_PMAP3*/             { SPR_PMAP, 32770, 5, {NULL}, S_PMAP4 },
+    /*S_PMAP4*/             { SPR_PMAP, 32771, 5, {NULL}, S_PMAP1 },
+    /*S_PVIS1*/             { SPR_PVIS, 32768, 3, {NULL}, S_PVIS2 },
+    /*S_PVIS2*/             { SPR_PVIS, 1, 3, {NULL}, S_PVIS1 },
+
+    /*S_MEGA1*/             { SPR_MEGA, 32768, 4, {NULL}, S_MEGA2 },
+    /*S_MEGA2*/             { SPR_MEGA, 32769, 4, {NULL}, S_MEGA3 },
+    /*S_MEGA3*/             { SPR_MEGA, 32770, 4, {NULL}, S_MEGA4 },
+    /*S_MEGA4*/             { SPR_MEGA, 32771, 4, {NULL}, S_MEGA5 },
+    /*S_MEGA5*/             { SPR_MEGA, 32770, 4, {NULL}, S_MEGA6 },
+    /*S_MEGA6*/             { SPR_MEGA, 32769, 4, {NULL}, S_MEGA1 },
+
+    /*S_CLIP*/              { SPR_CLIP, 0, -1, {NULL}, S_NULL },
+    /*S_AMMO*/              { SPR_AMMO, 0, -1, {NULL}, S_NULL },
+    /*S_RCKT*/              { SPR_RCKT, 0, -1, {NULL}, S_NULL },
+    /*S_BROK*/              { SPR_BROK, 0, -1, {NULL}, S_NULL },
+    /*S_CELL*/              { SPR_CELL, 0, -1, {NULL}, S_NULL },
+    /*S_CELP*/              { SPR_CELP, 0, -1, {NULL}, S_NULL },
+    /*S_SHEL*/              { SPR_SHEL, 0, -1, {NULL}, S_NULL },
+    /*S_SBOX*/              { SPR_SBOX, 0, -1, {NULL}, S_NULL },
+    /*S_BPAK*/              { SPR_BPAK, 0, -1, {NULL}, S_NULL },
+
+    /*S_BFUG*/              { SPR_BFUG, 0, -1, {NULL}, S_NULL },
+    /*S_CSAW*/              { SPR_CSAW, 0, -1, {NULL}, S_NULL },
+    /*S_MGUN*/              { SPR_MGUN, 0, -1, {NULL}, S_NULL },
+    /*S_LAUN*/              { SPR_LAUN, 0, -1, {NULL}, S_NULL },
+    /*S_PLSM*/              { SPR_PLSM, 0, -1, {NULL}, S_NULL },
+    /*S_SHOT*/              { SPR_SHOT, 0, -1, {NULL}, S_NULL },
+    /*S_SHOT2*/             { SPR_SGN2, 0, -1, {NULL}, S_NULL },
+    /*S_LSRG*/              { SPR_LSRG, 0, -1, {NULL}, S_NULL },
+
+    /*S_PROP_FIRE1*/        { SPR_FIRE, 0, 3, {NULL}, S_PROP_FIRE2 },
+    /*S_PROP_FIRE2*/        { SPR_FIRE, 1, 3, {NULL}, S_PROP_FIRE3 },
+    /*S_PROP_FIRE3*/        { SPR_FIRE, 2, 3, {NULL}, S_PROP_FIRE4 },
+    /*S_PROP_FIRE4*/        { SPR_FIRE, 3, 3, {NULL}, S_PROP_FIRE5 },
+    /*S_PROP_FIRE5*/        { SPR_FIRE, 4, 3, {NULL}, S_PROP_FIRE1 },
+
+    /*S_CANDLE1*/           { SPR_CAND, 0, 2, {NULL}, S_CANDLE2 },
+    /*S_CANDLE2*/           { SPR_CAND, 1, 2, {NULL}, S_CANDLE1 },
+
+    /*S_BARREL*/            { SPR_BAR1, 0, -1, {NULL}, S_NULL },
+    /*S_BARREL_DIE1*/       { SPR_BAR1, 1, 5, {NULL}, S_BARREL_DIE2 },
+    /*S_BARREL_DIE2*/       { SPR_BAR1, 2, 5, {NULL}, S_BARREL_DIE3 },
+    /*S_BARREL_DIE3*/       { SPR_BAR1, 3, 5, {NULL}, S_BARREL_DIE4 },
+    /*S_BARREL_DIE4*/       { SPR_BAR1, 32772, 5, {A_BarrelExplode}, S_NULL },
+
+    /*S_EXP1A*/             { SPR_MISL, 32769, 6, {NULL}, S_EXP1B },
+    /*S_EXP1B*/             { SPR_MISL, 32770, 5, {NULL}, S_EXP1C },
+    /*S_EXP1C*/             { SPR_MISL, 32771, 2, {NULL}, S_EXP1D },
+    /*S_EXP1D*/             { SPR_MISL, 32772, 2, {NULL}, S_EXP1E },
+    /*S_EXP1E*/             { SPR_MISL, 32773, 2, {NULL}, S_NULL },
+    /*S_EXP2A*/             { SPR_MISL, 32769, 2, {NULL}, S_EXP2B },
+    /*S_EXP2B*/             { SPR_MISL, 32770, 2, {NULL}, S_EXP2C },
+    /*S_EXP2C*/             { SPR_MISL, 32771, 2, {NULL}, S_EXP2D },
+    /*S_EXP2D*/             { SPR_MISL, 32772, 2, {NULL}, S_EXP2E },
+    /*S_EXP2E*/             { SPR_MISL, 32773, 2, {NULL}, S_NULL },
+
+    /*S_LAMP1*/             { SPR_LMP1, 0, -1, {NULL}, S_NULL },
+    /*S_LAMP2*/             { SPR_LMP2, 0, -1, {NULL}, S_NULL },
+
+    /*S_BTORCH1*/           { SPR_A031, 0, 4, {NULL}, S_BTORCH2 },
+    /*S_BTORCH2*/           { SPR_A031, 1, 4, {NULL}, S_BTORCH3 },
+    /*S_BTORCH3*/           { SPR_A031, 2, 4, {NULL}, S_BTORCH4 },
+    /*S_BTORCH4*/           { SPR_A031, 3, 4, {NULL}, S_BTORCH5 },
+    /*S_BTORCH5*/           { SPR_A031, 4, 4, {NULL}, S_BTORCH1 },
+    /*S_YTORCH1*/           { SPR_A030, 0, 4, {NULL}, S_YTORCH2 },
+    /*S_YTORCH2*/           { SPR_A030, 1, 4, {NULL}, S_YTORCH3 },
+    /*S_YTORCH3*/           { SPR_A030, 2, 4, {NULL}, S_YTORCH4 },
+    /*S_YTORCH4*/           { SPR_A030, 3, 4, {NULL}, S_YTORCH5 },
+    /*S_YTORCH5*/           { SPR_A030, 4, 4, {NULL}, S_YTORCH1 },
+    /*S_RTORCH1*/           { SPR_A032, 0, 4, {NULL}, S_RTORCH2 },
+    /*S_RTORCH2*/           { SPR_A032, 1, 4, {NULL}, S_RTORCH3 },
+    /*S_RTORCH3*/           { SPR_A032, 2, 4, {NULL}, S_RTORCH4 },
+    /*S_RTORCH4*/           { SPR_A032, 3, 4, {NULL}, S_RTORCH5 },
+    /*S_RTORCH5*/           { SPR_A032, 4, 4, {NULL}, S_RTORCH1 },
+    /*S_POLELONG*/          { SPR_A033, 0, -1, {NULL}, S_NULL },
+    /*S_POLESHORT*/         { SPR_A034, 0, -1, {NULL}, S_NULL },
+
+    /*S_BFLAME1*/           { SPR_BFLM, 32768, 4, {NULL}, S_BFLAME2 },
+    /*S_BFLAME2*/           { SPR_BFLM, 32769, 4, {NULL}, S_BFLAME3 },
+    /*S_BFLAME3*/           { SPR_BFLM, 32770, 4, {NULL}, S_BFLAME4 },
+    /*S_BFLAME4*/           { SPR_BFLM, 32771, 4, {NULL}, S_BFLAME5 },
+    /*S_BFLAME5*/           { SPR_BFLM, 32772, 4, {NULL}, S_BFLAME1 },
+    /*S_RFLAME1*/           { SPR_RFLM, 32768, 4, {NULL}, S_RFLAME2 },
+    /*S_RFLAME2*/           { SPR_RFLM, 32769, 4, {NULL}, S_RFLAME3 },
+    /*S_RFLAME3*/           { SPR_RFLM, 32770, 4, {NULL}, S_RFLAME4 },
+    /*S_RFLAME4*/           { SPR_RFLM, 32771, 4, {NULL}, S_RFLAME5 },
+    /*S_RFLAME5*/           { SPR_RFLM, 32772, 4, {NULL}, S_RFLAME1 },
+    /*S_YFLAME1*/           { SPR_YFLM, 32768, 4, {NULL}, S_YFLAME2 },
+    /*S_YFLAME2*/           { SPR_YFLM, 32769, 4, {NULL}, S_YFLAME3 },
+    /*S_YFLAME3*/           { SPR_YFLM, 32770, 4, {NULL}, S_YFLAME4 },
+    /*S_YFLAME4*/           { SPR_YFLM, 32771, 4, {NULL}, S_YFLAME5 },
+    /*S_YFLAME5*/           { SPR_YFLM, 32772, 4, {NULL}, S_YFLAME1 },
+
+    /*S_GORE1*/             { SPR_A006, 0, -1, {NULL}, S_NULL },
+    /*S_GORE2*/             { SPR_A021, 0, -1, {NULL}, S_NULL },
+    /*S_GORE3*/             { SPR_A003, 0, -1, {NULL}, S_NULL },
+    /*S_GORE4*/             { SPR_A020, 0, -1, {NULL}, S_NULL },
+    /*S_GORETWITCH1*/       { SPR_A014, 0, 6, {NULL}, S_GORETWITCH2 },
+    /*S_GORETWITCH2*/       { SPR_A014, 1, 6, {NULL}, S_GORETWITCH1 },
+    /*S_GORE5*/             { SPR_A016, 0, -1, {NULL}, S_NULL },
+    /*S_GORE6*/             { SPR_A027, 0, -1, {NULL}, S_NULL },
+    /*S_GORE7*/             { SPR_A008, 0, -1, {NULL}, S_NULL },
+    /*S_GORE8*/             { SPR_A007, 0, -1, {NULL}, S_NULL },
+    /*S_GOREHOOK1*/         { SPR_A015, 0, -1, {NULL}, S_NULL },
+    /*S_GORECAGE*/          { SPR_A001, 0, -1, {NULL}, S_NULL },
+    /*S_GOREHOOK2*/         { SPR_A012, 0, -1, {NULL}, S_NULL },
+    /*S_GOREHOOK3*/         { SPR_A010, 0, -1, {NULL}, S_NULL },
+    /*S_GOREMACE1*/         { SPR_A018, 0, -1, {NULL}, S_NULL },
+    /*S_GOREHEAD1*/         { SPR_A017, 0, -1, {NULL}, S_NULL },
+    /*S_GOREHEAD2*/         { SPR_A026, 0, -1, {NULL}, S_NULL },
+    /*S_GORE9*/             { SPR_A022, 0, -1, {NULL}, S_NULL },
+    /*S_GARGOYLE1*/         { SPR_A028, 0, -1, {NULL}, S_NULL },
+    /*S_GARGOYLE2*/         { SPR_A029, 0, -1, {NULL}, S_NULL },
+    /*S_TECHLAMP1*/         { SPR_A035, 0, -1, {NULL}, S_NULL },
+    /*S_TECHLAMP2*/         { SPR_A036, 0, -1, {NULL}, S_NULL },
+    /*S_TREE3*/             { SPR_TRE3, 0, -1, {NULL}, S_NULL },
+    /*S_TREE2*/             { SPR_TRE2, 0, -1, {NULL}, S_NULL },
+    /*S_TREE1*/             { SPR_TRE1, 0, -1, {NULL}, S_NULL },
+    /*S_GORE10*/            { SPR_A013, 0, -1, {NULL}, S_NULL },
+    /*S_GOREMACE*/          { SPR_A019, 0, -1, {NULL}, S_NULL },
+    /*S_GORE11*/            { SPR_A004, 0, -1, {NULL}, S_NULL },
+    /*S_GOREHEAD3*/         { SPR_A005, 0, -1, {NULL}, S_NULL },
+    /*S_GORE12*/            { SPR_A023, 0, -1, {NULL}, S_NULL },
+
+    /*S_SAWA*/              { SPR_SAWG, 0, 4, {A_ChainSawReady}, S_SAWB },
+    /*S_SAWB*/              { SPR_SAWG, 1, 4, {A_WeaponReady}, S_SAWA },
+    /*S_SAWDOWN*/           { SPR_SAWG, 1, 1, {A_Lower}, S_SAWDOWN },
+    /*S_SAWUP*/             { SPR_SAWG, 1, 1, {A_Raise}, S_SAWUP },
+    /*S_SAW1*/              { SPR_SAWG, 2, 2, {A_Saw}, S_SAW2 },
+    /*S_SAW2*/              { SPR_SAWG, 3, 2, {A_Saw}, S_SAW3 },
+    /*S_SAW3*/              { SPR_SAWG, 3, 0, {A_ReFire}, S_SAWA },
+
+    /*S_PUNCH*/             { SPR_PUNG, 0, 1, {A_WeaponReady}, S_PUNCH },
+    /*S_PUNCHDOWN*/         { SPR_PUNG, 0, 1, {A_Lower}, S_PUNCHDOWN },
+    /*S_PUNCHUP*/           { SPR_PUNG, 0, 1, {A_Raise}, S_PUNCHUP },
+    /*S_PUNCH1*/            { SPR_PUNG, 1, 4, {NULL}, S_PUNCH2 },
+    /*S_PUNCH2*/            { SPR_PUNG, 2, 4, {A_Punch}, S_PUNCH3 },
+    /*S_PUNCH3*/            { SPR_PUNG, 3, 5, {NULL}, S_PUNCH4 },
+    /*S_PUNCH4*/            { SPR_PUNG, 2, 4, {NULL}, S_PUNCH5 },
+    /*S_PUNCH5*/            { SPR_PUNG, 1, 5, {A_ReFire}, S_PUNCH },
+
+    /*S_PISTOL*/            { SPR_PISG, 0, 1, {A_WeaponReady}, S_PISTOL },
+    /*S_PISTOLDOWN*/        { SPR_PISG, 0, 1, {A_Lower}, S_PISTOLDOWN },
+    /*S_PISTOLUP*/          { SPR_PISG, 0, 1, {A_Raise}, S_PISTOLUP },
+    /*S_PISTOL1*/           { SPR_PISG, 0, 2, {NULL}, S_PISTOL2 },
+    /*S_PISTOL2*/           { SPR_PISG, 1, 1, {A_FirePistol}, S_PISTOL3 },
+    /*S_PISTOL3*/           { SPR_PISG, 2, 5, {NULL}, S_PISTOL4 },
+    /*S_PISTOL4*/           { SPR_PISG, 1, 5, {NULL}, S_PISTOL5 },
+    /*S_PISTOL5*/           { SPR_PISG, 0, 1, {A_ReFire}, S_PISTOL },
+    /*S_PISTOLFLASH*/       { SPR_PISG, 32771, 3, {NULL}, S_NULL },
+
+    /*S_SGUN*/              { SPR_SHT1, 0, 1, {A_WeaponReady}, S_SGUN },
+    /*S_SGUNDOWN*/          { SPR_SHT1, 0, 1, {A_Lower}, S_SGUNDOWN },
+    /*S_SGUNUP*/            { SPR_SHT1, 0, 1, {A_Raise}, S_SGUNUP },
+    /*S_SGUN1*/             { SPR_SHT1, 0, 2, {NULL}, S_SGUN2 },
+    /*S_SGUN2*/             { SPR_SHT1, 0, 4, {A_FireShotgun}, S_SGUN3 },
+    /*S_SGUN3*/             { SPR_SHT1, 1, 18, {NULL}, S_SGUN4 },
+    /*S_SGUN4*/             { SPR_SHT1, 2, 5, {NULL}, S_SGUN5 },
+    /*S_SGUN5*/             { SPR_SHT1, 0, 3, {NULL}, S_SGUN6 },
+    /*S_SGUN6*/             { SPR_SHT1, 0, 7, {A_ReFire}, S_SGUN },
+    /*S_SGUNFLASH*/         { SPR_SHT1, 32771, 4, {NULL}, S_NULL },
+
+    /*S_SSG*/               { SPR_SHT2, 0, 1, {A_WeaponReady}, S_SSG },
+    /*S_SSGDOWN*/           { SPR_SHT2, 0, 1, {A_Lower}, S_SSGDOWN },
+    /*S_SSGUP*/             { SPR_SHT2, 0, 1, {A_Raise}, S_SSGUP },
+    /*S_SSG1*/              { SPR_SHT2, 0, 1, {NULL}, S_SSG2 },
+    /*S_SSG2*/              { SPR_SHT2, 0, 4, {A_FireShotgun2}, S_SSG3 },
+    /*S_SSG3*/              { SPR_SHT2, 1, 7, {NULL}, S_SSG4 },
+    /*S_SSG4*/              { SPR_SHT2, 1, 5, {A_CheckReload}, S_SSG5 },
+    /*S_SSG5*/              { SPR_SHT2, 1, 5, {NULL}, S_SSG6 },
+    /*S_SSG6*/              { SPR_SHT2, 1, 5, {NULL}, S_SSG7 },
+    /*S_SSG7*/              { SPR_SHT2, 1, 5, {NULL}, S_SSG8 },
+    /*S_SSG8*/              { SPR_SHT2, 1, 5, {A_LoadShotgun2}, S_SSG9 },
+    /*S_SSG9*/              { SPR_SHT2, 2, 4, {A_CloseShotgun2}, S_SSG10 },
+    /*S_SSG10*/             { SPR_SHT2, 0, 5, {A_ReFire}, S_SSG },
+    /*S_SSGFLASH*/          { SPR_SHT2, 32771, 4, {NULL}, S_NULL },
+
+    /*S_CHAING*/            { SPR_CHGG, 0, 1, {A_WeaponReady}, S_CHAING },
+    /*S_CHAINGDOWN*/        { SPR_CHGG, 0, 1, {A_Lower}, S_CHAINGDOWN },
+    /*S_CHAINGUP*/          { SPR_CHGG, 0, 1, {A_Raise}, S_CHAINGUP },
+    /*S_CHAING1*/           { SPR_CHGG, 0, 3, {A_FireCGun}, S_CHAING2 },
+    /*S_CHAING2*/           { SPR_CHGG, 1, 3, {A_FireCGun}, S_CHAING3 },
+    /*S_CHAING3*/           { SPR_CHGG, 1, 0, {A_ReFire}, S_CHAING },
+    /*S_CHAINGLIGHT1*/      { SPR_CHGG, 32771, 3, {NULL}, S_NULL },
+    /*S_CHAINGLIGHT2*/      { SPR_CHGG, 32770, 3, {NULL}, S_NULL },
+
+    /*S_ROCKETL*/           { SPR_ROCK, 0, 1, {A_WeaponReady}, S_ROCKETL },
+    /*S_ROCKETLDOWN*/       { SPR_ROCK, 0, 1, {A_Lower}, S_ROCKETLDOWN },
+    /*S_ROCKETLUP*/         { SPR_ROCK, 0, 1, {A_Raise}, S_ROCKETLUP },
+    /*S_ROCKETL1*/          { SPR_ROCK, 1, 8, {A_GunFlash}, S_ROCKETL2 },
+    /*S_ROCKETL2*/          { SPR_ROCK, 1, 10, {A_FireMissile}, S_ROCKETL3 },
+    /*S_ROCKETL3*/          { SPR_ROCK, 1, 0, {A_ReFire}, S_ROCKETL },
+    /*S_ROCKETLLIGHT1*/     { SPR_ROCK, 32770, 3, {NULL}, S_ROCKETLLIGHT2 },
+    /*S_ROCKETLLIGHT2*/     { SPR_ROCK, 32771, 4, {NULL}, S_ROCKETLLIGHT3 },
+    /*S_ROCKETLLIGHT3*/     { SPR_ROCK, 32772, 4, {NULL}, S_ROCKETLLIGHT4 },
+    /*S_ROCKETLLIGHT4*/     { SPR_ROCK, 32773, 4, {NULL}, S_NULL },
+
+    /*S_PLASMAG*/           { SPR_PLAS, 0, 1, {A_WeaponReady}, S_PLASMAG },
+    /*S_PLASMAGDOWN*/       { SPR_PLAS, 0, 1, {A_Lower}, S_PLASMAGDOWN },
+    /*S_PLASMAGUP1*/        { SPR_PLAS, 0, 0, {A_PlasmaAnimate}, S_PLASMAGUP2 },
+    /*S_PLASMAGUP2*/        { SPR_PLAS, 0, 1, {A_Raise}, S_PLASMAGUP2 },
+    /*S_PLASMAG1*/          { SPR_PLAS, 32772, 2, {A_FirePlasma}, S_PLASMAG2 },
+    /*S_PLASMAG2*/          { SPR_PLAS, 0, 2, {A_PlasmaAnimate}, S_PLASMAG3 },
+    /*S_PLASMAG3*/          { SPR_PLAS, 0, 1, {A_ReFire}, S_PLASMAG },
+    /*S_PLASMAGANIM1*/      { SPR_PLAS, 1, 2, {NULL}, S_PLASMAGANIM2 },
+    /*S_PLASMAGANIM2*/      { SPR_PLAS, 2, 2, {NULL}, S_PLASMAGANIM3 },
+    /*S_PLASMAGANIM3*/      { SPR_PLAS, 3, 2, {NULL}, S_PLASMAGANIM1 },
+
+    /*S_BFG*/               { SPR_BFGG, 0, 1, {A_WeaponReady}, S_BFG },
+    /*S_BFGDOWN*/           { SPR_BFGG, 0, 1, {A_Lower}, S_BFGDOWN },
+    /*S_BFGUP*/             { SPR_BFGG, 0, 1, {A_Raise}, S_BFGUP },
+    /*S_BFG1*/              { SPR_BFGG, 0, 20, {A_BFGsound}, S_BFG2 },
+    /*S_BFG2*/              { SPR_BFGG, 1, 10, {A_GunFlash}, S_BFG3 },
+    /*S_BFG3*/              { SPR_BFGG, 1, 10, {A_FireBFG}, S_BFG4 },
+    /*S_BFG4*/              { SPR_BFGG, 1, 20, {A_ReFire}, S_BFG },
+    /*S_BFGLIGHT1*/         { SPR_BFGG, 32770, 8, {NULL}, S_BFGLIGHT2 },
+    /*S_BFGLIGHT2*/         { SPR_BFGG, 32771, 5, {NULL}, S_BFGLIGHT3 },
+    /*S_BFGLIGHT3*/         { SPR_BFGG, 32772, 3, {NULL}, S_NULL },
+
+    /*S_LASERG*/            { SPR_LASR, 0, 2, {A_WeaponReady}, S_LASERG },
+    /*S_LASERGDOWN*/        { SPR_LASR, 0, 1, {A_Lower}, S_LASERGDOWN },
+    /*S_LASERGUP*/          { SPR_LASR, 0, 1, {A_Raise}, S_LASERGUP },
+    /*S_LASERG1*/           { SPR_LASR, 0, 8, {A_FireLaser}, S_LASERG2 },
+    /*S_LASERG2*/           { SPR_LASR, 0, 3, {A_ReFire}, S_LASERG },
+    /*S_LASERGLIGHT*/       { SPR_LASR, 32769, 3, {NULL}, S_NULL },
 };
 
 #pragma warning(pop)
@@ -944,19 +1011,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PLAYER*/
         -1,        //doomednum
-        S_001,        //spawnstate
+        S_PLAY,        //spawnstate
         100,        //spawnhealth
-        S_002,        //seestate
+        S_PLAY_RUN1,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         0,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_008,        //painstate
+        S_PLAY_PAIN,        //painstate
         255,        //painchance
         sfx_plrpain,        //painsound
-        S_000,        //meleestate
-        S_006,        //missilestate
-        S_010,        //deathstate
-        S_016,        //xdeathstate
+        S_NULL,        //meleestate
+        S_PLAY_ATK1,        //missilestate
+        S_PLAY_DIE1,        //deathstate
+        S_PLAY_XDIE1,        //xdeathstate
         sfx_plrdie,        //deathsound
         0,        //speed
         19*FRACUNIT,        //radius
@@ -972,19 +1039,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PLAYERBOT1*/
         3008,        //doomednum
-        S_025,        //spawnstate
+        S_PBOT_STND,        //spawnstate
         100,        //spawnhealth
-        S_026,        //seestate
+        S_PBOT_RUN1,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         0,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_036,        //painstate
+        S_PBOT_PAIN,        //painstate
         255,        //painchance
         sfx_plrpain,        //painsound
-        S_000,        //meleestate
-        S_030,        //missilestate
-        S_016,        //deathstate
-        S_016,        //xdeathstate
+        S_NULL,        //meleestate
+        S_PBOT_ATK1,        //missilestate
+        S_PLAY_XDIE1,        //deathstate
+        S_PLAY_XDIE1,        //xdeathstate
         sfx_plrdie,        //deathsound
         16,        //speed
         32*FRACUNIT,        //radius
@@ -1000,19 +1067,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PLAYERBOT2*/
         3009,        //doomednum
-        S_025,        //spawnstate
+        S_PBOT_STND,        //spawnstate
         100,        //spawnhealth
-        S_026,        //seestate
+        S_PBOT_RUN1,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         0,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_036,        //painstate
+        S_PBOT_PAIN,        //painstate
         255,        //painchance
         sfx_plrpain,        //painsound
-        S_000,        //meleestate
-        S_038,        //missilestate
-        S_010,        //deathstate
-        S_016,        //xdeathstate
+        S_NULL,        //meleestate
+        S_PBOT_PATK1,        //missilestate
+        S_PLAY_DIE1,        //deathstate
+        S_PLAY_XDIE1,        //xdeathstate
         sfx_plrdie,        //deathsound
         16,        //speed
         32*FRACUNIT,        //radius
@@ -1028,19 +1095,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PLAYERBOT3*/
         3010,        //doomednum
-        S_025,        //spawnstate
+        S_PBOT_STND,        //spawnstate
         100,        //spawnhealth
-        S_026,        //seestate
+        S_PBOT_RUN1,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         0,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_036,        //painstate
+        S_PBOT_PAIN,        //painstate
         255,        //painchance
         sfx_plrpain,        //painsound
-        S_000,        //meleestate
-        S_030,        //missilestate
-        S_016,        //deathstate
-        S_016,        //xdeathstate
+        S_NULL,        //meleestate
+        S_PBOT_ATK1,        //missilestate
+        S_PLAY_XDIE1,        //deathstate
+        S_PLAY_XDIE1,        //xdeathstate
         sfx_plrdie,        //deathsound
         0,        //speed
         32*FRACUNIT,        //radius
@@ -1056,19 +1123,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_DEMON1*/
         3002,        //doomednum
-        S_044,        //spawnstate
+        S_SARG_STND,        //spawnstate
         150,        //spawnhealth
-        S_046,        //seestate
+        S_SARG_RUN1,        //seestate
         sfx_sargsit,        //seesound
         8,        //reactiontime
         sfx_sargatk,        //attacksound
-        S_057,        //painstate
+        S_SARG_PAIN1,        //painstate
         180,        //painchance
         sfx_dbpain2,        //painsound
-        S_054,        //meleestate
-        S_000,        //missilestate
-        S_059,        //deathstate
-        S_000,        //xdeathstate
+        S_SARG_ATK1,        //meleestate
+        S_NULL,        //missilestate
+        S_SARG_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_sargdie,        //deathsound
         12,        //speed
         44*FRACUNIT,        //radius
@@ -1084,19 +1151,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_DEMON2*/
         58,        //doomednum
-        S_044,        //spawnstate
+        S_SARG_STND,        //spawnstate
         150,        //spawnhealth
-        S_065,        //seestate
+        S_SARG_RUN0,        //seestate
         sfx_sargsit,        //seesound
         8,        //reactiontime
         sfx_sargatk,        //attacksound
-        S_067,        //painstate
+        S_SARG_PAIN0,        //painstate
         180,        //painchance
         sfx_dbpain2,        //painsound
-        S_066,        //meleestate
-        S_000,        //missilestate
-        S_068,        //deathstate
-        S_000,        //xdeathstate
+        S_SARG_ATK0,        //meleestate
+        S_NULL,        //missilestate
+        S_SARG_DIE0,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_sargdie,        //deathsound
         12,        //speed
         50*FRACUNIT,        //radius
@@ -1112,19 +1179,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_MANCUBUS*/
         67,        //doomednum
-        S_069,        //spawnstate
+        S_FATT_STND,        //spawnstate
         600,        //spawnhealth
-        S_071,        //seestate
+        S_FATT_RUN1,        //seestate
         sfx_fattsit,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_090,        //painstate
+        S_FATT_PAIN,        //painstate
         80,        //painchance
         sfx_fatthit,        //painsound
-        S_000,        //meleestate
-        S_083,        //missilestate
-        S_092,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_FATT_ATK1,        //missilestate
+        S_FATT_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_fattdie,        //deathsound
         8,        //speed
         60*FRACUNIT,        //radius
@@ -1140,19 +1207,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_POSSESSED1*/
         3004,        //doomednum
-        S_098,        //spawnstate
+        S_POSS1_STND,        //spawnstate
         20,        //spawnhealth
-        S_100,        //seestate
+        S_POSS1_RUN1,        //seestate
         sfx_possit1,        //seesound
         8,        //reactiontime
         sfx_pistol,        //attacksound
-        S_111,        //painstate
+        S_POSS1_PAIN,        //painstate
         200,        //painchance
         sfx_dbpain1,        //painsound
-        S_000,        //meleestate
-        S_108,        //missilestate
-        S_113,        //deathstate
-        S_118,        //xdeathstate
+        S_NULL,        //meleestate
+        S_POSS1_ATK1,        //missilestate
+        S_POSS1_DIE1,        //deathstate
+        S_POSS1_XDIE1,        //xdeathstate
         sfx_posdie1,        //deathsound
         8,        //speed
         32*FRACUNIT,        //radius
@@ -1168,19 +1235,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_POSSESSED2*/
         9,        //doomednum
-        S_127,        //spawnstate
+        S_POSS2_STND,        //spawnstate
         30,        //spawnhealth
-        S_129,        //seestate
+        S_POSS2_RUN1,        //seestate
         sfx_possit2,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_140,        //painstate
+        S_POSS2_PAIN,        //painstate
         170,        //painchance
         sfx_dbpain1,        //painsound
-        S_000,        //meleestate
-        S_137,        //missilestate
-        S_142,        //deathstate
-        S_147,        //xdeathstate
+        S_NULL,        //meleestate
+        S_POSS2_ATK1,        //missilestate
+        S_POSS2_DIE1,        //deathstate
+        S_POSS2_XDIE1,        //xdeathstate
         sfx_posdie2,        //deathsound
         8,        //speed
         32*FRACUNIT,        //radius
@@ -1196,19 +1263,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_IMP1*/
         3001,        //doomednum
-        S_156,        //spawnstate
+        S_TROO_STND,        //spawnstate
         60,        //spawnhealth
-        S_158,        //seestate
+        S_TROO_RUN1,        //seestate
         sfx_impsit1,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_172,        //painstate
+        S_TROO_PAIN,        //painstate
         200,        //painchance
         sfx_dbpain1,        //painsound
-        S_166,        //meleestate
-        S_169,        //missilestate
-        S_174,        //deathstate
-        S_179,        //xdeathstate
+        S_TROO_MELEE1,        //meleestate
+        S_TROO_ATK1,        //missilestate
+        S_TROO_DIE1,        //deathstate
+        S_TROO_XDIE1,        //xdeathstate
         sfx_impdth1,        //deathsound
         8,        //speed
         42*FRACUNIT,        //radius
@@ -1224,19 +1291,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_IMP2*/
         3007,        //doomednum
-        S_156,        //spawnstate
+        S_TROO_STND,        //spawnstate
         60,        //spawnhealth
-        S_158,        //seestate
+        S_TROO_RUN1,        //seestate
         sfx_impsit1,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_172,        //painstate
+        S_TROO_PAIN,        //painstate
         128,        //painchance
         sfx_dbpain1,        //painsound
-        S_166,        //meleestate
-        S_169,        //missilestate
-        S_174,        //deathstate
-        S_179,        //xdeathstate
+        S_TROO_MELEE1,        //meleestate
+        S_TROO_ATK1,        //missilestate
+        S_TROO_DIE1,        //deathstate
+        S_TROO_XDIE1,        //xdeathstate
         sfx_impdth1,        //deathsound
         16,        //speed
         42*FRACUNIT,        //radius
@@ -1252,19 +1319,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_CACODEMON*/
         3005,        //doomednum
-        S_187,        //spawnstate
+        S_HEAD_STND,        //spawnstate
         400,        //spawnhealth
-        S_191,        //seestate
+        S_HEAD_RUN1,        //seestate
         sfx_headsit,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_203,        //painstate
+        S_HEAD_PAIN,        //painstate
         128,        //painchance
         sfx_dbpain2,        //painsound
-        S_000,        //meleestate
-        S_199,        //missilestate
-        S_206,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_HEAD_ATK1,        //missilestate
+        S_HEAD_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_headdie,        //deathsound
         8,        //speed
         55*FRACUNIT,        //radius
@@ -1280,19 +1347,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_BRUISER1*/
         3003,        //doomednum
-        S_212,        //spawnstate
+        S_BOSS1_STND,        //spawnstate
         1000,        //spawnhealth
-        S_214,        //seestate
+        S_BOSS1_RUN1,        //seestate
         sfx_bos1sit,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_225,        //painstate
+        S_BOSS1_PAIN,        //painstate
         50,        //painchance
         sfx_dbpain2,        //painsound
-        S_222,        //meleestate
-        S_222,        //missilestate
-        S_227,        //deathstate
-        S_000,        //xdeathstate
+        S_BOSS1_ATK1,        //meleestate
+        S_BOSS1_ATK1,        //missilestate
+        S_BOSS1_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_bos1die,        //deathsound
         8,        //speed
         24*FRACUNIT,        //radius
@@ -1308,19 +1375,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_BRUISER2*/
         69,        //doomednum
-        S_233,        //spawnstate
+        S_BOSS2_STND,        //spawnstate
         500,        //spawnhealth
-        S_235,        //seestate
+        S_BOSS2_RUN1,        //seestate
         sfx_bos2sit,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_246,        //painstate
+        S_BOSS2_PAIN,        //painstate
         50,        //painchance
         sfx_dbpain2,        //painsound
-        S_243,        //meleestate
-        S_243,        //missilestate
-        S_248,        //deathstate
-        S_000,        //xdeathstate
+        S_BOSS2_ATK1,        //meleestate
+        S_BOSS2_ATK1,        //missilestate
+        S_BOSS2_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_bos2die,        //deathsound
         8,        //speed
         24*FRACUNIT,        //radius
@@ -1336,19 +1403,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_SKULL*/
         3006,        //doomednum
-        S_254,        //spawnstate
+        S_SKUL_STND,        //spawnstate
         60,        //spawnhealth
-        S_257,        //seestate
+        S_SKUL_RUN1,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_skullatk,        //attacksound
-        S_264,        //painstate
+        S_SKUL_PAIN,        //painstate
         256,        //painchance
         sfx_dbpain2,        //painsound
-        S_000,        //meleestate
-        S_260,        //missilestate
-        S_266,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_SKUL_ATK1,        //missilestate
+        S_SKUL_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_implod,        //deathsound
         8,        //speed
         28*FRACUNIT,        //radius
@@ -1364,19 +1431,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_BABY*/
         68,        //doomednum
-        S_276,        //spawnstate
+        S_BSPI_STND,        //spawnstate
         500,        //spawnhealth
-        S_278,        //seestate
+        S_BSPI_RUN1,        //seestate
         sfx_bspisit,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_290,        //painstate
+        S_BSPI_PAIN,        //painstate
         128,        //painchance
         sfx_dbpain2,        //painsound
-        S_000,        //meleestate
-        S_287,        //missilestate
-        S_292,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_BSPI_ATK1,        //missilestate
+        S_BSPI_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_bspidie,        //deathsound
         12,        //speed
         64*FRACUNIT,        //radius
@@ -1392,19 +1459,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_CYBORG*/
         16,        //doomednum
-        S_298,        //spawnstate
+        S_CYBR_STND,        //spawnstate
         4000,        //spawnhealth
-        S_299,        //seestate
+        S_CYBR_RUN1,        //seestate
         sfx_cybsit,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_313,        //painstate
+        S_CYBR_PAIN,        //painstate
         20,        //painchance
         sfx_dbpain2,        //painsound
-        S_000,        //meleestate
-        S_307,        //missilestate
-        S_314,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_CYBR_ATK1,        //missilestate
+        S_CYBR_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_cybdth,        //deathsound
         16,        //speed
         70*FRACUNIT,        //radius
@@ -1420,19 +1487,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_CYBORG_TITLE*/
         3014,        //doomednum
-        S_323,        //spawnstate
+        S_CYBR_TITLE1,        //spawnstate
         4000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_324,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_CYBR_TITLE2,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         40*FRACUNIT,        //radius
@@ -1448,19 +1515,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PAIN*/
         71,        //doomednum
-        S_326,        //spawnstate
+        S_PAIN_STND,        //spawnstate
         400,        //spawnhealth
-        S_327,        //seestate
+        S_PAIN_RUN,        //seestate
         sfx_pesit,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_332,        //painstate
+        S_PAIN_PAIN,        //painstate
         128,        //painchance
         sfx_pepain,        //painsound
-        S_000,        //meleestate
-        S_328,        //missilestate
-        S_334,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_PAIN_ATK1,        //missilestate
+        S_PAIN_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_pedie,        //deathsound
         8,        //speed
         60*FRACUNIT,        //radius
@@ -1476,19 +1543,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_RESURRECTOR*/
         3013,        //doomednum
-        S_342,        //spawnstate
+        S_RECT_STND,        //spawnstate
         5000,        //spawnhealth
-        S_346,        //seestate
+        S_RECT_RUN1,        //seestate
         sfx_rectsit,        //seesound
         8,        //reactiontime
         sfx_rectatk,        //attacksound
-        S_362,        //painstate
+        S_RECT_PAIN,        //painstate
         50,        //painchance
         sfx_rectpain,        //painsound
-        S_358,        //meleestate
-        S_000,        //missilestate
-        S_363,        //deathstate
-        S_000,        //xdeathstate
+        S_RECT_ATK1,        //meleestate
+        S_NULL,        //missilestate
+        S_RECT_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_rectdie,        //deathsound
         30,        //speed
         80*FRACUNIT,        //radius
@@ -1504,19 +1571,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_CAMERA*/
         0,        //doomednum
-        S_000,        //spawnstate
+        S_NULL,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -1532,19 +1599,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_DEST_TELEPORT*/
         14,        //doomednum
-        S_000,        //spawnstate
+        S_NULL,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -1560,19 +1627,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_DEST_PROJECTILE*/
         2050,        //doomednum
-        S_000,        //spawnstate
+        S_NULL,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -1588,19 +1655,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_FAKEITEM*/
         89,        //doomednum
-        S_370,        //spawnstate
+        S_FAKEITEM,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         32*FRACUNIT,        //radius
@@ -1616,19 +1683,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_LASERMARKER*/
         90,        //doomednum
-        S_000,        //spawnstate
+        S_NULL,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -1644,19 +1711,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_ROCKET*/
         -1,        //doomednum
-        S_371,        //spawnstate
+        S_ROCKET,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_missile,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_372,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_ROCKET_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_explode,        //deathsound
         30*FRACUNIT,        //speed
         11*FRACUNIT,        //radius
@@ -1672,19 +1739,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_PLASMA*/
         -1,        //doomednum
-        S_379,        //spawnstate
+        S_PLASMA1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_plasma,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_381,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_PLASMA_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_implod,        //deathsound
         40*FRACUNIT,        //speed
         13*FRACUNIT,        //radius
@@ -1700,19 +1767,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_BFG*/
         -1,        //doomednum
-        S_387,        //spawnstate
+        S_BFGBALL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_389,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_BFGBALL_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_bfgexp,        //deathsound
         40*FRACUNIT,        //speed
         13*FRACUNIT,        //radius
@@ -1728,19 +1795,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_LASER*/
         -1,        //doomednum
-        S_395,        //spawnstate
+        S_LASER1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         8*FRACUNIT,        //radius
@@ -1756,19 +1823,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_IMP1*/
         -1,        //doomednum
-        S_397,        //spawnstate
+        S_TBALL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_bdmissile,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_400,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_TBALL_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_implod,        //deathsound
         10*FRACUNIT,        //speed
         6*FRACUNIT,        //radius
@@ -1784,19 +1851,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_IMP2*/
         -1,        //doomednum
-        S_406,        //spawnstate
+        S_NBALL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_bdmissile,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_409,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NBALL_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_implod,        //deathsound
         20*FRACUNIT,        //speed
         6*FRACUNIT,        //radius
@@ -1812,19 +1879,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_HEAD*/
         -1,        //doomednum
-        S_415,        //spawnstate
+        S_CBALL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_bdmissile,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_418,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_CBALL_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_implod,        //deathsound
         20*FRACUNIT,        //speed
         6*FRACUNIT,        //radius
@@ -1840,19 +1907,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_BRUISER1*/
         -1,        //doomednum
-        S_423,        //spawnstate
+        S_BGBALL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_bdmissile,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_425,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_BGBALL_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_implod,        //deathsound
         15*FRACUNIT,        //speed
         6*FRACUNIT,        //radius
@@ -1868,19 +1935,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_BRUISER2*/
         -1,        //doomednum
-        S_431,        //spawnstate
+        S_BRBALL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_bdmissile,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_433,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_BRBALL_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_implod,        //deathsound
         15*FRACUNIT,        //speed
         6*FRACUNIT,        //radius
@@ -1896,19 +1963,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_BABY*/
         -1,        //doomednum
-        S_439,        //spawnstate
+        S_APLS1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_plasma,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_441,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_APLS_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_implod,        //deathsound
         25*FRACUNIT,        //speed
         13*FRACUNIT,        //radius
@@ -1924,19 +1991,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_FATSO*/
         -1,        //doomednum
-        S_447,        //spawnstate
+        S_MANF1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_bdmissile,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_450,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_MANF_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_implod,        //deathsound
         20*FRACUNIT,        //speed
         6*FRACUNIT,        //radius
@@ -1952,19 +2019,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_TRACER*/
         -1,        //doomednum
-        S_456,        //spawnstate
+        S_TRCR1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_tracer,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_458,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_TRCR_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_explode,        //deathsound
         10*FRACUNIT,        //speed
         11*FRACUNIT,        //radius
@@ -1980,19 +2047,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_DART*/
         -1,        //doomednum
-        S_465,        //spawnstate
+        S_DART,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_dart,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         16*FRACUNIT,        //speed
         13*FRACUNIT,        //radius
@@ -2008,19 +2075,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_RECTFIRE*/
         -1,        //doomednum
-        S_466,        //spawnstate
+        S_RFIRE1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_tracer,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         20*FRACUNIT,        //speed
         16*FRACUNIT,        //radius
@@ -2036,19 +2103,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROJ_RECT*/
         -1,        //doomednum
-        S_470,        //spawnstate
+        S_RBALL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_tracer,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_472,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_RBALL_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_explode,        //deathsound
         18*FRACUNIT,        //speed
         11*FRACUNIT,        //radius
@@ -2064,19 +2131,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_SMOKE_GRAY*/
         -1,        //doomednum
-        S_478,        //spawnstate
+        S_PUF21,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2092,19 +2159,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_SMOKE_RED*/
         -1,        //doomednum
-        S_483,        //spawnstate
+        S_PUF31,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2120,19 +2187,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_SMOKE_SMALL*/
         -1,        //doomednum
-        S_488,        //spawnstate
+        S_PUFF1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2148,19 +2215,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_BLOOD*/
         -1,        //doomednum
-        S_494,        //spawnstate
+        S_BLOOD1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2176,19 +2243,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_CRUSHED*/
         24,        //doomednum
-        S_498,        //spawnstate
+        S_CORPSE,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2204,19 +2271,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_TELEPORTFOG*/
         -1,        //doomednum
-        S_499,        //spawnstate
+        S_TFOG1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2232,19 +2299,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_BFGSPREAD*/
         -1,        //doomednum
-        S_511,        //spawnstate
+        S_BFGEXP1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2260,19 +2327,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_ARMOR1*/
         2018,        //doomednum
-        S_517,        //spawnstate
+        S_ARMOR1A,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2288,19 +2355,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_ARMOR2*/
         2019,        //doomednum
-        S_519,        //spawnstate
+        S_ARMOR2A,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2316,19 +2383,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_BONUSHEALTH*/
         2014,        //doomednum
-        S_521,        //spawnstate
+        S_BONUS1A,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2344,19 +2411,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_BONUSARMOR*/
         2015,        //doomednum
-        S_525,        //spawnstate
+        S_BONUS2A,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2372,19 +2439,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_BLUECARDKEY*/
         5,        //doomednum
-        S_531,        //spawnstate
+        S_BKEY1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2400,19 +2467,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_REDCARDKEY*/
         13,        //doomednum
-        S_533,        //spawnstate
+        S_RKEY1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2428,19 +2495,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_YELLOWCARDKEY*/
         6,        //doomednum
-        S_535,        //spawnstate
+        S_YKEY1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2456,19 +2523,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_YELLOWSKULLKEY*/
         39,        //doomednum
-        S_537,        //spawnstate
+        S_YSKULL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2484,19 +2551,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_REDSKULLKEY*/
         38,        //doomednum
-        S_539,        //spawnstate
+        S_RSKULL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2512,19 +2579,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_BLUESKULLKEY*/
         40,        //doomednum
-        S_541,        //spawnstate
+        S_BSKULL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2540,19 +2607,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_ARTIFACT1*/
         1042,        //doomednum
-        S_543,        //spawnstate
+        S_ARTIFACT1A,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2568,19 +2635,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_ARTIFACT2*/
         1043,        //doomednum
-        S_551,        //spawnstate
+        S_ARTIFACT2A,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2596,19 +2663,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_ARTIFACT3*/
         1044,        //doomednum
-        S_559,        //spawnstate
+        S_ARTIFACT3A,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2624,19 +2691,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_STIMPACK*/
         2011,        //doomednum
-        S_567,        //spawnstate
+        S_STIM,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2652,19 +2719,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_MEDKIT*/
         2012,        //doomednum
-        S_568,        //spawnstate
+        S_MEDI,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2680,19 +2747,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_SOULSPHERE*/
         2013,        //doomednum
-        S_569,        //spawnstate
+        S_SOUL1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2708,19 +2775,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_INVULSPHERE*/
         2022,        //doomednum
-        S_575,        //spawnstate
+        S_PINV1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2736,19 +2803,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_BERSERK*/
         2023,        //doomednum
-        S_581,        //spawnstate
+        S_PSTR,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2764,19 +2831,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_INVISSPHERE*/
         2024,        //doomednum
-        S_582,        //spawnstate
+        S_PINS1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2792,19 +2859,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_RADSPHERE*/
         2025,        //doomednum
-        S_588,        //spawnstate
+        S_SUIT1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2820,19 +2887,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_AUTOMAP*/
         2026,        //doomednum
-        S_590,        //spawnstate
+        S_PMAP1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2848,19 +2915,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_PVIS*/
         2045,        //doomednum
-        S_594,        //spawnstate
+        S_PVIS1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2876,19 +2943,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_ITEM_MEGASPHERE*/
         83,        //doomednum
-        S_596,        //spawnstate
+        S_MEGA1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2904,19 +2971,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_AMMO_CLIP*/
         2007,        //doomednum
-        S_602,        //spawnstate
+        S_CLIP,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2932,19 +2999,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_AMMO_CLIPBOX*/
         2048,        //doomednum
-        S_603,        //spawnstate
+        S_AMMO,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2960,19 +3027,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_AMMO_ROCKET*/
         2010,        //doomednum
-        S_604,        //spawnstate
+        S_RCKT,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -2988,19 +3055,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_AMMO_ROCKETBOX*/
         2046,        //doomednum
-        S_605,        //spawnstate
+        S_BROK,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3016,19 +3083,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_AMMO_CELL*/
         2047,        //doomednum
-        S_606,        //spawnstate
+        S_CELL,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3044,19 +3111,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_AMMO_CELLPACK*/
         17,        //doomednum
-        S_607,        //spawnstate
+        S_CELP,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3072,19 +3139,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_AMMO_SHELL*/
         2008,        //doomednum
-        S_608,        //spawnstate
+        S_SHEL,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3100,19 +3167,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_AMMO_SHELLBOX*/
         2049,        //doomednum
-        S_609,        //spawnstate
+        S_SBOX,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3128,19 +3195,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_AMMO_BACKPACK*/
         8,        //doomednum
-        S_610,        //spawnstate
+        S_BPAK,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3156,19 +3223,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_WEAP_BFG*/
         2006,        //doomednum
-        S_611,        //spawnstate
+        S_BFUG,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3184,19 +3251,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_WEAP_CHAINSAW*/
         2005,        //doomednum
-        S_612,        //spawnstate
+        S_CSAW,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3212,19 +3279,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_WEAP_CHAINGUN*/
         2002,        //doomednum
-        S_613,        //spawnstate
+        S_MGUN,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3240,19 +3307,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_WEAP_LAUNCHER*/
         2003,        //doomednum
-        S_614,        //spawnstate
+        S_LAUN,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3268,19 +3335,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_WEAP_PLASMA*/
         2004,        //doomednum
-        S_615,        //spawnstate
+        S_PLSM,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3296,19 +3363,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_WEAP_SHOTGUN*/
         2001,        //doomednum
-        S_616,        //spawnstate
+        S_SHOT,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3324,19 +3391,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_WEAP_SSHOTGUN*/
         82,        //doomednum
-        S_617,        //spawnstate
+        S_SHOT2,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3352,19 +3419,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_WEAP_LCARBINE*/
         84,        //doomednum
-        S_618,        //spawnstate
+        S_LSRG,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3380,19 +3447,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_FIRE*/
         2051,        //doomednum
-        S_619,        //spawnstate
+        S_PROP_FIRE1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         16*FRACUNIT,        //radius
@@ -3408,19 +3475,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_CANDLE*/
         34,        //doomednum
-        S_624,        //spawnstate
+        S_CANDLE1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3436,19 +3503,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_BARREL*/
         1001,        //doomednum
-        S_626,        //spawnstate
+        S_BARREL,        //spawnstate
         20,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_627,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_BARREL_DIE1,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_explode,        //deathsound
         0,        //speed
         16*FRACUNIT,        //radius
@@ -3464,19 +3531,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_EXPLOSION1*/
         -1,        //doomednum
-        S_631,        //spawnstate
+        S_EXP1A,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3492,19 +3559,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_EXPLOSION2*/
         -1,        //doomednum
-        S_636,        //spawnstate
+        S_EXP2A,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3520,19 +3587,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_TECHLAMP1*/
         1015,        //doomednum
-        S_641,        //spawnstate
+        S_LAMP1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3548,19 +3615,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_TECHLAMP2*/
         1016,        //doomednum
-        S_642,        //spawnstate
+        S_LAMP2,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3576,19 +3643,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_TORCHBLUE*/
         1003,        //doomednum
-        S_643,        //spawnstate
+        S_BTORCH1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3604,19 +3671,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_TORCHYELLOW*/
         1039,        //doomednum
-        S_648,        //spawnstate
+        S_YTORCH1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3632,19 +3699,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_TORCHRED*/
         1025,        //doomednum
-        S_653,        //spawnstate
+        S_RTORCH1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3660,19 +3727,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_POLEBASELONG*/
         1050,        //doomednum
-        S_658,        //spawnstate
+        S_POLELONG,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         12*FRACUNIT,        //radius
@@ -3688,19 +3755,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_POLEBASESHORT*/
         1051,        //doomednum
-        S_659,        //spawnstate
+        S_POLESHORT,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         8*FRACUNIT,        //radius
@@ -3716,19 +3783,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_FIREBLUE*/
         1033,        //doomednum
-        S_660,        //spawnstate
+        S_BFLAME1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3744,19 +3811,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_FIRERED*/
         1034,        //doomednum
-        S_665,        //spawnstate
+        S_RFLAME1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3772,19 +3839,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_FIREYELLOW*/
         1035,        //doomednum
-        S_670,        //spawnstate
+        S_YFLAME1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3800,19 +3867,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_MEATSTICK*/
         1005,        //doomednum
-        S_675,        //spawnstate
+        S_GORE1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3828,19 +3895,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_MEATHANG*/
         1006,        //doomednum
-        S_676,        //spawnstate
+        S_GORE2,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3856,19 +3923,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_TORSOHANG*/
         1007,        //doomednum
-        S_677,        //spawnstate
+        S_GORE3,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3884,19 +3951,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_RIBFLOOR*/
         1008,        //doomednum
-        S_678,        //spawnstate
+        S_GORE4,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3912,19 +3979,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_TWITCHFLOOR*/
         1009,        //doomednum
-        S_679,        //spawnstate
+        S_GORETWITCH1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3940,19 +4007,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_BLOODPOOL*/
         1010,        //doomednum
-        S_681,        //spawnstate
+        S_GORE5,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3968,19 +4035,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_BONEFLOOR*/
         1011,        //doomednum
-        S_682,        //spawnstate
+        S_GORE6,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -3996,19 +4063,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_MEATRIBFLOOR*/
         1012,        //doomednum
-        S_683,        //spawnstate
+        S_GORE7,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4024,19 +4091,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_MEATRIBCAGE*/
         1013,        //doomednum
-        S_684,        //spawnstate
+        S_GORE8,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4052,19 +4119,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_CHAINHOOK*/
         1014,        //doomednum
-        S_685,        //spawnstate
+        S_GOREHOOK1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4080,19 +4147,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_HANGCAGE*/
         1017,        //doomednum
-        S_686,        //spawnstate
+        S_GORECAGE,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4108,19 +4175,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_CHAINPINSER*/
         1018,        //doomednum
-        S_687,        //spawnstate
+        S_GOREHOOK2,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4136,19 +4203,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_CHAINARM*/
         1019,        //doomednum
-        S_688,        //spawnstate
+        S_GOREHOOK3,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4164,19 +4231,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_HANGMACE1*/
         1020,        //doomednum
-        S_689,        //spawnstate
+        S_GOREMACE1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4192,19 +4259,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_HEADSTICK1*/
         1022,        //doomednum
-        S_690,        //spawnstate
+        S_GOREHEAD1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         8*FRACUNIT,        //radius
@@ -4220,19 +4287,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_HEADSTICK2*/
         1023,        //doomednum
-        S_691,        //spawnstate
+        S_GOREHEAD2,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         8*FRACUNIT,        //radius
@@ -4248,19 +4315,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_DOUBLEMEATSTICK*/
         1024,        //doomednum
-        S_692,        //spawnstate
+        S_GORE9,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         8*FRACUNIT,        //radius
@@ -4276,19 +4343,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_STATUE1*/
         1028,        //doomednum
-        S_693,        //spawnstate
+        S_GARGOYLE1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4304,19 +4371,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_STATUE2*/
         1029,        //doomednum
-        S_694,        //spawnstate
+        S_GARGOYLE2,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4332,19 +4399,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_TECHPOLELONG*/
         1031,        //doomednum
-        S_695,        //spawnstate
+        S_TECHLAMP1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         8*FRACUNIT,        //radius
@@ -4360,19 +4427,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_TECHPOLESHORT*/
         1032,        //doomednum
-        S_696,        //spawnstate
+        S_TECHLAMP2,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         8*FRACUNIT,        //radius
@@ -4388,19 +4455,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_TREESTUMPSMALL*/
         1036,        //doomednum
-        S_697,        //spawnstate
+        S_TREE3,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         16*FRACUNIT,        //radius
@@ -4416,19 +4483,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_TREESTUMPLARGE*/
         1037,        //doomednum
-        S_698,        //spawnstate
+        S_TREE2,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         16*FRACUNIT,        //radius
@@ -4444,19 +4511,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_TREE*/
         1038,        //doomednum
-        S_699,        //spawnstate
+        S_TREE1,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         16*FRACUNIT,        //radius
@@ -4472,19 +4539,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_PROP_BLOODYPOLE*/
         1045,        //doomednum
-        S_700,        //spawnstate
+        S_GORE10,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         8*FRACUNIT,        //radius
@@ -4500,19 +4567,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_HANGMACE2*/
         1046,        //doomednum
-        S_701,        //spawnstate
+        S_GOREMACE,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4528,19 +4595,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_HANGWHITEMEAT*/
         1047,        //doomednum
-        S_702,        //spawnstate
+        S_GORE11,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4556,19 +4623,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_HANGHEAD*/
         1048,        //doomednum
-        S_703,        //spawnstate
+        S_GOREHEAD3,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius
@@ -4584,19 +4651,19 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {      //0x51E38
     {
         /*MT_GIB_HANGRIB*/
         1049,        //doomednum
-        S_704,        //spawnstate
+        S_GORE12,        //spawnstate
         1000,        //spawnhealth
-        S_000,        //seestate
+        S_NULL,        //seestate
         sfx_None/*sfx_000*/,        //seesound
         8,        //reactiontime
         sfx_None/*sfx_000*/,        //attacksound
-        S_000,        //painstate
+        S_NULL,        //painstate
         0,        //painchance
         sfx_None/*sfx_000*/,        //painsound
-        S_000,        //meleestate
-        S_000,        //missilestate
-        S_000,        //deathstate
-        S_000,        //xdeathstate
+        S_NULL,        //meleestate
+        S_NULL,        //missilestate
+        S_NULL,        //deathstate
+        S_NULL,        //xdeathstate
         sfx_None/*sfx_000*/,        //deathsound
         0,        //speed
         20*FRACUNIT,        //radius

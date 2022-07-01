@@ -311,7 +311,7 @@ void AM_DrawTriangle(mobj_t* mobj, float scale, dboolean solid, byte r, byte g, 
     if(mobj->flags & (MF_NOSECTOR|MF_RENDERLASER)) {
         return;
     }
-    else if(mobj->state == (state_t *)S_000) {
+    else if(mobj->state == (state_t *)S_NULL) {
         return;
     }
 
@@ -390,7 +390,7 @@ void AM_DrawSprite(mobj_t* thing, float scale) {
     if(thing->flags & (MF_NOSECTOR|MF_RENDERLASER)) {
         return;
     }
-    else if(thing->state == (state_t *)S_000) {
+    else if(thing->state == (state_t *)S_NULL) {
         return;
     }
 

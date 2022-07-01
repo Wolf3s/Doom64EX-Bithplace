@@ -1676,8 +1676,8 @@ dboolean PIT_ChangeSector(mobj_t* thing) {
 
     // crunch bodies to giblets
     if(thing->health <= 0 && thing->tics == -1) {
-        if(thing->state != &states[S_498]) {
-            P_SetMobjState(thing, S_498);
+        if(thing->state != &states[S_CORPSE]) {
+            P_SetMobjState(thing, S_CORPSE);
             S_StartSound(thing, sfx_slop);
         }
 
