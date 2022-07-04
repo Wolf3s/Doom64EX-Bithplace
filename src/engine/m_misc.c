@@ -43,7 +43,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <errno.h>
-//#include <GL/glu.h>
 
 #include "doomstat.h"
 #include "m_misc.h"
