@@ -298,8 +298,7 @@ static void Seq_SetReverb(doomseq_t* seq,
                           float damp,
                           float width,
                           float level) {
-    fluid_synth_set_reverb(seq->synth, size, damp, width, level);
-    fluid_synth_set_reverb_on(seq->synth, 1);
+    fluid_synth_reverb_on(seq->synth, 1, 1);
 }
 
 //
