@@ -13,6 +13,7 @@
 "bind A \"+strafeleft\"\n"
 "bind S \"+back\"\n"
 "bind E \"+use\"\n"
+"bind Space \"+use\"\n"
 "bind W \"+forward\"\n"
 "bind D \"+straferight\"\n"
 "bind Ctrl \"+fire\"\n"
