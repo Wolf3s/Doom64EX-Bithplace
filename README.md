@@ -59,7 +59,7 @@ The data files are:
 
 To generate the two latter files, acquire a Doom64 ROM and run:
 
-    $ doom64ex -wadgen PATH_TO_ROM
+    $ WadGen.exe (in the wadgen directory) and select your Doom64 ROM.
 
 This will generate the required files and place them in `$XDG_DATA_DIR/doom64ex-plus`.
 
