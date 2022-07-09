@@ -48,6 +48,9 @@
 #include "i_audio.h"
 #include "gl_draw.h"
 
+#ifdef _WIN32
+#include "i_xinput.h"
+#endif
 CVAR(i_interpolateframes, 0);
 
 #ifdef USESYSCONSOLE

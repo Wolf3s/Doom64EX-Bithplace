@@ -68,6 +68,9 @@
 #include "gl_texture.h"
 #include "gl_draw.h"
 
+#ifdef _WIN32
+#include "i_xinput.h"
+#endif
 //
 // definitions
 //
@@ -4583,7 +4586,6 @@ dboolean M_Responder(event_t* ev) {
         return false;
     }
 
-#ifdef HAVE_XINPUT
     switch(ch) {
     case BUTTON_DPAD_UP:
         ch = KEY_UPARROW;
@@ -4607,7 +4609,6 @@ dboolean M_Responder(event_t* ev) {
         ch = KEY_DEL;
         break;
     }
-#endif HAVE_XINPUT
 
     if(MenuBindActive == true) { //key Bindings
         if(ch == KEY_ESCAPE) {

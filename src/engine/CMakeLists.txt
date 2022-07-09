@@ -76,7 +76,7 @@ set(VERSION_GIT true)
 if (WIN32)
 
 set(WIN32_GAME_SOURCE_FILES
-i_cpu.c win32/doom64ex-plus.rc)
+i_cpu.c i_xinput.c win32/doom64ex-plus.rc)
 
 else ()
 

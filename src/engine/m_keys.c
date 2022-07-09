@@ -31,6 +31,7 @@
 
 #include "m_keys.h"
 #include "doomdef.h"
+#include "i_xinput.h"
 
 typedef struct {
     int        code;

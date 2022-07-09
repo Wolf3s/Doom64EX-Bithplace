@@ -44,6 +44,10 @@
 SDL_Window      *window;
 SDL_GLContext   glContext;
 
+#ifdef _WIN32
+#include "i_xinput.h"
+#endif
+
 CVAR(v_msensitivityx, 5);
 CVAR(v_msensitivityy, 5);
 CVAR(v_macceleration, 0);
