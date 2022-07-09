@@ -60,6 +60,11 @@ find_package(OpenGL REQUIRED)
 add_include_directories(${OPENGL_INCLUDE_DIRS})
 add_link_libraries(${OPENGL_LIBRARIES})
 
+# Math Library (-m)
+if (NOT MSVC)
+add_link_libraries(m)
+endif(NOT MSVC)
+
 ##------------------------------------------------------------------------------
 ## Configure "version.h"
 ##
@@ -83,7 +88,6 @@ else ()
 set(POSIX_GAME_SOURCE_FILES
 i_cpu_posix.c)
 
-  add_link_libraries(m) # math lib
 endif ()
 
 ##------------------------------------------------------------------------------
@@ -120,7 +124,7 @@ endif ()
 ## Build target
 ##
 
-add_executable(DOOM64EX-Plus MACOSX_BUNDLE ${SOURCE_FILES})
+add_executable(DOOM64EX-Plus MACOSX_BUNDLE WIN32 ${SOURCE_FILES})
 target_include_directories(DOOM64EX-Plus PRIVATE ${INCLUDES})
 target_link_libraries(DOOM64EX-Plus ${LIBRARIES})
 add_dependencies(DOOM64EX-Plus doom64expluswad)

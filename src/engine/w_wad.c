@@ -28,6 +28,7 @@
 //-----------------------------------------------------------------------------
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 #ifdef _MSC_VER
 #include "i_opndir.h"

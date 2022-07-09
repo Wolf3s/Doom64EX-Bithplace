@@ -53,6 +53,11 @@
 #endif
 CVAR(i_interpolateframes, 0);
 
+// Gibbon - hack from curl to deal with some crap
+#if !defined(S_ISREG) && defined(S_IFMT) && defined(S_IFREG)
+#define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
+#endif
+
 #ifdef USESYSCONSOLE
 #include <windows.h>
 //#include "i_launcher.h"

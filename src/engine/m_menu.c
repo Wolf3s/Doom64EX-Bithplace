@@ -27,6 +27,8 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <stdbool.h>
+
 #ifdef _WIN32
 #include <io.h>
 #else
@@ -2877,7 +2879,7 @@ void M_DoFeature(int choice) {
 
 //------------------------------------------------------------------------
 //
-// XBOX 360 CONTROLLER MENU
+// GAMEPAD CONTROLLER MENU
 //
 //------------------------------------------------------------------------
 
@@ -2925,7 +2927,7 @@ menu_t XGamePadDef = {
     &ControlMenuDef,
     XGamePadMenu,
     M_DrawXGamePad,
-    "XBOX 360 Gamepad",
+    "Gamepad Menu",
     88,48,
     0,
     false,
@@ -5450,7 +5452,7 @@ void M_Ticker(void) {
 
 #ifdef _USE_XINPUT  // XINPUT
     //
-    // hide mouse menu if xbox 360 controller is plugged in
+    // hide mouse menu if gamepad controller is plugged in
     //
     if(currentMenu == &ControlMenuDef) {
         currentMenu->menuitems[controls_gamepad].status = xgamepad.connected ? 1 : -3;

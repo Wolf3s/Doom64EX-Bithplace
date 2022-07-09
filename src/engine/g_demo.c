@@ -35,9 +35,11 @@
 #include "m_random.h"
 #include "con_console.h"
 
-#ifdef _MSVC_VER
+#ifdef _WIN32
 #include "i_opndir.h"
-#else
+#endif
+
+#if !defined _WIN32
 #include <unistd.h>
 #endif
 
